@@ -275,9 +275,9 @@ function renderHeroCarousel() {
     const hasUpdate = isInstalled && (Number(app.versionCode) > Number(installedAppsMap[app.packageName].versionCode));
 
     return `
-      <button onclick="openAppDetails('${app.id}')" class="shelf-card flex-shrink-0 w-[340px] h-[190px] rounded-2xl relative overflow-hidden text-left border-2 border-outline-variant/30 bg-surface-container transition-all duration-150 will-change-transform" tabindex="0">
-        <img src="${bannerBg}" class="w-full h-full object-cover opacity-60 transition-transform duration-300 hover:scale-105" onerror="this.src='/uploads/icons/default-icon.svg'">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-5 flex flex-col justify-between">
+      <button onclick="openAppDetails('${app.id}')" class="shelf-card hero-card will-change-transform" tabindex="0">
+        <img src="${bannerBg}" alt="${escapeHtml(app.name)}" onerror="this.src='/uploads/icons/default-icon.svg'">
+        <div class="hero-card-overlay">
           <div class="flex justify-between items-start">
             <span class="px-2.5 py-1 rounded-full bg-primary-container text-white text-[11px] font-bold tracking-wider uppercase shadow-md">
               DESTAQUE
@@ -286,8 +286,8 @@ function renderHeroCarousel() {
           </div>
 
           <div>
-            <h3 class="font-headline text-xl font-bold text-white leading-tight">${escapeHtml(app.name)}</h3>
-            <p class="text-xs text-secondary mt-1 font-medium">${escapeHtml(app.developer || 'Comunidade')} • ${app.sizeMb}MB</p>
+            <h3 class="hero-card-title">${escapeHtml(app.name)}</h3>
+            <p class="hero-card-meta">${escapeHtml(app.developer || 'Comunidade')} • ${app.sizeMb}MB</p>
           </div>
         </div>
       </button>
@@ -307,30 +307,30 @@ function renderShelves() {
     if (appsInCat.length === 0) return;
 
     shelvesHtml += `
-      <section data-category="${cat}" class="flex flex-col gap-3">
-        <h2 class="font-headline text-xl font-bold text-white tracking-tight flex items-center gap-2">
+      <section data-category="${cat}" class="flex flex-col gap-2">
+        <h2 class="font-headline text-lg font-bold text-white tracking-tight flex items-center gap-2">
           <span class="w-2 h-2 rounded-full bg-secondary-container"></span>
           <span>${cat}</span>
           <span class="text-xs text-gray-500 font-mono">(${appsInCat.length})</span>
         </h2>
 
-        <div class="shelf-row flex gap-4 overflow-x-auto pb-3 pt-1 scroll-smooth">
+        <div class="shelf-row">
           ${appsInCat.map(app => {
             const iconSrc = app.iconUrl || '/uploads/icons/default-icon.svg';
             const isInstalled = !!installedAppsMap[app.packageName];
             const hasUpdate = isInstalled && (Number(app.versionCode) > Number(installedAppsMap[app.packageName].versionCode));
 
             return `
-              <button onclick="openAppDetails('${app.id}')" class="shelf-card flex-shrink-0 w-[200px] rounded-2xl bg-surface-container border border-outline-variant/30 p-3.5 flex flex-col gap-3 text-left transition-all duration-200" tabindex="0">
-                <div class="w-full aspect-square rounded-xl overflow-hidden bg-surface-container-high relative border border-outline-variant/20 max-h-[135px]">
-                  <img src="${iconSrc}" class="w-full h-full object-cover" onerror="this.src='/uploads/icons/default-icon.svg'">
-                  ${hasUpdate ? '<span class="absolute top-2 right-2 px-1.5 py-0.5 rounded bg-cyan-400 text-black text-[9px] font-bold">NOVO</span>' : ''}
-                  ${isInstalled && !hasUpdate ? '<span class="absolute bottom-2 right-2 px-1.5 py-0.5 rounded bg-emerald-500/90 text-white text-[9px] font-bold">INSTALADO</span>' : ''}
+              <button onclick="openAppDetails('${app.id}')" class="shelf-card shelf-app-card will-change-transform" tabindex="0">
+                <div class="shelf-app-thumb">
+                  <img src="${iconSrc}" alt="${escapeHtml(app.name)}" onerror="this.src='/uploads/icons/default-icon.svg'">
+                  ${hasUpdate ? '<span class="absolute top-1.5 right-1.5 px-1.5 py-0.5 rounded bg-cyan-400 text-black text-[9px] font-bold">NOVO</span>' : ''}
+                  ${isInstalled && !hasUpdate ? '<span class="absolute bottom-1.5 right-1.5 px-1.5 py-0.5 rounded bg-emerald-500/90 text-white text-[9px] font-bold">INSTALADO</span>' : ''}
                 </div>
                 <div>
-                  <h4 class="font-headline text-sm font-bold text-white truncate">${escapeHtml(app.name)}</h4>
-                  <div class="text-[11px] text-gray-400 truncate mt-0.5">${escapeHtml(app.developer || 'Comunidade')}</div>
-                  <div class="flex items-center justify-between mt-2 text-[11px] text-secondary">
+                  <h4 class="shelf-app-name">${escapeHtml(app.name)}</h4>
+                  <div class="shelf-app-dev">${escapeHtml(app.developer || 'Comunidade')}</div>
+                  <div class="shelf-app-info">
                     <span>${app.sizeMb}MB</span>
                     <span class="flex items-center gap-0.5 text-amber-400 font-bold">★ ${app.rating || 4.8}</span>
                   </div>

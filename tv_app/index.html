@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <title>IntraStore TV - Android TV Leanback OS</title>
-  <meta name="viewport" content="width=1920, initial-scale=1.0, user-scalable=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   
   <link rel="icon" type="image/png" href="/tv/app-logo.png"/>
   
@@ -111,8 +111,8 @@
       <div class="splash-ring-anim absolute w-64 h-64 rounded-3xl border border-primary-container/40 pointer-events-none" style="animation-delay: 0.5s;"></div>
 
       <!-- Ícone Central Animado com a Nova Arte Oficial -->
-      <div class="splash-logo-anim w-32 h-32 rounded-3xl overflow-hidden border-2 border-accent-cyan shadow-2xl relative z-10 p-1 bg-black glow-cyan">
-        <img src="/tv/app-logo.png" class="w-full h-full object-cover rounded-[20px]" alt="IntraStore TV Logo">
+      <div class="splash-logo-anim splash-logo-box glow-cyan">
+        <img src="/tv/app-logo.png" alt="IntraStore TV Logo">
       </div>
     </div>
 
@@ -144,11 +144,11 @@
   <aside id="mainNavRail" class="group">
     <!-- Top Branding Icon -->
     <div class="flex items-center gap-4 px-1 overflow-hidden">
-      <div class="w-11 h-11 rounded-2xl overflow-hidden border border-accent-cyan/60 flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(108,59,244,0.5)] bg-black p-0.5">
-        <img src="/tv/app-logo.png" class="w-full h-full object-cover rounded-[12px]" alt="Logo">
+      <div class="rail-logo-box">
+        <img src="/tv/app-logo.png" alt="Logo">
       </div>
       <div class="nav-label font-semibold text-sm">
-        <div class="font-headline text-lg font-bold text-primary leading-tight">IntraStore TV</div>
+        <div class="font-headline text-base font-bold text-primary leading-tight">IntraStore TV</div>
         <div class="text-xs text-on-surface-variant">Android TV Store</div>
       </div>
     </div>
@@ -196,12 +196,12 @@
   </aside>
 
   <!-- COMPONENTE FIXO: Top Status Bar -->
-  <header class="fixed top-0 left-0 right-0 z-40 flex justify-between items-center pl-24 pr-12 pt-6 pb-3 w-full pointer-events-none">
-    <div class="flex items-center gap-4 pl-rail-width-collapsed pointer-events-auto">
-      <span class="font-headline text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-secondary-container bg-clip-text text-transparent tracking-tight">
+  <header class="tv-header">
+    <div class="flex items-center gap-3">
+      <span class="font-headline text-xl font-bold bg-gradient-to-r from-primary via-secondary to-secondary-container bg-clip-text text-transparent tracking-tight">
         IntraStore TV
       </span>
-      <span class="px-2.5 py-0.5 rounded-full bg-surface-container-high border border-outline-variant/30 text-secondary text-xs font-semibold tracking-wider">
+      <span class="px-2 py-0.5 rounded-full bg-surface-container-high border border-outline-variant/30 text-secondary text-[11px] font-semibold tracking-wider">
         ANDROID 14 TV
       </span>
       <span id="badgeUpdatesTop" class="hidden px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-accent-cyan border border-accent-cyan/40 text-xs font-bold animate-pulse">
@@ -209,19 +209,19 @@
       </span>
     </div>
 
-    <!-- Indicadores de TV (Hora e Botão Settings) -->
-    <div class="flex items-center gap-6 pointer-events-auto pr-2">
-      <div class="flex items-center gap-2 text-on-surface bg-surface-container-low/80 backdrop-blur-md px-4 py-1.5 rounded-full border border-outline-variant/20 shadow-md">
-        <span class="material-symbols-outlined text-secondary text-base">access_time</span>
-        <span id="leanback-clock" class="font-headline text-lg font-bold tracking-wider text-on-surface">20:45</span>
+    <!-- Indicadores de TV (Hora, Botão Settings e Perfil) -->
+    <div class="flex items-center gap-4">
+      <div class="tv-clock">
+        <span class="material-symbols-outlined text-secondary text-sm">access_time</span>
+        <span id="leanback-clock">20:45</span>
       </div>
 
-      <button onclick="navigateTo('settings')" class="btn-tv w-10 h-10 rounded-full bg-surface-container-low border border-outline-variant/30 flex items-center justify-center text-on-surface-variant transition-all duration-200" tabindex="0" title="Configurações">
-        <span class="material-symbols-outlined text-lg">settings</span>
+      <button onclick="navigateTo('settings')" class="btn-tv tv-header-btn" tabindex="0" title="Configurações">
+        <span class="material-symbols-outlined text-base">settings</span>
       </button>
 
-      <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-accent-cyan p-0.5 bg-black shadow-md">
-        <img class="w-full h-full object-cover rounded-full" src="/tv/app-logo.png" alt="Perfil">
+      <div class="tv-header-avatar">
+        <img src="/tv/app-logo.png" alt="Perfil">
       </div>
     </div>
   </header>
@@ -229,26 +229,26 @@
   <!-- ============================================================== -->
   <!-- VIEW 1: TELA INICIAL (HOME) & PRATELEIRAS                      -->
   <!-- ============================================================== -->
-  <main id="viewHome" class="w-full h-full overflow-y-auto pt-24 pb-12 pl-24 pr-12 flex flex-col gap-8 z-10 relative">
+  <main id="viewHome" class="tv-main z-10 relative">
 
     <!-- SEÇÃO 1: CARROSSEL DE DESTAQUES (HERO 16:9) -->
-    <section class="flex flex-col gap-3">
+    <section class="flex flex-col gap-2">
       <div class="flex items-center justify-between">
-        <h2 class="font-headline text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+        <h2 class="font-headline text-xl font-bold text-white tracking-tight flex items-center gap-2">
           <span class="material-symbols-outlined text-accent-cyan">local_fire_department</span>
           <span>Destaques da Comunidade</span>
         </h2>
-        <span class="text-xs text-on-surface-variant font-mono">Role para os lados com as setas do controle</span>
+        <span class="text-xs text-on-surface-variant font-mono">Setas do controle para navegar</span>
       </div>
 
-      <div id="heroCarouselContainer" class="flex gap-6 overflow-x-auto pb-4 pt-2">
+      <div id="heroCarouselContainer" class="hero-row shelf-row">
         <!-- Renderizado dinamicamente via JS -->
-        <div class="w-full py-12 text-center text-gray-500 bg-surface-container rounded-2xl">Carregando destaques...</div>
+        <div class="w-full py-8 text-center text-gray-500 bg-surface-container rounded-2xl">Carregando destaques...</div>
       </div>
     </section>
 
     <!-- SEÇÃO 2: PRATELEIRAS DINÂMICAS DE APPS -->
-    <div id="dynamicShelvesContainer" class="flex flex-col gap-10">
+    <div id="dynamicShelvesContainer" class="flex flex-col gap-8">
       <!-- Prateleiras geradas dinamicamente -->
     </div>
 
@@ -257,10 +257,10 @@
   <!-- ============================================================== -->
   <!-- VIEW 2: TELA DE DETALHES DO APLICATIVO                         -->
   <!-- ============================================================== -->
-  <main id="viewDetails" class="hidden w-full h-full overflow-y-auto pt-[6.5rem] pb-tv-safe-y pl-tv-safe-x pr-tv-safe-x z-20 relative">
+  <main id="viewDetails" class="hidden tv-main z-20 relative">
     
     <!-- Botão Voltar para Home -->
-    <div class="mb-6 flex items-center gap-4">
+    <div class="mb-2 flex items-center gap-4">
       <button id="btnBackFromDetails" onclick="navigateTo('home')" class="btn-tv flex items-center gap-2 px-4 py-2 rounded-xl bg-surface-container-low border border-outline-variant/30 text-white transition-all" tabindex="0">
         <span class="material-symbols-outlined text-secondary">arrow_back</span>
         <span class="font-semibold text-sm">Voltar (Back)</span>
@@ -269,42 +269,42 @@
       <span id="detailBreadcrumbCategory" class="text-on-surface-variant text-sm font-medium">Categoria</span>
     </div>
 
-    <div class="grid grid-cols-12 gap-8 items-start w-full">
-      <!-- Coluna Esquerda: Especificações & Ação Primária (~35%) -->
-      <section class="col-span-4 flex flex-col items-start space-y-6 bg-surface-container-low/60 p-6 rounded-2xl border border-outline-variant/20">
+    <div class="detail-grid">
+      <!-- Coluna Esquerda: Especificações & Ação Primária -->
+      <section class="flex flex-col items-start space-y-5 bg-surface-container-low/60 p-5 rounded-2xl border border-outline-variant/20 w-full">
         <!-- Ícone do App -->
-        <div class="w-[160px] h-[160px] rounded-2xl overflow-hidden bg-surface-container-high border-2 border-outline-variant/30 shadow-2xl flex items-center justify-center p-2">
-          <img id="detailAppIcon" src="/uploads/icons/default-icon.svg" class="w-full h-full object-cover rounded-xl" alt="Ícone">
+        <div class="detail-icon">
+          <img id="detailAppIcon" src="/uploads/icons/default-icon.svg" alt="Ícone">
         </div>
 
         <div>
-          <h1 id="detailAppName" class="font-headline text-3xl font-bold text-white tracking-tight leading-tight">Nome do Aplicativo</h1>
-          <p id="detailAppDeveloper" class="text-sm text-secondary font-medium mt-1">Desenvolvedor</p>
-          <div id="detailAppPackage" class="text-xs text-gray-400 font-mono mt-0.5">com.exemplo.app</div>
+          <h1 id="detailAppName" class="font-headline text-2xl font-bold text-white tracking-tight leading-tight">Nome do Aplicativo</h1>
+          <p id="detailAppDeveloper" class="text-xs text-secondary font-medium mt-1">Desenvolvedor</p>
+          <div id="detailAppPackage" class="text-[11px] text-gray-400 font-mono mt-0.5">com.exemplo.app</div>
         </div>
 
         <!-- Badges de Metadados -->
         <div class="flex flex-wrap gap-2 w-full">
-          <div class="px-3 py-1.5 rounded-lg bg-surface-container border border-outline-variant/20 text-xs flex items-center gap-1.5 text-white">
+          <div class="px-2.5 py-1 rounded-lg bg-surface-container border border-outline-variant/20 text-xs flex items-center gap-1.5 text-white">
             <span class="material-symbols-outlined text-amber-400 text-sm">star</span>
             <span id="detailAppRating" class="font-bold">4.9</span>
           </div>
-          <div class="px-3 py-1.5 rounded-lg bg-surface-container border border-outline-variant/20 text-xs flex items-center gap-1.5 text-white">
+          <div class="px-2.5 py-1 rounded-lg bg-surface-container border border-outline-variant/20 text-xs flex items-center gap-1.5 text-white">
             <span class="material-symbols-outlined text-secondary text-sm">folder_zip</span>
             <span id="detailAppSize">25 MB</span>
           </div>
-          <div class="px-3 py-1.5 rounded-lg bg-surface-container border border-outline-variant/20 text-xs flex items-center gap-1.5 text-white">
+          <div class="px-2.5 py-1 rounded-lg bg-surface-container border border-outline-variant/20 text-xs flex items-center gap-1.5 text-white">
             <span class="material-symbols-outlined text-accent-cyan text-sm">verified</span>
             <span id="detailAppVersion">v1.0.0</span>
           </div>
-          <div id="detailAppAgeBadge" class="px-2.5 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold">
+          <div id="detailAppAgeBadge" class="px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold">
             Livre
           </div>
         </div>
 
         <!-- Botão Primário: Instalar / Atualizar / Abrir -->
         <div class="w-full space-y-3 pt-2">
-          <button id="btnActionApp" onclick="handleAppAction()" class="btn-tv w-full py-4 px-6 rounded-xl bg-primary-container hover:bg-purple-600 text-white font-headline text-lg font-bold flex items-center justify-center gap-3 shadow-xl transition-all" tabindex="0">
+          <button id="btnActionApp" onclick="handleAppAction()" class="btn-tv detail-action-btn" tabindex="0">
             <span id="btnActionIcon" class="material-symbols-outlined text-2xl">download</span>
             <span id="btnActionText">Instalar</span>
           </button>
@@ -315,49 +315,49 @@
               <span id="downloadStatusText">Baixando APK...</span>
               <span id="downloadPercentage">0%</span>
             </div>
-            <div class="w-full h-3 bg-zinc-900 rounded-full overflow-hidden border border-outline-variant/30">
+            <div class="w-full h-2.5 bg-zinc-900 rounded-full overflow-hidden border border-outline-variant/30">
               <div id="downloadProgressFill" class="h-full bg-accent-cyan w-0 transition-all duration-300"></div>
             </div>
           </div>
         </div>
 
         <!-- Permissões Requeridas -->
-        <div class="w-full pt-4 border-t border-outline-variant/20">
-          <h4 class="text-xs uppercase font-semibold text-gray-400 tracking-wider mb-2">Permissões do Aplicativo</h4>
+        <div class="w-full pt-3 border-t border-outline-variant/20">
+          <h4 class="text-[11px] uppercase font-semibold text-gray-400 tracking-wider mb-2">Permissões do Aplicativo</h4>
           <div id="detailAppPermissions" class="flex flex-wrap gap-1.5">
             <!-- Badges de permissões -->
           </div>
         </div>
       </section>
 
-      <!-- Coluna Direita: Galeria de Screenshots & Descrição (~65%) -->
-      <section class="col-span-8 flex flex-col space-y-6">
+      <!-- Coluna Direita: Galeria de Screenshots & Descrição -->
+      <section class="flex flex-col space-y-5 w-full">
         <!-- Screenshots -->
-        <div class="space-y-3">
-          <h3 class="text-base font-headline font-bold text-white flex items-center gap-2">
+        <div class="space-y-2">
+          <h3 class="text-sm font-headline font-bold text-white flex items-center gap-2">
             <span class="material-symbols-outlined text-secondary">photo_library</span>
             <span>Capturas de Tela</span>
           </h3>
-          <div id="detailScreenshotsContainer" class="flex gap-4 overflow-x-auto pb-3">
+          <div id="detailScreenshotsContainer" class="flex gap-4 overflow-x-auto pb-2">
             <!-- Imagens de captura -->
           </div>
         </div>
 
         <!-- Descrição Completa -->
-        <div class="bg-surface-container-low/60 p-6 rounded-2xl border border-outline-variant/20 space-y-3">
-          <h3 class="text-base font-headline font-bold text-white">Sobre o Aplicativo</h3>
-          <p id="detailAppDescription" class="text-sm text-gray-300 leading-relaxed whitespace-pre-line">
+        <div class="bg-surface-container-low/60 p-5 rounded-2xl border border-outline-variant/20 space-y-2">
+          <h3 class="text-sm font-headline font-bold text-white">Sobre o Aplicativo</h3>
+          <p id="detailAppDescription" class="text-xs text-gray-300 leading-relaxed whitespace-pre-line">
             Descrição detalhada do aplicativo...
           </p>
         </div>
 
         <!-- O que há de novo (Changelog) -->
-        <div class="bg-surface-container-low/60 p-6 rounded-2xl border border-outline-variant/20 space-y-2">
-          <h3 class="text-base font-headline font-bold text-white flex items-center gap-2">
+        <div class="bg-surface-container-low/60 p-5 rounded-2xl border border-outline-variant/20 space-y-2">
+          <h3 class="text-sm font-headline font-bold text-white flex items-center gap-2">
             <span class="material-symbols-outlined text-accent-cyan">auto_awesome</span>
             <span>Novidades desta Versão</span>
           </h3>
-          <p id="detailAppChangelog" class="text-sm text-gray-300">
+          <p id="detailAppChangelog" class="text-xs text-gray-300">
             Correções e melhorias.
           </p>
         </div>
@@ -369,30 +369,30 @@
   <!-- ============================================================== -->
   <!-- VIEW 3: TELA DE CONFIGURAÇÕES & ATUALIZAÇÕES                    -->
   <!-- ============================================================== -->
-  <main id="viewSettings" class="hidden w-full h-full overflow-y-auto pt-[6.5rem] pb-tv-safe-y pl-tv-safe-x pr-tv-safe-x z-20 relative">
+  <main id="viewSettings" class="hidden tv-main z-20 relative">
     
-    <div class="mb-6 flex items-center gap-4">
+    <div class="mb-2 flex items-center gap-4">
       <button onclick="navigateTo('home')" class="btn-tv flex items-center gap-2 px-4 py-2 rounded-xl bg-surface-container-low border border-outline-variant/30 text-white transition-all" tabindex="0">
         <span class="material-symbols-outlined text-secondary">arrow_back</span>
         <span class="font-semibold text-sm">Voltar ao Início</span>
       </button>
       <span class="text-gray-500">|</span>
-      <h1 class="font-headline text-2xl font-bold text-white">Configurações & Atualizações</h1>
+      <h1 class="font-headline text-xl font-bold text-white">Configurações & Atualizações</h1>
     </div>
 
-    <div class="grid grid-cols-12 gap-8 items-start">
+    <div class="settings-grid">
       <!-- Coluna Esquerda: Opções Rápidas -->
-      <section class="col-span-5 flex flex-col gap-4">
+      <section class="flex flex-col gap-4 w-full">
         
         <!-- Card de Checagem de Atualizações -->
-        <div class="bg-surface-container-low border border-outline-variant/30 p-6 rounded-2xl space-y-4">
+        <div class="bg-surface-container-low border border-outline-variant/30 p-5 rounded-2xl space-y-4">
           <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-accent-cyan/30 flex items-center justify-center text-accent-cyan">
-              <span class="material-symbols-outlined text-2xl">system_update</span>
+            <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-accent-cyan/30 flex items-center justify-center text-accent-cyan flex-shrink-0">
+              <span class="material-symbols-outlined text-xl">system_update</span>
             </div>
             <div>
-              <h2 class="text-lg font-headline font-bold text-white">Atualizações de Aplicativos</h2>
-              <p class="text-xs text-gray-400">Verifique se os apps instalados possuem novas versões</p>
+              <h2 class="text-base font-headline font-bold text-white">Atualizações de Aplicativos</h2>
+              <p class="text-[11px] text-gray-400">Verifique se os apps instalados possuem novas versões</p>
             </div>
           </div>
 
@@ -407,8 +407,8 @@
         </div>
 
         <!-- Informações do Dispositivo & Servidor -->
-        <div class="bg-surface-container-low border border-outline-variant/30 p-6 rounded-2xl space-y-3">
-          <h3 class="text-sm font-headline font-bold text-white uppercase tracking-wider">Status do Sistema TV</h3>
+        <div class="bg-surface-container-low border border-outline-variant/30 p-5 rounded-2xl space-y-3">
+          <h3 class="text-xs font-headline font-bold text-white uppercase tracking-wider">Status do Sistema TV</h3>
           <div class="divide-y divide-outline-variant/20 text-xs">
             <div class="py-2 flex justify-between">
               <span class="text-gray-400">Plataforma</span>
@@ -416,7 +416,7 @@
             </div>
             <div class="py-2 flex justify-between">
               <span class="text-gray-400">Versão IntraStore</span>
-              <span class="text-accent-cyan font-mono font-semibold">1.0.0 (Build TV)</span>
+              <span class="text-accent-cyan font-mono font-semibold">1.1.0 (Build TV)</span>
             </div>
             <div class="py-2 flex justify-between">
               <span class="text-gray-400">Conexão Backend</span>
@@ -430,14 +430,14 @@
       </section>
 
       <!-- Coluna Direita: Lista de Apps com Atualização Pendente -->
-      <section class="col-span-7 bg-surface-container-low border border-outline-variant/30 p-6 rounded-2xl space-y-4">
-        <h2 class="text-lg font-headline font-bold text-white flex items-center justify-between">
+      <section class="bg-surface-container-low border border-outline-variant/30 p-5 rounded-2xl space-y-4 w-full">
+        <h2 class="text-base font-headline font-bold text-white flex items-center justify-between">
           <span>Atualizações Encontradas</span>
           <span id="updatesFoundBadge" class="text-xs px-2.5 py-0.5 rounded-full bg-surface-container text-gray-400 border border-outline-variant/30">0</span>
         </h2>
 
         <div id="updatesListContainer" class="space-y-3">
-          <div class="py-12 text-center text-gray-500">
+          <div class="py-10 text-center text-gray-500">
             Nenhuma atualização pendente no momento.
           </div>
         </div>

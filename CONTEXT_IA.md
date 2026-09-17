@@ -473,3 +473,27 @@ box-shadow: 0 0 25px rgba(0, 229, 255, 0.65), 0 0 45px rgba(108, 59, 244, 0.35);
      - Commit e push para o branch `main`, sincronizando a atualização do painel no Render (`https://intrastore-tv.onrender.com/admin`).
 - **Status Atual:** Cabeçalho do painel administrativo 100% atualizado com os links oficiais funcionais.
 
+### [Sessão 20 - 2026-09-17]
+- **Objetivo:** Correção profunda da responsividade universal da plataforma Android TV (720p, 1080p, 4K, TV Boxes e telas compactas), eliminação do bug de imagem de avatar gigante ocupando o centro da tela, restauração da navegação D-Pad contínua no carrossel de destaques e recompilação do APK nativo.
+- **Causas Raízes Identificadas:**
+  1. **Logo Gigante no Centro da Tela:** No `<header>` de `tv_app/index.html`, o avatar do perfil utilizava classes `w-10 h-10 rounded-full`. Como o script CDN do Tailwind havia sido removido em sessão anterior por performance, essas classes utilitárias não existiam mais em `tv_style.css`. O navegador renderizou a imagem `app-logo.png` em sua resolução nativa de ~800x800px, formando um círculo neon gigantesco no meio do display e empurrando todo o layout para baixo.
+  2. **Viewport Estático Não-Responsivo:** O cabeçalho continha `<meta name="viewport" content="width=1920...">`. Em WebViews do Android TV (que operam com densidade lógica de 960x540 CSS pixels com DPR 2x/4x), essa regra impedia a escala fluida.
+  3. **Quebra de Navegação Vertical (D-Pad):** O elemento `#heroCarouselContainer` não possuía a classe `.shelf-row`. Como o motor espacial em `remote_nav.js` usa `.shelf-row` para calcular a transição vertical entre linhas, a linha de destaques ficava isolada da navegação por setas.
+- **Ações Executadas:**
+  1. **Redesenho do Sistema Responsivo (`tv_app/tv_style.css`):**
+     - Base fluida universal com `font-size: clamp(12px, 1.15vw, 18px)` em `html` e reset universal de imagens com `max-width: 100%; height: auto;`.
+     - Definição semântica e blindada de componentes: `.tv-header`, `.tv-header-avatar` (clamp 34px-42px com `overflow: hidden`), `.tv-clock`, `.rail-logo-box`, `.hero-card` (proporção 16:9), `.shelf-app-card` e `.shelf-app-thumb`, `.detail-grid`, `.settings-grid` e `.splash-logo-box`.
+     - Dicionário completo de classes utilitárias embutidas (larguras, alturas, gaps, flex, grids, gradientes e bordas) eliminando qualquer dependência externa de CSS.
+  2. **Atualização da Marcação HTML (`tv_app/index.html`):**
+     - Viewport ajustado para `width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no`.
+     - Aplicação das classes `.tv-header-avatar` no topo direito, `.rail-logo-box` no menu retrátil, `.tv-header`, `.tv-main`, `.hero-row shelf-row`, `.detail-grid` e `.settings-grid`.
+  3. **Ajuste na Renderização Dinâmica (`tv_app/app.js`):**
+     - Atualizada a geração do carrossel Hero para utilizar `.hero-card`, `.hero-card-title` e `.hero-card-meta`.
+     - Atualizada a geração das prateleiras para utilizar `.shelf-app-card`, `.shelf-app-thumb` e `.shelf-app-info`.
+  4. **Sincronização com o Projeto Nativo Android:**
+     - Copiados todos os arquivos atualizados de `tv_app/` para `android_project/app/src/main/assets/tv/`.
+  5. **Compilação Release do APK via Gradle:**
+     - Executado Gradle 8.11.1 (`assembleRelease`) com sucesso (`BUILD SUCCESSFUL in 14s`).
+     - Atualizado o binário oficial em `release/IntraStore_TV_v1.1.0.apk` e `server/uploads/apks/IntraStore_TV_v1.1.0.apk`.
+- **Status Atual:** Interface 100% responsiva para qualquer tamanho de TV, bug visual eliminado, navegação D-Pad suave e fluida em todas as prateleiras e novo APK v1.1.0 pronto para distribuição.
+
