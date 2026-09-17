@@ -1,0 +1,131 @@
+{
+  "categories": [
+    "Destaques",
+    "Streaming & Vídeo",
+    "Jogos",
+    "Ferramentas & Utilitários",
+    "Música & Áudio",
+    "Produtividade"
+  ],
+  "apps": [
+    {
+      "id": "0a322210-ddb4-44ff-83e0-841bf1e6b06b",
+      "name": "SmartTube Next TV",
+      "packageName": "com.teamsmart.videomanager.tv",
+      "developer": "Comunidade Open Source TV",
+      "category": "Streaming & Vídeo",
+      "versionName": "1.2.4",
+      "versionCode": 3,
+      "sizeMb": 16.8,
+      "rating": 4.9,
+      "ageRating": "Livre",
+      "description": "Cliente avançado para Android TV com suporte nativo a 4K, 60fps, sem anúncios intrusivos e interface otimizada para controle remoto.",
+      "changelog": "Suporte aprimorado a codec AV1 em processadores modernos de TV.",
+      "permissions": [
+        "Internet",
+        "Acesso a Rede",
+        "Reprodução em Segundo Plano"
+      ],
+      "isFeatured": true,
+      "downloads": 1420,
+      "createdAt": "2026-09-08T02:09:18.415Z",
+      "updatedAt": "2026-09-08T02:09:18.416Z",
+      "apkUrl": "https://pub-1ed4a80b7670434e93f65e2e7091f1b2.r2.dev/apks/com.teamsmart.videomanager.tv-v1.2.4.apk",
+      "apkFileName": "com.teamsmart.videomanager.tv-v1.2.4.apk",
+      "iconUrl": "https://pub-1ed4a80b7670434e93f65e2e7091f1b2.r2.dev/icons/icon-com.teamsmart.videomanager.tv.svg",
+      "bannerUrl": "https://pub-1ed4a80b7670434e93f65e2e7091f1b2.r2.dev/banners/banner-com.teamsmart.videomanager.tv.svg",
+      "screenshots": [
+        "/uploads/banners/banner-com.teamsmart.videomanager.tv.svg"
+      ]
+    },
+    {
+      "id": "6e63b29e-b733-4fd4-a20e-7559679e55a8",
+      "name": "Kodi Media Center",
+      "packageName": "org.xbmc.kodi",
+      "developer": "XBMC Foundation",
+      "category": "Streaming & Vídeo",
+      "versionName": "21.0.0",
+      "versionCode": 21000,
+      "sizeMb": 68.5,
+      "rating": 4.8,
+      "ageRating": "Livre",
+      "description": "Central de mídia definitiva para sua televisão. Reproduza filmes, séries, músicas e fotos da sua rede local com áudio passthrough 5.1/7.1.",
+      "changelog": "Melhorias de decodificação por hardware Dolby Vision na TV.",
+      "permissions": [
+        "Internet",
+        "Armazenamento Externo",
+        "Acesso à Rede Local"
+      ],
+      "isFeatured": true,
+      "downloads": 3250,
+      "createdAt": "2026-09-08T02:09:18.421Z",
+      "updatedAt": "2026-09-08T02:09:18.421Z",
+      "apkUrl": "https://pub-1ed4a80b7670434e93f65e2e7091f1b2.r2.dev/apks/org.xbmc.kodi-v21.0.0.apk",
+      "apkFileName": "org.xbmc.kodi-v21.0.0.apk",
+      "iconUrl": "https://pub-1ed4a80b7670434e93f65e2e7091f1b2.r2.dev/icons/icon-org.xbmc.kodi.svg",
+      "bannerUrl": "https://pub-1ed4a80b7670434e93f65e2e7091f1b2.r2.dev/banners/banner-org.xbmc.kodi.svg",
+      "screenshots": [
+        "/uploads/banners/banner-org.xbmc.kodi.svg"
+      ]
+    },
+    {
+      "id": "eaa7052e-2563-41dd-81e6-6e40780525d9",
+      "name": "RetroArch TV Edition",
+      "packageName": "com.retroarch.tv",
+      "developer": "Libretro",
+      "category": "Jogos",
+      "versionName": "1.18.0",
+      "versionCode": 118,
+      "sizeMb": 145.2,
+      "rating": 4.9,
+      "ageRating": "10+",
+      "description": "Emulador multiplataforma completo com suporte nativo a gamepads Bluetooth, shaders de tubo CRT para TV e salvamento de estados em nuvem.",
+      "changelog": "Mapeamento automático dos controles remotos Bluetooth de TV.",
+      "permissions": [
+        "Armazenamento",
+        "Bluetooth Gamepad",
+        "Internet"
+      ],
+      "isFeatured": true,
+      "downloads": 980,
+      "createdAt": "2026-09-08T02:09:18.426Z",
+      "updatedAt": "2026-09-08T02:09:18.426Z",
+      "apkUrl": "/uploads/apks/com.retroarch.tv-v1.18.0.apk",
+      "apkFileName": "com.retroarch.tv-v1.18.0.apk",
+      "iconUrl": "https://pub-1ed4a80b7670434e93f65e2e7091f1b2.r2.dev/icons/icon-com.retroarch.tv.svg",
+      "bannerUrl": "https://pub-1ed4a80b7670434e93f65e2e7091f1b2.r2.dev/banners/banner-com.retroarch.tv.svg",
+      "screenshots": [
+        "/uploads/banners/banner-com.retroarch.tv.svg"
+      ]
+    },
+    {
+      "id": "250b90a9-2368-468e-a597-8b915a2cef5d",
+      "name": "AIDA64 Hardware TV",
+      "packageName": "com.finalwire.aida64.tv",
+      "developer": "FinalWire Ltd.",
+      "category": "Ferramentas & Utilitários",
+      "versionName": "2.0.1",
+      "versionCode": 201,
+      "sizeMb": 12.4,
+      "rating": 4.7,
+      "ageRating": "Livre",
+      "description": "Informações detalhadas de hardware e software da sua Android TV: modelo do processador, memória RAM disponível, temperatura e resolução nativa.",
+      "changelog": "Detecção aprimorada de taxas de atualização de 120Hz.",
+      "permissions": [
+        "Informações do Dispositivo",
+        "Armazenamento"
+      ],
+      "isFeatured": false,
+      "downloads": 430,
+      "createdAt": "2026-09-08T02:09:18.432Z",
+      "updatedAt": "2026-09-08T02:09:18.432Z",
+      "apkUrl": "https://pub-1ed4a80b7670434e93f65e2e7091f1b2.r2.dev/apks/com.finalwire.aida64.tv-v2.0.1.apk",
+      "apkFileName": "com.finalwire.aida64.tv-v2.0.1.apk",
+      "iconUrl": "https://pub-1ed4a80b7670434e93f65e2e7091f1b2.r2.dev/icons/icon-com.finalwire.aida64.tv.svg",
+      "bannerUrl": "/uploads/banners/banner-com.finalwire.aida64.tv.svg",
+      "screenshots": [
+        "/uploads/banners/banner-com.finalwire.aida64.tv.svg"
+      ]
+    }
+  ]
+}

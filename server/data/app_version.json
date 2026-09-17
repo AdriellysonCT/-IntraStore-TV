@@ -1,0 +1,11 @@
+{
+  "latestVersionCode": 2,
+  "latestVersionName": "1.1.0",
+  "apkUrl": "https://pub-1ed4a80b7670434e93f65e2e7091f1b2.r2.dev/apks/IntraStore_TV_v1.1.0.apk",
+  "apkFallbackUrl": "/uploads/apks/IntraStore_TV_v1.1.0.apk",
+  "minRequiredVersionCode": 1,
+  "releaseDate": "2026-09-09T02:05:23.098Z",
+  "title": "Super Atualização de Desempenho e Navegação",
+  "changelog": "• Desempenho ultra fluído a 60 FPS (zero travamentos)\n• Correção definitiva das rotas e direções do controle remoto\n• Sistema de Auto Update integrado ao Cloudflare R2\n• Fontes e layout calibrados para telas de TV",
+  "forceUpdate": false
+}

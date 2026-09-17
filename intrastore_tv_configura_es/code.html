@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IntraStore TV - Configurações</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Configuration -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary-container": "#00616d",
+            "on-error-container": "#ffdad6",
+            "on-primary-fixed": "#1f0060",
+            "on-primary-fixed-variant": "#4d00d2",
+            "error": "#ffb4ab",
+            "inverse-surface": "#e5e2e1",
+            "surface-tint": "#ccbeff",
+            "surface-container-lowest": "#0e0e0e",
+            "on-surface": "#e5e2e1",
+            "surface-container-low": "#1c1b1b",
+            "surface-container-high": "#2a2a2a",
+            "on-tertiary-fixed-variant": "#793100",
+            "secondary-fixed-dim": "#00daf3",
+            "tertiary-fixed-dim": "#ffb691",
+            "tertiary-fixed": "#ffdbcb",
+            "surface-container-highest": "#353534",
+            "surface-variant": "#353534",
+            "outline-variant": "#494456",
+            "outline": "#948ea2",
+            "surface": "#131313",
+            "tertiary": "#ffb691",
+            "secondary": "#bdf4ff",
+            "background": "#131313",
+            "inverse-primary": "#6632ee",
+            "on-tertiary": "#552000",
+            "on-tertiary-fixed": "#341100",
+            "surface-container": "#201f1f",
+            "on-surface-variant": "#cac3d9",
+            "primary-container": "#6c3bf4",
+            "on-tertiary-container": "#ffdbca",
+            "on-secondary-fixed-variant": "#004f58",
+            "inverse-on-surface": "#313030",
+            "secondary-container": "#00e3fd",
+            "on-background": "#e5e2e1",
+            "primary-fixed-dim": "#ccbeff",
+            "secondary-fixed": "#9cf0ff",
+            "primary-fixed": "#e7deff",
+            "surface-bright": "#393939",
+            "on-secondary": "#00363d",
+            "primary": "#ccbeff",
+            "surface-dim": "#131313",
+            "on-secondary-fixed": "#001f24",
+            "on-error": "#690005",
+            "on-primary-container": "#e7deff",
+            "error-container": "#93000a",
+            "on-primary": "#350097",
+            "tertiary-container": "#a84700"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "rail-width-collapsed": "6rem",
+            "card-gap": "1.5rem",
+            "space-md": "1rem",
+            "gutter-shelf": "1.75rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2rem",
+            "space-xs": "0.5rem",
+            "space-2xl": "3rem",
+            "tv-safe-y": "3.5rem",
+            "space-sm": "0.75rem",
+            "rail-width-expanded": "18rem",
+            "tv-safe-x": "5rem"
+          },
+          "fontFamily": {
+            "title-lg": ["Plus Jakarta Sans"],
+            "caption": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "headline-lg": ["Space Grotesk"],
+            "headline-xl": ["Space Grotesk"],
+            "display-hero": ["Space Grotesk"],
+            "headline-md": ["Space Grotesk"],
+            "label-lg": ["Space Grotesk"],
+            "body-md": ["Plus Jakarta Sans"],
+            "label-md": ["Space Grotesk"]
+          },
+          "fontSize": {
+            "title-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+            "caption": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+            "title-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "headline-lg": ["36px", { "lineHeight": "44px", "fontWeight": "600" }],
+            "headline-xl": ["48px", { "lineHeight": "56px", "fontWeight": "700" }],
+            "display-hero": ["64px", { "lineHeight": "72px", "fontWeight": "700" }],
+            "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+            "label-lg": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 28px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    /* Subtle TV backdrop glow */
+    .tv-radial-glow {
+      background: radial-gradient(circle at top right, rgba(108, 59, 244, 0.22) 0%, rgba(0, 229, 255, 0.05) 35%, rgba(18, 18, 18, 0) 70%);
+    }
+
+    /* Active neon bloom */
+    .neon-focus-glow {
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.45), 0 0 45px rgba(108, 59, 244, 0.30);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background w-[1920px] h-[1080px] overflow-hidden select-none font-body-md text-body-md antialiased relative flex flex-col justify-between">
+<!-- Cinematic Background Elements -->
+<div class="absolute inset-0 tv-radial-glow pointer-events-none"></div>
+<div class="absolute -top-40 -left-40 w-[600px] h-[600px] bg-primary-container/10 rounded-full blur-[140px] pointer-events-none"></div>
+<!-- TV Top Bar (Overscan Safe Padding) -->
+<header class="relative z-20 flex items-center justify-between px-tv-safe-x pt-tv-safe-y pb-space-md">
+<div class="flex items-center gap-space-lg">
+<!-- Remote Back Button -->
+<button class="w-14 h-14 rounded-xl bg-surface-container flex items-center justify-center text-on-surface border border-outline-variant/30 hover:border-secondary-container hover:text-secondary hover:scale-105 focus:scale-105 focus:border-secondary-container focus:text-secondary focus:outline-none transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<div>
+<span class="font-label-md text-label-md text-secondary tracking-wider block font-bold">INTRASTORE TV</span>
+<h1 class="font-display-hero text-headline-xl text-on-surface tracking-tight font-bold">Configurações</h1>
+</div>
+</div>
+<!-- Status Meta Indicators -->
+<div class="flex items-center gap-space-lg bg-surface-container-low/80 backdrop-blur-md px-space-lg py-space-sm rounded-xl border border-outline-variant/20">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-secondary" data-icon="wifi">wifi</span>
+<span>Wi-Fi 5GHz</span>
+</div>
+<div class="w-px h-4 bg-outline-variant/40"></div>
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary" data-icon="access_time">access_time</span>
+<span>21:45</span>
+</div>
+</div>
+</header>
+<!-- Main Content Grid (16:9 safe canvas) -->
+<main class="relative z-10 flex-1 px-tv-safe-x py-space-md grid grid-cols-12 gap-space-2xl items-start">
+<!-- Left Column: Primary Settings List (~640px TV Remote Nav Panel) -->
+<section aria-label="Lista de Configurações" class="col-span-7 flex flex-col gap-space-md max-w-[720px]">
+<!-- ITEM 1: Focused State (Active remote selector) -->
+<div class="group relative flex items-center justify-between p-space-lg rounded-xl bg-surface-container-high border-[3px] border-secondary-container neon-focus-glow scale-[1.02] transition-all duration-200 cursor-pointer outline-none" tabindex="0">
+<div class="flex items-center gap-space-lg">
+<div class="w-14 h-14 rounded-lg bg-primary-container/30 flex items-center justify-center text-secondary border border-secondary-container/40">
+<span class="material-symbols-outlined" data-icon="system_update">system_update</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-title-md font-bold text-on-surface group-hover:text-secondary transition-colors">
+              Verificar atualizações automaticamente
+            </span>
+<span class="font-body-md text-body-md text-on-surface-variant mt-1">
+              Ativado — Busca versões mais recentes em segundo plano
+            </span>
+</div>
+</div>
+<!-- Glowing Active Neon Toggle Switch -->
+<div class="relative w-16 h-9 rounded-full bg-secondary-container/25 border-2 border-secondary-container p-0.5 flex items-center justify-end px-1 shadow-[0_0_15px_rgba(0,229,255,0.4)]">
+<div class="w-6 h-6 rounded-full bg-secondary-container shadow-[0_0_10px_#00E5FF]"></div>
+</div>
+</div>
+<!-- ITEM 2: Unfocused Standard Card -->
+<div class="group flex items-center justify-between p-space-lg rounded-xl bg-surface-container border border-outline-variant/30 hover:border-secondary-container hover:scale-[1.02] hover:bg-surface-container-high focus:border-secondary-container focus:scale-[1.02] focus:bg-surface-container-high focus:outline-none neon-focus-glow transition-all duration-200 cursor-pointer" tabindex="0">
+<div class="flex items-center gap-space-lg">
+<div class="w-14 h-14 rounded-lg bg-surface-container-highest flex items-center justify-center text-on-surface-variant group-hover:text-secondary group-focus:text-secondary transition-colors">
+<span class="material-symbols-outlined" data-icon="delete_sweep">delete_sweep</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-title-md font-bold text-on-surface group-hover:text-secondary group-focus:text-secondary transition-colors">
+              Limpar cache de downloads
+            </span>
+<span class="font-body-md text-body-md text-on-surface-variant mt-1">
+              Libere espaço em disco apagando instaladores APK antigos (128 MB em cache)
+            </span>
+</div>
+</div>
+<div class="px-space-md py-space-xs rounded-lg bg-surface-container-highest/80 text-on-surface-variant font-label-md text-label-md border border-outline-variant/30">
+          128 MB
+        </div>
+</div>
+<!-- ITEM 3: Unfocused Standard Card -->
+<div class="group flex items-center justify-between p-space-lg rounded-xl bg-surface-container border border-outline-variant/30 hover:border-secondary-container hover:scale-[1.02] hover:bg-surface-container-high focus:border-secondary-container focus:scale-[1.02] focus:bg-surface-container-high focus:outline-none neon-focus-glow transition-all duration-200 cursor-pointer" tabindex="0">
+<div class="flex items-center gap-space-lg">
+<div class="w-14 h-14 rounded-lg bg-surface-container-highest flex items-center justify-center text-on-surface-variant group-hover:text-secondary group-focus:text-secondary transition-colors">
+<span class="material-symbols-outlined" data-icon="info">info</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-title-md font-bold text-on-surface group-hover:text-secondary group-focus:text-secondary transition-colors">
+              Sobre o IntraStore TV
+            </span>
+<span class="font-body-md text-body-md text-on-surface-variant mt-1">
+              Versão 1.0.0 (Build 100) — Android TV Edition
+            </span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-secondary group-focus:text-secondary transition-colors" data-icon="chevron_right">chevron_right</span>
+</div>
+<!-- ITEM 4: Action Button (Sair) -->
+<div class="group mt-space-sm flex items-center justify-center gap-space-md p-space-lg rounded-xl bg-surface-container-low border border-error/30 hover:border-error hover:bg-error-container/20 hover:scale-[1.02] focus:border-error focus:bg-error-container/20 focus:scale-[1.02] focus:outline-none transition-all duration-200 cursor-pointer" tabindex="0">
+<span class="material-symbols-outlined text-error" data-icon="exit_to_app">exit_to_app</span>
+<span class="font-label-lg text-label-lg font-bold text-error tracking-wide">
+          Sair do IntraStore TV
+        </span>
+</div>
+</section>
+<!-- Right Column: Status & Telemetry TV Overview Card -->
+<aside aria-label="Informações do Sistema" class="col-span-5 flex flex-col gap-space-lg">
+<!-- System Telemetry Card -->
+<div class="p-space-xl rounded-xl bg-surface-container-low border border-outline-variant/30 backdrop-blur-md relative overflow-hidden">
+<div class="absolute -right-10 -bottom-10 w-44 h-44 bg-secondary-container/10 rounded-full blur-[60px] pointer-events-none"></div>
+<div class="flex items-center gap-space-md mb-space-lg">
+<div class="w-12 h-12 rounded-xl bg-primary-container/20 border border-primary/30 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="tv">tv</span>
+</div>
+<div>
+<h2 class="font-headline-md text-title-lg font-bold text-on-surface">Informações do Dispositivo</h2>
+<span class="font-caption text-caption text-on-surface-variant">Status em tempo real</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-lg divide-y divide-outline-variant/20">
+<!-- Storage Bar Gauge -->
+<div class="pt-space-xs">
+<div class="flex justify-between items-center mb-space-xs">
+<span class="font-body-md text-body-md text-on-surface-variant">Armazenamento Disponível</span>
+<span class="font-label-md text-label-md text-secondary font-bold">12.4 GB livres de 32 GB</span>
+</div>
+<!-- Progress Track -->
+<div class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden p-0.5">
+<div class="h-full bg-gradient-to-r from-primary-container via-primary to-secondary-container rounded-full w-[62%]"></div>
+</div>
+</div>
+<!-- Connection Status -->
+<div class="pt-space-md flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary-container text-[22px]" data-icon="signal_wifi_4_bar">signal_wifi_4_bar</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Qualidade da Conexão</span>
+</div>
+<span class="font-label-md text-label-md font-bold text-on-surface">Excelente (86 Mbps)</span>
+</div>
+<!-- Device Model -->
+<div class="pt-space-md flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[22px]" data-icon="developer_board">developer_board</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Dispositivo</span>
+</div>
+<span class="font-label-md text-label-md font-bold text-on-surface">Android TV 4K UltraHD</span>
+</div>
+<!-- Architecture & Engine -->
+<div class="pt-space-md flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[22px]" data-icon="memory">memory</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Plataforma</span>
+</div>
+<span class="font-label-md text-label-md font-bold text-on-surface">ARM64-v8a • Android 12</span>
+</div>
+</div>
+</div>
+<!-- Remote Control Helper Banner (D-pad Guidance) -->
+<div class="p-space-lg rounded-xl bg-surface-container/60 border border-outline-variant/20 flex items-center justify-between">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[24px]" data-icon="gamepad">gamepad</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface-variant">
+            Navegue usando o <strong class="text-on-surface">D-Pad</strong> do controle remoto
+          </span>
+</div>
+<div class="flex items-center gap-space-sm font-label-md text-label-md text-on-surface-variant">
+<kbd class="px-2 py-1 rounded bg-surface-container-highest border border-outline-variant text-on-surface">OK</kbd>
+<span>Selecionar</span>
+</div>
+</div>
+</aside>
+</main>
+<!-- TV Safe Bottom Footer -->
+<footer class="relative z-20 px-tv-safe-x pb-tv-safe-y flex items-center justify-between text-on-surface-variant font-label-md text-label-md">
+<div class="flex items-center gap-space-lg">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-container inline-block shadow-[0_0_8px_#00E5FF]"></span>
+<span>Servidor IntraStore Online</span>
+</div>
+<span>•</span>
+<span>Repositório Corporativo Homologado</span>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs">
+<kbd class="px-2 py-0.5 rounded bg-surface-container border border-outline-variant/40 text-on-surface">Voltar</kbd>
+<span>Retornar à Loja</span>
+</div>
+</div>
+</footer>
+</body></html>

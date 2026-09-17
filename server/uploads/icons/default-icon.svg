@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
+  <rect width="180" height="180" rx="28" fill="#1e1e24"/>
+  <rect x="4" y="4" width="172" height="172" rx="24" fill="none" stroke="#6c3bf4" stroke-width="3" opacity="0.6"/>
+  <circle cx="90" cy="90" r="50" fill="#6c3bf4" opacity="0.15"/>
+  <path d="M72 58 L122 90 L72 122 Z" fill="#00e5ff"/>
+  <text x="90" y="152" font-family="sans-serif" font-size="14" font-weight="bold" fill="#b4b4c0" text-anchor="middle">INTRASTORE</text>
+</svg>

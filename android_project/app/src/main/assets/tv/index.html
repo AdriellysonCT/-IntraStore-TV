@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html class="dark" lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <title>IntraStore TV - Android TV Leanback OS</title>
+  <meta name="viewport" content="width=1920, initial-scale=1.0, user-scalable=no"/>
+  
+  <link rel="icon" type="image/png" href="/tv/app-logo.png"/>
+  
+  <!-- Fontes Oficiais do Design System -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS com Configuração Exata do Stitch DESIGN.md -->
+  
+
+  <style>
+    /* Estilização Oficial de Foco Neon Cyber Cyan para Android TV */
+    .tv-focused {
+      outline: none !important;
+      transform: scale(1.08) !important;
+      border-color: #00E5FF !important;
+      box-shadow: 0 0 25px rgba(0, 229, 255, 0.65), 0 0 45px rgba(108, 59, 244, 0.35) !important;
+      z-index: 40 !important;
+    }
+
+    button.tv-focused, .btn-tv.tv-focused {
+      transform: scale(1.05) !important;
+    }
+
+    /* Ambient TV Lighting Glows */
+    .tv-ambient-hero {
+      background: radial-gradient(circle at 80% 10%, rgba(108, 59, 244, 0.28) 0%, rgba(0, 229, 255, 0.08) 35%, rgba(19, 19, 19, 0) 75%);
+    }
+
+    /* Animações Cinematográficas do Splash Screen para Android TV */
+    @keyframes splashPulse {
+      0% { transform: scale(0.8); opacity: 0; filter: drop-shadow(0 0 0 rgba(0, 229, 255, 0)); }
+      50% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 35px rgba(0, 229, 255, 0.7)); }
+      100% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 25px rgba(108, 59, 244, 0.6)); }
+    }
+
+    @keyframes ringExpand {
+      0% { transform: scale(0.6); opacity: 0.8; border-color: #00E5FF; }
+      100% { transform: scale(1.8); opacity: 0; border-color: #6C3BF4; }
+    }
+
+    @keyframes textReveal {
+      0% { opacity: 0; transform: translateY(14px); letter-spacing: 0.2em; }
+      100% { opacity: 1; transform: translateY(0); letter-spacing: 0.04em; }
+    }
+
+    @keyframes splashFadeOut {
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.06); pointer-events: none; visibility: hidden; }
+    }
+
+    .splash-logo-anim {
+      animation: splashPulse 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .splash-ring-anim {
+      animation: ringExpand 2s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+    }
+
+    .splash-text-anim {
+      animation: textReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+      opacity: 0;
+    }
+
+    .splash-exit {
+      animation: splashFadeOut 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+    }
+
+    /* Ocultar barra de rolagem em televisores */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    * {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Animações e Estilos para Modais e Toasts de TV */
+    .tv-modal-active {
+      opacity: 1 !important;
+    }
+    .tv-modal-active #tvModalCard {
+      transform: scale(1) !important;
+    }
+    .tv-toast-active {
+      opacity: 1 !important;
+      transform: translate(-50%, 0) !important;
+    }
+  </style>
+  <link rel="stylesheet" href="/tv/tv_style.css"/>
+</head>
+<body class="bg-background text-on-surface w-screen h-screen overflow-hidden select-none font-body relative">
+
+  <!-- ============================================================== -->
+  <!-- CINEMATIC SPLASH ANIMATION PARA ANDROID TV (10-FOOT EXPERIENCE) -->
+  <!-- ============================================================== -->
+  <div id="tvSplashScreen" class="fixed inset-0 z-[100] bg-[#0c0c10] flex flex-col items-center justify-center select-none overflow-hidden">
+    <!-- Luz ambiente holográfica de fundo -->
+    <div class="absolute w-[450px] h-[450px] rounded-full bg-gradient-to-tr from-primary-container/20 to-accent-cyan/15 pointer-events-none" style="filter: drop-shadow(0 0 40px rgba(0, 229, 255, 0.2));"></div>
+
+    <!-- Anéis concêntricos pulsantes -->
+    <div class="relative flex items-center justify-center">
+      <div class="splash-ring-anim absolute w-48 h-48 rounded-3xl border-2 border-accent-cyan/60 pointer-events-none"></div>
+      <div class="splash-ring-anim absolute w-64 h-64 rounded-3xl border border-primary-container/40 pointer-events-none" style="animation-delay: 0.5s;"></div>
+
+      <!-- Ícone Central Animado com a Nova Arte Oficial -->
+      <div class="splash-logo-anim w-32 h-32 rounded-3xl overflow-hidden border-2 border-accent-cyan shadow-2xl relative z-10 p-1 bg-black glow-cyan">
+        <img src="/tv/app-logo.png" class="w-full h-full object-cover rounded-[20px]" alt="IntraStore TV Logo">
+      </div>
+    </div>
+
+    <!-- Marca e Subtítulo Revelados com Efeito Cinemático -->
+    <div class="splash-text-anim text-center mt-8 space-y-2 z-10">
+      <h1 class="font-headline text-4xl font-bold tracking-tight bg-gradient-to-r from-primary via-white to-secondary-container bg-clip-text text-transparent">
+        IntraStore TV
+      </h1>
+      <p class="text-xs font-semibold text-on-surface-variant tracking-widest uppercase flex items-center justify-center gap-2">
+        <span class="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-pulse"></span>
+        <span>Android TV Community Store</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span>
+      </p>
+    </div>
+
+    <!-- Barra de Inicialização e Status na TV -->
+    <div class="splash-text-anim absolute bottom-14 flex flex-col items-center gap-2.5 z-10" style="animation-delay: 0.5s;">
+      <div class="w-52 h-1.5 bg-surface-container-highest/60 rounded-full overflow-hidden border border-outline-variant/30">
+        <div id="splashProgressBar" class="h-full bg-gradient-to-r from-primary-container to-accent-cyan w-0 transition-all duration-500"></div>
+      </div>
+      <span id="splashLoadingText" class="text-[11px] font-mono text-gray-400">Iniciando sistema...</span>
+    </div>
+  </div>
+
+  <!-- Dynamic Ambient Background Glow -->
+  <div class="tv-ambient-hero absolute inset-0 pointer-events-none z-0"></div>
+
+  <!-- COMPONENTE FIXO: Navigation Rail Lateral Retrátil (Esquerda) -->
+  <aside id="mainNavRail" class="group">
+    <!-- Top Branding Icon -->
+    <div class="flex items-center gap-4 px-1 overflow-hidden">
+      <div class="w-11 h-11 rounded-2xl overflow-hidden border border-accent-cyan/60 flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(108,59,244,0.5)] bg-black p-0.5">
+        <img src="/tv/app-logo.png" class="w-full h-full object-cover rounded-[12px]" alt="Logo">
+      </div>
+      <div class="nav-label font-semibold text-sm">
+        <div class="font-headline text-lg font-bold text-primary leading-tight">IntraStore TV</div>
+        <div class="text-xs text-on-surface-variant">Android TV Store</div>
+      </div>
+    </div>
+
+    <!-- Abas de Navegação -->
+    <nav class="flex flex-col gap-2 w-full my-auto">
+      <!-- 1. Home -->
+      <button id="navHome" onclick="navigateTo('home')" class="nav-tab flex items-center gap-4 text-secondary border-l-4 border-secondary-container pl-3 py-3 w-full text-left rounded-r-lg bg-surface-container/50 transition-all duration-200" tabindex="0">
+        <span class="material-symbols-outlined text-secondary-container flex-shrink-0">home</span>
+        <span class="nav-label font-semibold text-sm font-semibold text-sm">Início</span>
+      </button>
+
+      <!-- 2. Apps -->
+      <button id="navApps" onclick="navigateTo('category', 'Streaming & Vídeo')" class="nav-tab flex items-center gap-4 text-on-surface-variant pl-4 py-3 w-full text-left rounded-lg transition-all duration-200" tabindex="0">
+        <span class="material-symbols-outlined flex-shrink-0">apps</span>
+        <span class="nav-label font-semibold text-sm font-semibold text-sm">Streaming</span>
+      </button>
+
+      <!-- 3. Games -->
+      <button id="navGames" onclick="navigateTo('category', 'Jogos')" class="nav-tab flex items-center gap-4 text-on-surface-variant pl-4 py-3 w-full text-left rounded-lg transition-all duration-200" tabindex="0">
+        <span class="material-symbols-outlined flex-shrink-0">sports_esports</span>
+        <span class="nav-label font-semibold text-sm font-semibold text-sm">Jogos</span>
+      </button>
+
+      <!-- 4. Ferramentas -->
+      <button id="navTools" onclick="navigateTo('category', 'Ferramentas & Utilitários')" class="nav-tab flex items-center gap-4 text-on-surface-variant pl-4 py-3 w-full text-left rounded-lg transition-all duration-200" tabindex="0">
+        <span class="material-symbols-outlined flex-shrink-0">build</span>
+        <span class="nav-label font-semibold text-sm font-semibold text-sm">Ferramentas</span>
+      </button>
+
+      <!-- 5. Settings -->
+      <button id="navSettings" onclick="navigateTo('settings')" class="nav-tab flex items-center gap-4 text-on-surface-variant pl-4 py-3 w-full text-left rounded-lg transition-all duration-200" tabindex="0">
+        <span class="material-symbols-outlined flex-shrink-0">settings</span>
+        <span class="nav-label font-semibold text-sm font-semibold text-sm">Configurações</span>
+      </button>
+    </nav>
+
+    <!-- Footer: Sair da Aplicação TV (Segurança: Painel Admin removido da TV) -->
+    <div class="w-full">
+      <button onclick="handleExitApp()" class="btn-tv flex items-center gap-4 text-on-surface-variant pl-4 py-3 w-full text-left rounded-xl hover:text-red-400 hover:bg-surface-container-high transition-all duration-200" tabindex="0" title="Sair da Loja">
+        <span class="material-symbols-outlined flex-shrink-0 text-red-400">power_settings_new</span>
+        <span class="nav-label font-semibold text-sm font-semibold text-sm text-red-400">Sair</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- COMPONENTE FIXO: Top Status Bar -->
+  <header class="fixed top-0 left-0 right-0 z-40 flex justify-between items-center pl-24 pr-12 pt-6 pb-3 w-full pointer-events-none">
+    <div class="flex items-center gap-4 pl-rail-width-collapsed pointer-events-auto">
+      <span class="font-headline text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-secondary-container bg-clip-text text-transparent tracking-tight">
+        IntraStore TV
+      </span>
+      <span class="px-2.5 py-0.5 rounded-full bg-surface-container-high border border-outline-variant/30 text-secondary text-xs font-semibold tracking-wider">
+        ANDROID 14 TV
+      </span>
+      <span id="badgeUpdatesTop" class="hidden px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-accent-cyan border border-accent-cyan/40 text-xs font-bold animate-pulse">
+        Atualizações Disponíveis
+      </span>
+    </div>
+
+    <!-- Indicadores de TV (Hora e Botão Settings) -->
+    <div class="flex items-center gap-6 pointer-events-auto pr-2">
+      <div class="flex items-center gap-2 text-on-surface bg-surface-container-low/80 backdrop-blur-md px-4 py-1.5 rounded-full border border-outline-variant/20 shadow-md">
+        <span class="material-symbols-outlined text-secondary text-base">access_time</span>
+        <span id="leanback-clock" class="font-headline text-lg font-bold tracking-wider text-on-surface">20:45</span>
+      </div>
+
+      <button onclick="navigateTo('settings')" class="btn-tv w-10 h-10 rounded-full bg-surface-container-low border border-outline-variant/30 flex items-center justify-center text-on-surface-variant transition-all duration-200" tabindex="0" title="Configurações">
+        <span class="material-symbols-outlined text-lg">settings</span>
+      </button>
+
+      <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-accent-cyan p-0.5 bg-black shadow-md">
+        <img class="w-full h-full object-cover rounded-full" src="/tv/app-logo.png" alt="Perfil">
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- VIEW 1: TELA INICIAL (HOME) & PRATELEIRAS                      -->
+  <!-- ============================================================== -->
+  <main id="viewHome" class="w-full h-full overflow-y-auto pt-24 pb-12 pl-24 pr-12 flex flex-col gap-8 z-10 relative">
+
+    <!-- SEÇÃO 1: CARROSSEL DE DESTAQUES (HERO 16:9) -->
+    <section class="flex flex-col gap-3">
+      <div class="flex items-center justify-between">
+        <h2 class="font-headline text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+          <span class="material-symbols-outlined text-accent-cyan">local_fire_department</span>
+          <span>Destaques da Comunidade</span>
+        </h2>
+        <span class="text-xs text-on-surface-variant font-mono">Role para os lados com as setas do controle</span>
+      </div>
+
+      <div id="heroCarouselContainer" class="flex gap-6 overflow-x-auto pb-4 pt-2">
+        <!-- Renderizado dinamicamente via JS -->
+        <div class="w-full py-12 text-center text-gray-500 bg-surface-container rounded-2xl">Carregando destaques...</div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO 2: PRATELEIRAS DINÂMICAS DE APPS -->
+    <div id="dynamicShelvesContainer" class="flex flex-col gap-10">
+      <!-- Prateleiras geradas dinamicamente -->
+    </div>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- VIEW 2: TELA DE DETALHES DO APLICATIVO                         -->
+  <!-- ============================================================== -->
+  <main id="viewDetails" class="hidden w-full h-full overflow-y-auto pt-[6.5rem] pb-tv-safe-y pl-tv-safe-x pr-tv-safe-x z-20 relative">
+    
+    <!-- Botão Voltar para Home -->
+    <div class="mb-6 flex items-center gap-4">
+      <button id="btnBackFromDetails" onclick="navigateTo('home')" class="btn-tv flex items-center gap-2 px-4 py-2 rounded-xl bg-surface-container-low border border-outline-variant/30 text-white transition-all" tabindex="0">
+        <span class="material-symbols-outlined text-secondary">arrow_back</span>
+        <span class="font-semibold text-sm">Voltar (Back)</span>
+      </button>
+      <span class="text-gray-500">|</span>
+      <span id="detailBreadcrumbCategory" class="text-on-surface-variant text-sm font-medium">Categoria</span>
+    </div>
+
+    <div class="grid grid-cols-12 gap-8 items-start w-full">
+      <!-- Coluna Esquerda: Especificações & Ação Primária (~35%) -->
+      <section class="col-span-4 flex flex-col items-start space-y-6 bg-surface-container-low/60 p-6 rounded-2xl border border-outline-variant/20">
+        <!-- Ícone do App -->
+        <div class="w-[160px] h-[160px] rounded-2xl overflow-hidden bg-surface-container-high border-2 border-outline-variant/30 shadow-2xl flex items-center justify-center p-2">
+          <img id="detailAppIcon" src="/uploads/icons/default-icon.svg" class="w-full h-full object-cover rounded-xl" alt="Ícone">
+        </div>
+
+        <div>
+          <h1 id="detailAppName" class="font-headline text-3xl font-bold text-white tracking-tight leading-tight">Nome do Aplicativo</h1>
+          <p id="detailAppDeveloper" class="text-sm text-secondary font-medium mt-1">Desenvolvedor</p>
+          <div id="detailAppPackage" class="text-xs text-gray-400 font-mono mt-0.5">com.exemplo.app</div>
+        </div>
+
+        <!-- Badges de Metadados -->
+        <div class="flex flex-wrap gap-2 w-full">
+          <div class="px-3 py-1.5 rounded-lg bg-surface-container border border-outline-variant/20 text-xs flex items-center gap-1.5 text-white">
+            <span class="material-symbols-outlined text-amber-400 text-sm">star</span>
+            <span id="detailAppRating" class="font-bold">4.9</span>
+          </div>
+          <div class="px-3 py-1.5 rounded-lg bg-surface-container border border-outline-variant/20 text-xs flex items-center gap-1.5 text-white">
+            <span class="material-symbols-outlined text-secondary text-sm">folder_zip</span>
+            <span id="detailAppSize">25 MB</span>
+          </div>
+          <div class="px-3 py-1.5 rounded-lg bg-surface-container border border-outline-variant/20 text-xs flex items-center gap-1.5 text-white">
+            <span class="material-symbols-outlined text-accent-cyan text-sm">verified</span>
+            <span id="detailAppVersion">v1.0.0</span>
+          </div>
+          <div id="detailAppAgeBadge" class="px-2.5 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold">
+            Livre
+          </div>
+        </div>
+
+        <!-- Botão Primário: Instalar / Atualizar / Abrir -->
+        <div class="w-full space-y-3 pt-2">
+          <button id="btnActionApp" onclick="handleAppAction()" class="btn-tv w-full py-4 px-6 rounded-xl bg-primary-container hover:bg-purple-600 text-white font-headline text-lg font-bold flex items-center justify-center gap-3 shadow-xl transition-all" tabindex="0">
+            <span id="btnActionIcon" class="material-symbols-outlined text-2xl">download</span>
+            <span id="btnActionText">Instalar</span>
+          </button>
+
+          <!-- Barra de Progresso de Download (Oculta por padrão) -->
+          <div id="downloadProgressBar" class="hidden w-full space-y-1">
+            <div class="flex justify-between text-xs text-secondary font-mono">
+              <span id="downloadStatusText">Baixando APK...</span>
+              <span id="downloadPercentage">0%</span>
+            </div>
+            <div class="w-full h-3 bg-zinc-900 rounded-full overflow-hidden border border-outline-variant/30">
+              <div id="downloadProgressFill" class="h-full bg-accent-cyan w-0 transition-all duration-300"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Permissões Requeridas -->
+        <div class="w-full pt-4 border-t border-outline-variant/20">
+          <h4 class="text-xs uppercase font-semibold text-gray-400 tracking-wider mb-2">Permissões do Aplicativo</h4>
+          <div id="detailAppPermissions" class="flex flex-wrap gap-1.5">
+            <!-- Badges de permissões -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Coluna Direita: Galeria de Screenshots & Descrição (~65%) -->
+      <section class="col-span-8 flex flex-col space-y-6">
+        <!-- Screenshots -->
+        <div class="space-y-3">
+          <h3 class="text-base font-headline font-bold text-white flex items-center gap-2">
+            <span class="material-symbols-outlined text-secondary">photo_library</span>
+            <span>Capturas de Tela</span>
+          </h3>
+          <div id="detailScreenshotsContainer" class="flex gap-4 overflow-x-auto pb-3">
+            <!-- Imagens de captura -->
+          </div>
+        </div>
+
+        <!-- Descrição Completa -->
+        <div class="bg-surface-container-low/60 p-6 rounded-2xl border border-outline-variant/20 space-y-3">
+          <h3 class="text-base font-headline font-bold text-white">Sobre o Aplicativo</h3>
+          <p id="detailAppDescription" class="text-sm text-gray-300 leading-relaxed whitespace-pre-line">
+            Descrição detalhada do aplicativo...
+          </p>
+        </div>
+
+        <!-- O que há de novo (Changelog) -->
+        <div class="bg-surface-container-low/60 p-6 rounded-2xl border border-outline-variant/20 space-y-2">
+          <h3 class="text-base font-headline font-bold text-white flex items-center gap-2">
+            <span class="material-symbols-outlined text-accent-cyan">auto_awesome</span>
+            <span>Novidades desta Versão</span>
+          </h3>
+          <p id="detailAppChangelog" class="text-sm text-gray-300">
+            Correções e melhorias.
+          </p>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- VIEW 3: TELA DE CONFIGURAÇÕES & ATUALIZAÇÕES                    -->
+  <!-- ============================================================== -->
+  <main id="viewSettings" class="hidden w-full h-full overflow-y-auto pt-[6.5rem] pb-tv-safe-y pl-tv-safe-x pr-tv-safe-x z-20 relative">
+    
+    <div class="mb-6 flex items-center gap-4">
+      <button onclick="navigateTo('home')" class="btn-tv flex items-center gap-2 px-4 py-2 rounded-xl bg-surface-container-low border border-outline-variant/30 text-white transition-all" tabindex="0">
+        <span class="material-symbols-outlined text-secondary">arrow_back</span>
+        <span class="font-semibold text-sm">Voltar ao Início</span>
+      </button>
+      <span class="text-gray-500">|</span>
+      <h1 class="font-headline text-2xl font-bold text-white">Configurações & Atualizações</h1>
+    </div>
+
+    <div class="grid grid-cols-12 gap-8 items-start">
+      <!-- Coluna Esquerda: Opções Rápidas -->
+      <section class="col-span-5 flex flex-col gap-4">
+        
+        <!-- Card de Checagem de Atualizações -->
+        <div class="bg-surface-container-low border border-outline-variant/30 p-6 rounded-2xl space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-accent-cyan/30 flex items-center justify-center text-accent-cyan">
+              <span class="material-symbols-outlined text-2xl">system_update</span>
+            </div>
+            <div>
+              <h2 class="text-lg font-headline font-bold text-white">Atualizações de Aplicativos</h2>
+              <p class="text-xs text-gray-400">Verifique se os apps instalados possuem novas versões</p>
+            </div>
+          </div>
+
+          <div id="settingsUpdatesStatus" class="p-3 bg-surface-container rounded-xl text-xs text-gray-300 font-mono">
+            Status: Pronto para verificação
+          </div>
+
+          <button id="btnCheckUpdatesNow" onclick="checkAllUpdates()" class="btn-tv w-full py-3 px-4 rounded-xl bg-accent-cyan text-black font-headline font-bold text-sm flex items-center justify-center gap-2 transition-all" tabindex="0">
+            <span class="material-symbols-outlined text-lg">sync</span>
+            <span>Verificar Agora</span>
+          </button>
+        </div>
+
+        <!-- Informações do Dispositivo & Servidor -->
+        <div class="bg-surface-container-low border border-outline-variant/30 p-6 rounded-2xl space-y-3">
+          <h3 class="text-sm font-headline font-bold text-white uppercase tracking-wider">Status do Sistema TV</h3>
+          <div class="divide-y divide-outline-variant/20 text-xs">
+            <div class="py-2 flex justify-between">
+              <span class="text-gray-400">Plataforma</span>
+              <span class="text-white font-mono font-semibold" id="sysPlatform">Android TV (Web / Native Bridge)</span>
+            </div>
+            <div class="py-2 flex justify-between">
+              <span class="text-gray-400">Versão IntraStore</span>
+              <span class="text-accent-cyan font-mono font-semibold">1.0.0 (Build TV)</span>
+            </div>
+            <div class="py-2 flex justify-between">
+              <span class="text-gray-400">Conexão Backend</span>
+              <span class="text-emerald-400 font-semibold flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Online
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Coluna Direita: Lista de Apps com Atualização Pendente -->
+      <section class="col-span-7 bg-surface-container-low border border-outline-variant/30 p-6 rounded-2xl space-y-4">
+        <h2 class="text-lg font-headline font-bold text-white flex items-center justify-between">
+          <span>Atualizações Encontradas</span>
+          <span id="updatesFoundBadge" class="text-xs px-2.5 py-0.5 rounded-full bg-surface-container text-gray-400 border border-outline-variant/30">0</span>
+        </h2>
+
+        <div id="updatesListContainer" class="space-y-3">
+          <div class="py-12 text-center text-gray-500">
+            Nenhuma atualização pendente no momento.
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- MODAL DIALOG MODERNO PARA ANDROID TV (10-FOOT EXPERIENCE)       -->
+  <!-- ============================================================== -->
+  
+  <!-- ============================================================== -->
+  <!-- MODAL DE AUTO UPDATE VIA CLOUDFLARE R2 (10-FOOT EXPERIENCE)     -->
+  <!-- ============================================================== -->
+  <div id="tvUpdateModalOverlay" class="fixed inset-0 z-50 bg-black/90 hidden items-center justify-center p-8 transition-opacity duration-250 opacity-0">
+    <div id="tvUpdateModalCard" class="bg-surface-container-low border-2 border-accent-cyan/60 rounded-3xl p-8 max-w-xl w-full text-center space-y-6 shadow-2xl shadow-cyan-950/50 transform scale-95 transition-transform duration-250">
+      
+      <!-- Ícone com Pulsar Neon -->
+      <div class="w-18 h-18 mx-auto rounded-3xl bg-accent-cyan/20 border border-accent-cyan/50 flex items-center justify-center text-accent-cyan shadow-lg">
+        <span class="material-symbols-outlined text-4xl">system_update</span>
+      </div>
+
+      <div class="space-y-2">
+        <div class="flex items-center justify-center gap-2">
+          <span class="px-2.5 py-0.5 rounded-full bg-accent-cyan/20 text-accent-cyan border border-accent-cyan/40 text-xs font-bold font-mono">NOVA VERSÃO</span>
+          <span id="updateModalVersionBadge" class="text-xs text-white font-mono bg-surface-container px-2 py-0.5 rounded-full border border-outline-variant/30">v1.1.0</span>
+        </div>
+        <h3 id="updateModalTitle" class="text-2xl font-headline font-bold text-white tracking-wide">Atualização da IntraStore TV</h3>
+        <p id="updateModalChangelog" class="text-sm text-gray-300 leading-relaxed max-w-md mx-auto whitespace-pre-line text-left bg-surface-container/70 p-4 rounded-xl border border-outline-variant/20 mt-2 font-mono text-xs"></p>
+      </div>
+
+      <!-- Barra de Progresso do Download do APK da Loja -->
+      <div id="storeUpdateProgressContainer" class="hidden space-y-2 text-left bg-surface-container p-4 rounded-xl border border-accent-cyan/30">
+        <div class="flex justify-between items-center text-xs font-mono">
+          <span id="storeUpdateProgressStatus" class="text-accent-cyan font-bold flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm animate-spin">progress_activity</span>
+            Baixando atualização do Cloudflare R2...
+          </span>
+          <span id="storeUpdateProgressPercent" class="text-white font-bold">0%</span>
+        </div>
+        <div class="w-full h-2.5 bg-black/60 rounded-full overflow-hidden border border-outline-variant/30">
+          <div id="storeUpdateProgressFill" class="h-full bg-gradient-to-r from-primary-purple to-accent-cyan w-0 transition-all duration-150"></div>
+        </div>
+      </div>
+
+      <!-- Botões de Ação D-Pad -->
+      <div id="storeUpdateModalActions" class="flex items-center justify-center gap-4 pt-2">
+        <button id="btnCancelStoreUpdate" onclick="closeStoreUpdateModal()" class="btn-tv flex-1 py-3.5 px-6 rounded-2xl bg-surface-container hover:bg-surface-container-high text-gray-300 font-headline font-bold text-sm border border-outline-variant/30 transition-all" tabindex="0">
+          Lembrar Depois
+        </button>
+        <button id="btnConfirmStoreUpdate" onclick="startAppStoreUpdate()" class="btn-tv flex-1 py-3.5 px-6 rounded-2xl bg-accent-cyan hover:bg-cyan-300 text-black font-headline font-bold text-sm shadow-xl transition-all" tabindex="0">
+          Atualizar Agora
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="tvModalOverlay" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-xl hidden items-center justify-center p-8 transition-opacity duration-300 opacity-0">
+    <div id="tvModalCard" class="bg-surface-container-low border-2 border-primary-purple/40 rounded-3xl p-8 max-w-lg w-full text-center space-y-6 shadow-2xl shadow-purple-950/50 transform scale-95 transition-all duration-300">
+      <div id="tvModalIconWrapper" class="w-16 h-16 mx-auto rounded-2xl bg-primary-purple/20 border border-primary-purple/40 flex items-center justify-center text-accent-cyan shadow-lg">
+        <span id="tvModalIcon" class="material-symbols-outlined text-3xl">info</span>
+      </div>
+      <div class="space-y-2">
+        <h3 id="tvModalTitle" class="text-xl font-headline font-bold text-white tracking-wide">Título do Modal</h3>
+        <p id="tvModalMessage" class="text-sm font-body text-gray-300 leading-relaxed max-w-md mx-auto">Mensagem descritiva clara e legível a 3 metros de distância.</p>
+      </div>
+      <div id="tvModalActions" class="flex items-center justify-center gap-4 pt-2">
+        <button id="tvModalBtnCancel" class="btn-tv flex-1 py-3.5 px-6 rounded-2xl bg-surface-container hover:bg-surface-container-high text-gray-200 font-headline font-bold text-sm border border-outline-variant/30 transition-all" tabindex="0">
+          Cancelar
+        </button>
+        <button id="tvModalBtnConfirm" class="btn-tv flex-1 py-3.5 px-6 rounded-2xl bg-accent-cyan text-black font-headline font-bold text-sm shadow-lg transition-all" tabindex="0">
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- TOAST NOTIFICATION FLUTUANTE HUD PARA ANDROID TV                -->
+  <!-- ============================================================== -->
+  <div id="tvToastContainer" class="fixed top-10 left-1/2 -translate-x-1/2 z-50 pointer-events-none transition-all duration-300 transform -translate-y-8 opacity-0">
+    <div id="tvToastBox" class="bg-surface-container-low/95 backdrop-blur-xl border border-accent-cyan/40 rounded-2xl px-6 py-4 flex items-center gap-4 shadow-2xl shadow-cyan-950/40 min-w-[380px]">
+      <div id="tvToastIconWrap" class="w-10 h-10 rounded-xl bg-accent-cyan/15 border border-accent-cyan/30 flex items-center justify-center text-accent-cyan flex-shrink-0">
+        <span id="tvToastIcon" class="material-symbols-outlined text-2xl">check_circle</span>
+      </div>
+      <div class="flex-1 text-left">
+        <div id="tvToastTitle" class="text-xs font-headline font-bold uppercase tracking-wider text-accent-cyan">Notificação</div>
+        <div id="tvToastMessage" class="text-sm font-body font-semibold text-white mt-0.5">Mensagem da notificação</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts do App e Controle Remoto -->
+  <script src="/tv/remote_nav.js"></script>
+  <script src="/tv/app.js"></script>
+</body>
+</html>

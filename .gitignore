@@ -1,0 +1,24 @@
+﻿# Dependencias Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+
+# Android Studio & Gradle
+.gradle/
+.kotlin/
+local.properties
+**/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Sistema Operacional
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+
+# Caches de IDE
+.idea/
+*.iml
+*.iws

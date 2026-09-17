@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kodi Media Center - IntraStore TV</title>
+<!-- Material Symbols Outlined Font -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Space Grotesk & Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary-container": "#00616d",
+            "on-error-container": "#ffdad6",
+            "on-primary-fixed": "#1f0060",
+            "on-primary-fixed-variant": "#4d00d2",
+            "error": "#ffb4ab",
+            "inverse-surface": "#e5e2e1",
+            "surface-tint": "#ccbeff",
+            "surface-container-lowest": "#0e0e0e",
+            "on-surface": "#e5e2e1",
+            "surface-container-low": "#1c1b1b",
+            "surface-container-high": "#2a2a2a",
+            "on-tertiary-fixed-variant": "#793100",
+            "secondary-fixed-dim": "#00daf3",
+            "tertiary-fixed-dim": "#ffb691",
+            "tertiary-fixed": "#ffdbcb",
+            "surface-container-highest": "#353534",
+            "surface-variant": "#353534",
+            "outline-variant": "#494456",
+            "outline": "#948ea2",
+            "surface": "#131313",
+            "tertiary": "#ffb691",
+            "secondary": "#bdf4ff",
+            "background": "#131313",
+            "inverse-primary": "#6632ee",
+            "on-tertiary": "#552000",
+            "on-tertiary-fixed": "#341100",
+            "surface-container": "#201f1f",
+            "on-surface-variant": "#cac3d9",
+            "primary-container": "#6c3bf4",
+            "on-tertiary-container": "#ffdbca",
+            "on-secondary-fixed-variant": "#004f58",
+            "inverse-on-surface": "#313030",
+            "secondary-container": "#00e3fd",
+            "on-background": "#e5e2e1",
+            "primary-fixed-dim": "#ccbeff",
+            "secondary-fixed": "#9cf0ff",
+            "primary-fixed": "#e7deff",
+            "surface-bright": "#393939",
+            "on-secondary": "#00363d",
+            "primary": "#ccbeff",
+            "surface-dim": "#131313",
+            "on-secondary-fixed": "#001f24",
+            "on-error": "#690005",
+            "on-primary-container": "#e7deff",
+            "error-container": "#93000a",
+            "on-primary": "#350097",
+            "tertiary-container": "#a84700"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "rail-width-collapsed": "6rem",
+            "card-gap": "1.5rem",
+            "space-md": "1rem",
+            "gutter-shelf": "1.75rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2rem",
+            "space-xs": "0.5rem",
+            "space-2xl": "3rem",
+            "tv-safe-y": "3.5rem",
+            "space-sm": "0.75rem",
+            "rail-width-expanded": "18rem",
+            "tv-safe-x": "5rem"
+          },
+          "fontFamily": {
+            "title-lg": ["Plus Jakarta Sans"],
+            "caption": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "headline-lg": ["Space Grotesk"],
+            "headline-xl": ["Space Grotesk"],
+            "display-hero": ["Space Grotesk"],
+            "headline-md": ["Space Grotesk"],
+            "label-lg": ["Space Grotesk"],
+            "body-md": ["Plus Jakarta Sans"],
+            "label-md": ["Space Grotesk"]
+          },
+          "fontSize": {
+            "title-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+            "caption": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+            "title-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "headline-lg": ["36px", { "lineHeight": "44px", "fontWeight": "600" }],
+            "headline-xl": ["48px", { "lineHeight": "56px", "fontWeight": "700" }],
+            "display-hero": ["64px", { "lineHeight": "72px", "fontWeight": "700" }],
+            "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+            "label-lg": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      display: inline-block;
+      line-height: 1;
+      text-transform: none;
+      letter-spacing: normal;
+      word-wrap: normal;
+      white-space: nowrap;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    /* 10-foot Cinematic Radial Glow Effect */
+    .tv-backdrop {
+      background: radial-gradient(circle at 80% 20%, rgba(108, 59, 244, 0.28) 0%, rgba(0, 229, 255, 0.08) 35%, rgba(19, 19, 19, 0) 70%),
+                  radial-gradient(circle at 10% 90%, rgba(108, 59, 244, 0.15) 0%, rgba(19, 19, 19, 0) 50%);
+    }
+
+    /* Ambient focused halo */
+    .focus-glow-cyan {
+      box-shadow: 0 0 25px rgba(0, 229, 255, 0.65), 0 0 45px rgba(108, 59, 244, 0.35);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface select-none overflow-hidden h-screen w-screen font-body-md antialiased tv-backdrop">
+<!-- TV Safe Zone Container (5rem horizontal, 3.5rem vertical padding strictly maintained) -->
+<div class="h-full w-full px-tv-safe-x py-tv-safe-y flex flex-col justify-between box-border">
+<!-- Top Navigation Header (Linear Task/Details view - Back navigation enabled) -->
+<header class="flex justify-between items-center w-full flex-shrink-0 z-30">
+<!-- Back Button with TV Focus state -->
+<div class="flex items-center gap-4">
+<button class="group flex items-center gap-3 px-4 py-2.5 rounded-full bg-surface-container-low border border-outline-variant/30 text-on-surface hover:bg-surface-container-high focus:outline-none focus:border-secondary-container focus:text-secondary focus:scale-105 focus:shadow-[0_0_20px_rgba(0,229,255,0.45)] transition-all duration-200" tabindex="1">
+<span class="material-symbols-outlined text-secondary text-24px">arrow_back</span>
+<span class="font-label-lg text-label-lg tracking-wide text-on-surface group-focus:text-secondary">Voltar</span>
+</button>
+<span class="text-outline-variant/40 font-title-md text-title-md">|</span>
+<span class="font-title-md text-title-md text-on-surface-variant font-medium">Detalhes do Aplicativo</span>
+</div>
+<!-- Watermark Brand & Remote TV Status Clock -->
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-low/60 border border-outline-variant/20">
+<span class="font-headline-md text-headline-md font-bold bg-gradient-to-r from-primary via-secondary to-secondary-container bg-clip-text text-transparent">
+            IntraStore TV
+          </span>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-low px-4 py-2 rounded-xl border border-outline-variant/20 shadow-md">
+<span class="material-symbols-outlined text-secondary text-20px">schedule</span>
+<span class="font-label-lg text-label-lg text-on-surface font-semibold tracking-wider">20:48</span>
+</div>
+</div>
+</header>
+<!-- Main Split Layout (35% Left Spec Column, 65% Right Media & Actions Column) -->
+<main class="grid grid-cols-12 gap-8 items-start my-auto w-full pt-4">
+<!-- Left Column (~35% -> col-span-4 or 5) -->
+<section class="col-span-4 flex flex-col items-start pr-4 space-y-6">
+<!-- App Logo (180x180dp standard Android TV focal asset) -->
+<div class="relative group">
+<div class="w-[180px] h-[180px] rounded-xl overflow-hidden bg-surface-container-high border-2 border-outline-variant/30 shadow-2xl flex items-center justify-center p-2 relative z-10 transition-transform duration-300 group-hover:scale-105">
+<img class="w-full h-full object-cover rounded-lg" data-alt="Modern high-resolution Kodi media center logo icon featuring sharp geometric light-blue diamond facets on a deep obsidian black background. The design is sleek, futuristic, and centered with soft ambient cyan rim lighting matching a premium Android TV entertainment aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAig12gZwf6uiFj9UmH4059xWJr4YccBq0qA7f4WI3x6UHS54caQUQ1e_OpxfoM3Ob30zhF3gIiIAo_yxqPkM7GQqz_r7EBJHUD4f7A8VaI3_lBzfp9iVaIYcWwobnQ8DcTk1YkPGtZyicwZSlksorUtDloFDk-yiuWf_yHL3RJdoGJT0LghwwIZizACzKS4Xu_Bgsaz0RfXJLGdBE22n2ZEldMZUsWgdcZ_IFAOEvEUtW6b5sV8PLF"/>
+</div>
+<div class="absolute -inset-2 bg-gradient-to-tr from-primary-container to-secondary-container rounded-xl blur-xl opacity-20 -z-0"></div>
+</div>
+<!-- App Identity -->
+<div class="space-y-1">
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight leading-tight">
+            Kodi Media Center
+          </h1>
+<p class="font-title-md text-title-md text-primary font-medium tracking-wide">
+            XBMC Foundation
+          </p>
+</div>
+<!-- Rating Row -->
+<div class="flex items-center gap-3 bg-surface-container-low px-4 py-2.5 rounded-xl border border-outline-variant/20">
+<div class="flex items-center text-amber-400 gap-0.5">
+<span class="material-symbols-outlined text-22px" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-22px" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-22px" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-22px" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-22px" style="font-variation-settings: 'FILL' 1;">star_half</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface font-bold tracking-tight">4.8</span>
+<span class="font-caption text-caption text-on-surface-variant font-medium">/ 5.0</span>
+<span class="text-outline-variant/40 mx-1">•</span>
+<span class="font-caption text-caption text-on-surface-variant">248 mil votos</span>
+</div>
+<!-- Meta Specification Chips Row -->
+<div class="flex flex-wrap gap-2.5 w-full">
+<div class="flex items-center gap-2 bg-surface-container-low/90 px-3.5 py-1.5 rounded-lg border border-outline-variant/30">
+<span class="material-symbols-outlined text-primary text-18px">memory</span>
+<span class="font-caption text-caption text-on-surface font-medium">Versão: <strong class="text-primary">21.0 Omega</strong></span>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-low/90 px-3.5 py-1.5 rounded-lg border border-outline-variant/30">
+<span class="material-symbols-outlined text-secondary text-18px">storage</span>
+<span class="font-caption text-caption text-on-surface font-medium">Tamanho: <strong class="text-on-surface">84.5 MB</strong></span>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-low/90 px-3.5 py-1.5 rounded-lg border border-outline-variant/30">
+<span class="material-symbols-outlined text-tertiary text-18px">verified_user</span>
+<span class="font-caption text-caption text-on-surface font-medium">Classificação: <strong class="text-emerald-400">Livre</strong></span>
+</div>
+</div>
+</section>
+<!-- Right Column (~65% -> col-span-8) -->
+<section class="col-span-8 flex flex-col space-y-6">
+<!-- Action Buttons Row (D-Pad Primary Focus Point) -->
+<div class="flex items-center gap-5">
+<!-- Primary CTA Button: 'Instalar' (Default active/focused remote item) -->
+<button autofocus="" class="focus-glow-cyan transform scale-105 group relative flex items-center justify-center gap-3.5 px-9 py-4 rounded-xl bg-gradient-to-r from-primary-container via-[#5b2bd9] to-secondary-container text-white font-label-lg text-label-lg font-bold border-2 border-secondary-container transition-all duration-200 focus:outline-none focus:scale-108 active:scale-100" tabindex="2">
+<span class="material-symbols-outlined text-24px group-hover:animate-bounce">download</span>
+<span class="tracking-wide">Instalar</span>
+</button>
+<!-- Secondary Button: 'Mais informações' -->
+<button class="group flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl bg-surface-container-low border border-outline-variant/40 text-on-surface font-label-lg text-label-lg font-semibold hover:bg-surface-container-high focus:outline-none focus:border-secondary-container focus:text-secondary focus:scale-105 focus:shadow-[0_0_20px_rgba(0,229,255,0.45)] transition-all duration-200" tabindex="3">
+<span class="material-symbols-outlined text-on-surface-variant group-focus:text-secondary text-22px">info</span>
+<span>Mais informações</span>
+</button>
+<!-- Tertiary Aux Button: Favoritos -->
+<button class="p-4 rounded-xl bg-surface-container-low border border-outline-variant/40 text-on-surface-variant hover:text-on-surface focus:outline-none focus:border-secondary-container focus:text-secondary focus:scale-105 focus:shadow-[0_0_20px_rgba(0,229,255,0.45)] transition-all duration-200" tabindex="4">
+<span class="material-symbols-outlined text-24px">bookmark_border</span>
+</button>
+</div>
+<!-- Section: Capturas de Tela (Horizontal Shelf for Remote Navigation) -->
+<div class="space-y-3 pt-2">
+<div class="flex justify-between items-center">
+<h2 class="font-title-lg text-title-lg text-on-surface tracking-wide flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-22px">photo_library</span>
+              Capturas de Tela
+            </h2>
+<span class="font-caption text-caption text-on-surface-variant uppercase tracking-wider">3 Imagens em 4K HDR</span>
+</div>
+<!-- Screenshots Carousel Row -->
+<div class="grid grid-cols-3 gap-card-gap pt-1 pb-2">
+<!-- Screen 1: Active TV Focus Highlighted -->
+<div class="relative group aspect-video rounded-xl overflow-hidden bg-surface-container-high border-[3px] border-secondary-container scale-[1.03] shadow-[0_0_25px_rgba(0,229,255,0.45),0_0_45px_rgba(108,59,244,0.30)] cursor-pointer focus:outline-none focus:scale-108 transition-all duration-200" tabindex="5">
+<img class="w-full h-full object-cover" data-alt="Wide television screen capture of the Kodi Media Center interface showing an ultra-vibrant movie poster wall in dark mode. Glowing blue highlights outline selected digital media tiles with cinema art covers against an elegant obsidian black living room media UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBf7pbbVTBy1-HJe1J4j00fO3Oz9dAJdpYYr2Bk10owHzzlGcU4P7K3pwSkA4CzoRbUlvRnRmzWNoqAwQaB6QGktfmwFVATZu5xcSfJQpmQhKYhW4eEqx8CaBkutqazjX--jHU3mageOA0BuY0KpiO48W0NFad-Zfsf-laanzy9_fPTPzeyioouERfMVWbtaUAuZtNwd--VSZTseUVLnw9dC5JwYtK6s0A03dI-sr0akBuPox_M6GpJ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-2.5">
+<span class="font-caption text-caption text-secondary font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-16px" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+                  Biblioteca de Cinema 4K
+                </span>
+</div>
+</div>
+<!-- Screen 2: Unfocused state -->
+<div class="relative group aspect-video rounded-xl overflow-hidden bg-surface-container-high border border-outline-variant/30 opacity-80 hover:opacity-100 hover:scale-105 focus:scale-108 focus:border-secondary-container focus:opacity-100 focus:outline-none focus:shadow-[0_0_25px_rgba(0,229,255,0.45)] transition-all duration-200 cursor-pointer" tabindex="6">
+<img class="w-full h-full object-cover" data-alt="A clean widescreen television dashboard of the Kodi Media Center music playback player. The UI displays rotating vinyl album artwork, atmospheric purple equalizer frequency visualizer waves, and track details designed for lean-back home theater listening." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7z8LRKjTtWuKcS8ls_46tdgo_vsISsUOZKR0_HJOtwdVHjJrvFy9Cgo2XmoQ7QyXrFHEXQXuw-CFvA2Q5PukIG7g0zmvgj1P9xIXpFq57dsALNFLPvKpBulAz09GLXYdgidkFUQqq3kIZkdiFJj9ueKFPmfp2MIRG9Dk-r-25Eb4UBB1x-2KHpWIRKJUrWk7n3FmHziUPMP53EusOjsbsoEw4A7F90WajS3ZFvJbxbuCoJMumV2TP"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-2.5">
+<span class="font-caption text-caption text-on-surface font-medium">Reprodutor de Áudio Hi-Res</span>
+</div>
+</div>
+<!-- Screen 3: Unfocused state -->
+<div class="relative group aspect-video rounded-xl overflow-hidden bg-surface-container-high border border-outline-variant/30 opacity-80 hover:opacity-100 hover:scale-105 focus:scale-108 focus:border-secondary-container focus:opacity-100 focus:outline-none focus:shadow-[0_0_25px_rgba(0,229,255,0.45)] transition-all duration-200 cursor-pointer" tabindex="7">
+<img class="w-full h-full object-cover" data-alt="Television screenshot showing the Kodi settings and local network add-on browser interface. The display features clean modern grids, electric cyan navigation icons, server storage status meters, and sleek dark aesthetic glassmorphic panels." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYu9xXnX10cU-cQDvFA-M2aDY9Om1xgO6iqaLfNYM2CWDfCHAXklDsHg9oRpcT_ulJ_gJipq66ryu3qQG-CnNNiAPcz56wzjxHEIHlRjxRfWAbs32D19aTATHkVrJG_AQtIyeXaod5qzz1jHQVdYqi8-xAiPaHqbJAnvU-Un8kOiPayRpog_c0Nunkvy28cVKyIE5iapHw-roMw6rJCvfDeCwiAUao9HTVcNNxbta2vprRXN_FCx15"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-2.5">
+<span class="font-caption text-caption text-on-surface font-medium">Add-ons &amp; Streaming Local</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Sobre este aplicativo -->
+<div class="space-y-2 pt-1">
+<h2 class="font-title-lg text-title-lg text-on-surface tracking-wide flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-22px">notes</span>
+            Sobre este aplicativo
+          </h2>
+<div class="bg-surface-container-low/70 border border-outline-variant/20 rounded-xl p-4 text-on-surface-variant leading-relaxed">
+<p class="font-body-lg text-body-lg text-on-surface/90">
+              O Kodi é um reprodutor de mídia livre e de código aberto premiado para centros de entretenimento digital de sala de estar. Compatível com formatos 4K HDR, Dolby Atmos e plugins de rede local.
+            </p>
+<div class="mt-3 flex items-center gap-6 pt-2 border-t border-outline-variant/15 font-caption text-caption text-on-surface-variant">
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-16px text-secondary">check_circle</span> Áudio Passthrough TrueHD</span>
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-16px text-secondary">check_circle</span> Decodificação AV1 &amp; HEVC por Hardware</span>
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-16px text-secondary">check_circle</span> Suporte a Controles Gamepad</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- TV Remote Control Navigation Helper Hints Bar -->
+<footer class="w-full flex justify-between items-center pt-3 border-t border-outline-variant/15 text-on-surface-variant font-caption text-caption flex-shrink-0">
+<div class="flex items-center gap-6">
+<span class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-bold text-[11px] border border-outline-variant/40">D-PAD</span>
+          Navegar
+        </span>
+<span class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary font-bold text-[11px]">OK</span>
+          Selecionar
+        </span>
+<span class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-bold text-[11px] border border-outline-variant/40">VOLTAR</span>
+          Retornar à Loja
+        </span>
+</div>
+<div class="flex items-center gap-2 text-outline">
+<span>Segurança verificada por IntraStore Protect</span>
+<span class="material-symbols-outlined text-18px text-emerald-400" style="font-variation-settings: 'FILL' 1;">gshield</span>
+</div>
+</footer>
+</div>
+<!-- Micro-interaction JS for remote d-pad feel simulator -->
+<script>
+    document.addEventListener('keydown', (e) => {
+      const focusables = Array.from(document.querySelectorAll('button, [tabindex]:not([tabindex="-1"])'));
+      const currentIndex = focusables.indexOf(document.activeElement);
+      
+      if (e.key === 'ArrowRight' && currentIndex < focusables.length - 1) {
+        focusables[currentIndex + 1].focus();
+      } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
+        focusables[currentIndex - 1].focus();
+      }
+    });
+  </script>
+</body></html>

@@ -1,0 +1,134 @@
+/* IntraStore TV - Painel Administrativo Cyber Dark */
+:root {
+  --bg-main: #0c0c10;
+  --bg-card: #15151c;
+  --bg-card-hover: #1c1c26;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-glow: rgba(0, 229, 255, 0.4);
+  --purple-main: #6c3bf4;
+  --cyan-main: #00e5ff;
+}
+
+body {
+  background-color: var(--bg-main);
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(108, 59, 244, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(0, 229, 255, 0.08) 0%, transparent 40%);
+  background-attachment: fixed;
+}
+
+/* Glassmorphism Cards */
+.glass-panel {
+  background: rgba(21, 21, 28, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+}
+
+.glass-panel:hover {
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+/* Efeito Glow */
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.35);
+}
+
+.glow-purple {
+  box-shadow: 0 0 20px rgba(108, 59, 244, 0.35);
+}
+
+/* Dropzone */
+.dropzone {
+  border: 2px dashed rgba(255, 255, 255, 0.15);
+  transition: all 0.2s ease;
+}
+
+.dropzone.dragover {
+  border-color: var(--cyan-main);
+  background: rgba(0, 229, 255, 0.05);
+}
+
+/* Scrollbar fina */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #121216;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a36;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3e3e50;
+}
+
+/* Animações e Estilos Refinados de Modais */
+.modal-backdrop {
+  opacity: 0;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.modal-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content-card {
+  transform: scale(0.94) translateY(12px);
+  opacity: 0;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-backdrop.active .modal-content-card {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+/* Toast Notification animations & countdown bar */
+@keyframes toastSlideIn {
+  from {
+    transform: translateX(120%) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes toastSlideOut {
+  from {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(120%) scale(0.9);
+    opacity: 0;
+  }
+}
+
+.toast-animate-in {
+  animation: toastSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.toast-animate-out {
+  animation: toastSlideOut 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.toast-progress-bar {
+  animation: toastCountdown linear forwards;
+}
+
+@keyframes toastCountdown {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+

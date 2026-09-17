@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<title>IntraStore TV - Android TV Leanback OS</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- Google Fonts & Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&family=Space+Grotesk:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with CDN Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration verbatim as specified -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary-container": "#00616d",
+            "on-error-container": "#ffdad6",
+            "on-primary-fixed": "#1f0060",
+            "on-primary-fixed-variant": "#4d00d2",
+            "error": "#ffb4ab",
+            "inverse-surface": "#e5e2e1",
+            "surface-tint": "#ccbeff",
+            "surface-container-lowest": "#0e0e0e",
+            "on-surface": "#e5e2e1",
+            "surface-container-low": "#1c1b1b",
+            "surface-container-high": "#2a2a2a",
+            "on-tertiary-fixed-variant": "#793100",
+            "secondary-fixed-dim": "#00daf3",
+            "tertiary-fixed-dim": "#ffb691",
+            "tertiary-fixed": "#ffdbcb",
+            "surface-container-highest": "#353534",
+            "surface-variant": "#353534",
+            "outline-variant": "#494456",
+            "outline": "#948ea2",
+            "surface": "#131313",
+            "tertiary": "#ffb691",
+            "secondary": "#bdf4ff",
+            "background": "#131313",
+            "inverse-primary": "#6632ee",
+            "on-tertiary": "#552000",
+            "on-tertiary-fixed": "#341100",
+            "surface-container": "#201f1f",
+            "on-surface-variant": "#cac3d9",
+            "primary-container": "#6c3bf4",
+            "on-tertiary-container": "#ffdbca",
+            "on-secondary-fixed-variant": "#004f58",
+            "inverse-on-surface": "#313030",
+            "secondary-container": "#00e3fd",
+            "on-background": "#e5e2e1",
+            "primary-fixed-dim": "#ccbeff",
+            "secondary-fixed": "#9cf0ff",
+            "primary-fixed": "#e7deff",
+            "surface-bright": "#393939",
+            "on-secondary": "#00363d",
+            "primary": "#ccbeff",
+            "surface-dim": "#131313",
+            "on-secondary-fixed": "#001f24",
+            "on-error": "#690005",
+            "on-primary-container": "#e7deff",
+            "error-container": "#93000a",
+            "on-primary": "#350097",
+            "tertiary-container": "#a84700"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "rail-width-collapsed": "6rem",
+            "card-gap": "1.5rem",
+            "space-md": "1rem",
+            "gutter-shelf": "1.75rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2rem",
+            "space-xs": "0.5rem",
+            "space-2xl": "3rem",
+            "tv-safe-y": "3.5rem",
+            "space-sm": "0.75rem",
+            "rail-width-expanded": "18rem",
+            "tv-safe-x": "5rem"
+          },
+          "fontFamily": {
+            "title-lg": ["Plus Jakarta Sans"],
+            "caption": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "headline-lg": ["Space Grotesk"],
+            "headline-xl": ["Space Grotesk"],
+            "display-hero": ["Space Grotesk"],
+            "headline-md": ["Space Grotesk"],
+            "label-lg": ["Space Grotesk"],
+            "body-md": ["Plus Jakarta Sans"],
+            "label-md": ["Space Grotesk"]
+          },
+          "fontSize": {
+            "title-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+            "caption": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+            "title-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "headline-lg": ["36px", { "lineHeight": "44px", "fontWeight": "600" }],
+            "headline-xl": ["48px", { "lineHeight": "56px", "fontWeight": "700" }],
+            "display-hero": ["64px", { "lineHeight": "72px", "fontWeight": "700" }],
+            "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+            "label-lg": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 24px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* Ambient TV Lighting Glows */
+    .tv-ambient-hero {
+      background: radial-gradient(circle at 80% 10%, rgba(108, 59, 244, 0.28) 0%, rgba(0, 229, 255, 0.08) 35%, rgba(19, 19, 19, 0) 75%);
+    }
+    .neon-focus-glow {
+      box-shadow: 0 0 25px rgba(0, 229, 255, 0.65), 0 0 45px rgba(108, 59, 244, 0.35);
+    }
+    /* Hide scrollbars for cinematic 10-foot feel */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    * {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface w-screen h-screen overflow-hidden select-none font-body-md relative">
+<!-- Dynamic Ambient Background Glow -->
+<div class="tv-ambient-hero absolute inset-0 pointer-events-none z-0"></div>
+<!-- SHARED COMPONENT: SideNavBar (Rail docked full-height left-0) -->
+<!-- Intent: Home destination active -->
+<aside class="fixed left-0 top-0 h-full z-50 flex flex-col justify-between py-tv-safe-y px-4 w-rail-width-collapsed focus-within:w-rail-width-expanded hover:w-rail-width-expanded transition-all duration-300 bg-surface-container-low border-r border-outline-variant/20 shadow-2xl group">
+<!-- Top Branding Icon in SideNav -->
+<div class="flex items-center gap-4 px-2 overflow-hidden">
+<div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(108,59,244,0.5)]">
+<span class="material-symbols-outlined text-secondary-container" data-icon="tv">tv</span>
+</div>
+<div class="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200 whitespace-nowrap">
+<div class="font-headline-md text-headline-md font-bold text-primary leading-tight">IntraStore TV</div>
+<div class="font-caption text-caption text-on-surface-variant">Android TV Store</div>
+</div>
+</div>
+<!-- Navigation Tabs from JSON (Active: Home) -->
+<nav aria-label="Primary Navigation" class="flex flex-col gap-2 w-full my-auto">
+<!-- 1. Home (ACTIVE) -->
+<button class="flex items-center gap-4 text-secondary font-label-lg border-l-4 border-secondary-container pl-3 py-3 w-full text-left rounded-r-lg bg-surface-container/50 focus:scale-105 focus:border-secondary-container focus:text-secondary focus:shadow-[0_0_20px_rgba(0,229,255,0.45)] hover:bg-surface-container-high transition-all duration-200 outline-none" tabindex="0">
+<span class="material-symbols-outlined text-secondary-container flex-shrink-0" data-icon="home" data-weight="fill" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200 whitespace-nowrap font-label-lg text-label-lg">Home</span>
+</button>
+<!-- 2. Apps -->
+<button class="flex items-center gap-4 text-on-surface-variant font-label-lg pl-4 py-3 w-full text-left rounded-lg hover:bg-surface-container-high hover:text-on-surface focus:scale-105 focus:border-secondary-container focus:text-secondary focus:shadow-[0_0_20px_rgba(0,229,255,0.45)] transition-all duration-200 outline-none" tabindex="0">
+<span class="material-symbols-outlined flex-shrink-0" data-icon="apps">apps</span>
+<span class="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200 whitespace-nowrap font-label-lg text-label-lg">Apps</span>
+</button>
+<!-- 3. Games -->
+<button class="flex items-center gap-4 text-on-surface-variant font-label-lg pl-4 py-3 w-full text-left rounded-lg hover:bg-surface-container-high hover:text-on-surface focus:scale-105 focus:border-secondary-container focus:text-secondary focus:shadow-[0_0_20px_rgba(0,229,255,0.45)] transition-all duration-200 outline-none" tabindex="0">
+<span class="material-symbols-outlined flex-shrink-0" data-icon="sports_esports">sports_esports</span>
+<span class="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200 whitespace-nowrap font-label-lg text-label-lg">Games</span>
+</button>
+<!-- 4. Search -->
+<button class="flex items-center gap-4 text-on-surface-variant font-label-lg pl-4 py-3 w-full text-left rounded-lg hover:bg-surface-container-high hover:text-on-surface focus:scale-105 focus:border-secondary-container focus:text-secondary focus:shadow-[0_0_20px_rgba(0,229,255,0.45)] transition-all duration-200 outline-none" tabindex="0">
+<span class="material-symbols-outlined flex-shrink-0" data-icon="search">search</span>
+<span class="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200 whitespace-nowrap font-label-lg text-label-lg">Search</span>
+</button>
+<!-- 5. Settings -->
+<button class="flex items-center gap-4 text-on-surface-variant font-label-lg pl-4 py-3 w-full text-left rounded-lg hover:bg-surface-container-high hover:text-on-surface focus:scale-105 focus:border-secondary-container focus:text-secondary focus:shadow-[0_0_20px_rgba(0,229,255,0.45)] transition-all duration-200 outline-none" tabindex="0">
+<span class="material-symbols-outlined flex-shrink-0" data-icon="settings">settings</span>
+<span class="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200 whitespace-nowrap font-label-lg text-label-lg">Settings</span>
+</button>
+</nav>
+<!-- Footer: Exit -->
+<div class="w-full">
+<button class="flex items-center gap-4 text-on-surface-variant font-label-lg pl-4 py-3 w-full text-left rounded-lg hover:bg-surface-container-high hover:text-on-surface focus:scale-105 focus:text-error focus:shadow-[0_0_20px_rgba(255,180,171,0.4)] transition-all duration-200 outline-none" tabindex="0">
+<span class="material-symbols-outlined flex-shrink-0 text-error" data-icon="power_settings_new">power_settings_new</span>
+<span class="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200 whitespace-nowrap font-label-lg text-label-lg text-error">Exit</span>
+</button>
+</div>
+</aside>
+<!-- SHARED COMPONENT: TopNavBar (Leanback Top Status Bar) -->
+<header class="fixed top-0 left-0 right-0 z-40 flex justify-between items-center px-tv-safe-x pt-tv-safe-y pb-space-md w-full pointer-events-none">
+<!-- Left Branding Anchor -->
+<div class="flex items-center gap-4 pl-rail-width-collapsed pointer-events-auto">
+<span class="text-headline-md font-headline-md font-bold bg-gradient-to-r from-primary via-secondary to-secondary-container bg-clip-text text-transparent tracking-tight">
+        IntraStore TV
+      </span>
+<span class="hidden md:inline-block px-2.5 py-0.5 rounded-full bg-surface-container-high border border-outline-variant/30 text-secondary text-caption font-caption tracking-wider font-semibold">
+        ANDROID 14 TV
+      </span>
+</div>
+<!-- Right TV Indicators (Time + Settings with Cyan Focus) -->
+<div class="flex items-center gap-6 pointer-events-auto pr-2">
+<!-- Digital Clock 20:45 -->
+<div class="flex items-center gap-2 text-on-surface bg-surface-container-low/80 backdrop-blur-md px-4 py-1.5 rounded-full border border-outline-variant/20 shadow-md">
+<span class="material-symbols-outlined text-secondary text-body-md" data-icon="access_time">access_time</span>
+<span class="font-headline-md text-title-md font-bold tracking-wider text-on-surface" id="leanback-clock">20:45</span>
+</div>
+<!-- Quick Action: Settings with Cyan Focus Glow -->
+<button class="w-11 h-11 rounded-full bg-surface-container-low border border-outline-variant/30 flex items-center justify-center text-on-surface-variant hover:text-on-surface focus:scale-105 focus:text-secondary focus:border-secondary-container focus:shadow-[0_0_20px_rgba(0,229,255,0.6)] outline-none transition-all duration-200" tabindex="0" title="Configurações">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<!-- Profile Avatar -->
+<div class="w-11 h-11 rounded-full overflow-hidden border-2 border-primary-container p-0.5 bg-surface-container">
+<img class="w-full h-full object-cover rounded-full" data-alt="Stylized glowing cybernetic avatar profile picture rendered with neon ambient backlighting, deep purple and electric cyan accents, designed for a 10-foot smart television user interface profile display." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCU9_gh8SIjwthUXnvy12YoGOeojz2gZW4e1AjoQhnX6XbQo8479ECp2NQ3a0FYo3z7MVad8GEmCaktVk-v2TWaCXao7fL6EKrLOk_mPtJKxIONzYqH2fj22hglwk6hYPhGnefGpsn1aXAepcGuzmc8hmfDEDijwgo4XpX-LR6d9_cG6L8v5O9Qdues4cL3eIG4ZLZ8n437ODvToN37OyxyWOOEzSrx_5ltQjlj2MrcftxYJFs2QT_H"/>
+</div>
+</div>
+</header>
+<!-- MAIN LEANBACK CONTENT CANVAS (Adjusted for TV safe zones & left navigation rail) -->
+<main class="w-full h-full overflow-y-auto pt-[7.5rem] pb-tv-safe-y pl-[7.5rem] pr-tv-safe-x flex flex-col gap-space-2xl z-10 relative focus:outline-none" tabindex="-1">
+<!-- ==========================================
+         SECTION 1 - 'Destaques' (Featured Apps)
+         3 Large Wide Banner Cards (~16:9)
+         1st Card in Active D-Pad Focus State
+         ========================================== -->
+<section aria-labelledby="section-destaques" class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="w-2 h-6 bg-secondary-container rounded-full shadow-[0_0_10px_rgba(0,229,255,0.8)]"></span>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight" id="section-destaques">Destaques</h2>
+</div>
+<span class="font-caption text-caption text-on-surface-variant tracking-widest font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-caption text-secondary" data-icon="swipe_left">swipe_left</span> SELEÇÃO DOS EDITORES
+        </span>
+</div>
+<!-- Horizontal Carousel of 3 Featured Cards -->
+<div class="grid grid-cols-3 gap-card-gap items-center py-2 px-1">
+<!-- CARD 1: Focused State (scale-105, border-cyan-400 / secondary-container, neon bloom glow) -->
+<div class="group relative rounded-xl overflow-hidden bg-surface-container-high border-[3px] border-secondary-container neon-focus-glow scale-105 transition-all duration-200 cursor-pointer aspect-video flex flex-col justify-end p-space-lg outline-none" tabindex="0">
+<!-- Background Artwork -->
+<div class="absolute inset-0 z-0 bg-cover bg-center" data-alt="Cinematic high resolution screenshot of Kodi Media Center 4K running on an Android television in a dark living room environment, featuring holographic entertainment UI widgets, neon cyan ambient illumination, and cinematic purple lighting reflections." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBHcXqEv1OPfvwDswxG1QG7GIPLjHTdFLOzw2XtvmSHbK0Q6XVlGbkFnwxrf4UM6AIV_GDryhvFemb32qK23NLvlgVz_qoamJ_ouZXcY2cby1VwUfc1X9GM0cJct97MkJ5rkY_3HhXsRtRY-ceA5c_QWXZC8jB_aVYX-y3qy-76SHjgdXJZs8Icw2G7yxGbZfNZlrDnTOhMZZNqqynLaqAceZm_j4Up8N3rCo_R2VvEkKicGRAxS-iS')"></div>
+<!-- Dark Bottom Gradient & Scrim -->
+<div class="absolute inset-0 bg-gradient-to-t from-background via-surface-container-lowest/80 to-transparent z-10"></div>
+<!-- Top-Right Badge: NOVO (Vibrant Green) -->
+<div class="absolute top-4 right-4 z-20">
+<span class="px-3 py-1 rounded-md bg-emerald-500 text-surface-container-lowest font-headline-md text-label-md font-bold tracking-wider shadow-lg flex items-center gap-1">
+<span class="material-symbols-outlined text-label-md" data-icon="bolt">bolt</span> NOVO
+            </span>
+</div>
+<!-- Bottom Meta Content -->
+<div class="relative z-20 flex flex-col gap-1.5">
+<div class="flex items-center gap-2">
+<span class="text-secondary font-label-md text-label-md font-bold tracking-wide uppercase">STREAMING & 4K</span>
+<span class="text-outline-variant">•</span>
+<span class="text-on-surface-variant text-caption font-caption flex items-center gap-1">
+<span class="material-symbols-outlined text-caption text-amber-400" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span> 4.8
+              </span>
+</div>
+<h3 class="text-headline-md font-headline-md font-bold text-on-surface group-hover:text-secondary-fixed transition-colors">
+              Kodi Media Center
+            </h3>
+<p class="text-on-surface-variant font-body-md text-body-md line-clamp-1">
+              Central multimídia de código aberto com suporte total a reprodução HDR e som surround Dolby Atmos.
+            </p>
+</div>
+</div>
+<!-- CARD 2: Resting State - RetroArch Gaming -->
+<div class="group relative rounded-xl overflow-hidden bg-surface-container-low border border-outline-variant/30 hover:border-secondary-container hover:scale-105 hover:neon-focus-glow focus:scale-105 focus:border-[3px] focus:border-secondary-container focus:neon-focus-glow transition-all duration-200 cursor-pointer aspect-video flex flex-col justify-end p-space-lg outline-none" tabindex="0">
+<!-- Background Artwork -->
+<div class="absolute inset-0 z-0 bg-cover bg-center" data-alt="Vibrant futuristic retro-gaming arcade screen displaying modular console emulation graphics, with neon purple laser scanlines, pixel art aesthetic, cyber cyan grid lines, and moody dark studio environment lighting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAL6CEN-ObVTF0YpcMxo0-oP-sTPCEsVwqJxeuCRbKDDeWU3l0NIUMuX_yMyXlzzeeCyY9l4lk0OnDWd-0SAM00MXO_H86a4YrOV0sfPMGnbNNmMUdXP5VCUhUBy68_ZhlbTQEVgJM7kkSFVBWub04e9fbkAvilJlr_1fcLJXTUOcPF5zQ_VNz2IvoHLwE7230MFB0bgFQmob2DuxputYU9oYd_3as6PiqgInQRId1VxEYPVQOZ-5WG')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-surface-container-lowest/80 to-transparent z-10"></div>
+<!-- Top-Right Badge: ATUALIZADO (Vibrant Amber/Orange) -->
+<div class="absolute top-4 right-4 z-20">
+<span class="px-3 py-1 rounded-md bg-tertiary text-on-tertiary-fixed font-headline-md text-label-md font-bold tracking-wider shadow-lg flex items-center gap-1">
+<span class="material-symbols-outlined text-label-md" data-icon="update">update</span> ATUALIZADO
+            </span>
+</div>
+<!-- Bottom Meta Content -->
+<div class="relative z-20 flex flex-col gap-1.5">
+<div class="flex items-center gap-2">
+<span class="text-secondary font-label-md text-label-md font-bold tracking-wide uppercase">EMULADORES & RETRO</span>
+<span class="text-outline-variant">•</span>
+<span class="text-on-surface-variant text-caption font-caption flex items-center gap-1">
+<span class="material-symbols-outlined text-caption text-amber-400" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span> 4.9
+              </span>
+</div>
+<h3 class="text-headline-md font-headline-md font-bold text-on-surface">
+              RetroArch Gaming
+            </h3>
+<p class="text-on-surface-variant font-body-md text-body-md line-clamp-1">
+              Frontend tudo-em-um para emuladores, motores de jogos clássicos e suporte nativo a controles Bluetooth.
+            </p>
+</div>
+</div>
+<!-- CARD 3: Resting State - VLC TV -->
+<div class="group relative rounded-xl overflow-hidden bg-surface-container-low border border-outline-variant/30 hover:border-secondary-container hover:scale-105 hover:neon-focus-glow focus:scale-105 focus:border-[3px] focus:border-secondary-container focus:neon-focus-glow transition-all duration-200 cursor-pointer aspect-video flex flex-col justify-end p-space-lg outline-none" tabindex="0">
+<!-- Background Artwork -->
+<div class="absolute inset-0 z-0 bg-cover bg-center" data-alt="Sleek media streaming living room television playback interface displaying an action cinematic movie trailer, framed with dark obsidian glassmorphism cards and neon cyan accent overlays." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDgeoA9WN92VVwn5lbcMJTYjTD_GmMQPONi_vOzGABAPVdYdSDkqlP0b7kkacIgRnB4iBBiHHb2irVXEqoMn59WOH6d8bJCiT9TCDpq5UcSNbp1wnsk_w1TBYybSa_LaRn6Ax3E0_whXETXg64iLA4P5If73yBP_uJxLY24XotCZTI_LdzkrRVZmNBUStEIimSN1VKJpLsyNcFH1rWc08I2u-YscUvGIPk-cfM6kvWo-fJlbpvCqnvN')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-surface-container-lowest/80 to-transparent z-10"></div>
+<!-- Top-Right Badge: ATUALIZADO -->
+<div class="absolute top-4 right-4 z-20">
+<span class="px-3 py-1 rounded-md bg-tertiary-container text-on-tertiary-container font-headline-md text-label-md font-bold tracking-wider shadow-lg flex items-center gap-1">
+<span class="material-symbols-outlined text-label-md" data-icon="verified">verified</span> DESTAQUE
+            </span>
+</div>
+<!-- Bottom Meta Content -->
+<div class="relative z-20 flex flex-col gap-1.5">
+<div class="flex items-center gap-2">
+<span class="text-secondary font-label-md text-label-md font-bold tracking-wide uppercase">REPRODUTOR DE VÍDEO</span>
+<span class="text-outline-variant">•</span>
+<span class="text-on-surface-variant text-caption font-caption flex items-center gap-1">
+<span class="material-symbols-outlined text-caption text-amber-400" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span> 4.7
+              </span>
+</div>
+<h3 class="text-headline-md font-headline-md font-bold text-on-surface">
+              VLC TV
+            </h3>
+<p class="text-on-surface-variant font-body-md text-body-md line-clamp-1">
+              Compatibilidade universal de codecs locais, legendas dinâmicas e streaming direto por rede local SMB/DLNA.
+            </p>
+</div>
+</div>
+</div>
+</section>
+<!-- ==========================================
+         SECTION 2 - 'Categorias'
+         Row of 4 Interactive Category Pill Cards
+         1. Jogos 2. Utilidades 3. Mídia 4. Educação
+         ========================================== -->
+<section aria-labelledby="section-categorias" class="flex flex-col gap-space-md">
+<div class="flex items-center gap-3">
+<span class="w-2 h-6 bg-primary rounded-full shadow-[0_0_10px_rgba(108,59,244,0.8)]"></span>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight" id="section-categorias">Categorias</h2>
+</div>
+<div class="grid grid-cols-4 gap-card-gap py-1">
+<!-- Pill 1: Jogos -->
+<button class="group flex items-center gap-4 px-6 py-4 rounded-xl bg-surface-container border border-outline-variant/30 hover:border-secondary-container hover:bg-surface-container-high focus:border-[3px] focus:border-secondary-container focus:scale-105 focus:neon-focus-glow transition-all duration-200 outline-none cursor-pointer" tabindex="0">
+<div class="w-12 h-12 rounded-lg bg-primary-container/40 flex items-center justify-center text-secondary group-focus:bg-secondary-container group-focus:text-on-secondary transition-colors">
+<span class="material-symbols-outlined text-title-lg" data-icon="sports_esports">sports_esports</span>
+</div>
+<div class="flex flex-col text-left">
+<span class="font-title-md text-title-md font-bold text-on-surface group-focus:text-secondary transition-colors">Jogos</span>
+<span class="font-caption text-caption text-on-surface-variant">142 títulos</span>
+</div>
+</button>
+<!-- Pill 2: Utilidades -->
+<button class="group flex items-center gap-4 px-6 py-4 rounded-xl bg-surface-container border border-outline-variant/30 hover:border-secondary-container hover:bg-surface-container-high focus:border-[3px] focus:border-secondary-container focus:scale-105 focus:neon-focus-glow transition-all duration-200 outline-none cursor-pointer" tabindex="0">
+<div class="w-12 h-12 rounded-lg bg-primary-container/40 flex items-center justify-center text-secondary group-focus:bg-secondary-container group-focus:text-on-secondary transition-colors">
+<span class="material-symbols-outlined text-title-lg" data-icon="build">build</span>
+</div>
+<div class="flex flex-col text-left">
+<span class="font-title-md text-title-md font-bold text-on-surface group-focus:text-secondary transition-colors">Utilidades</span>
+<span class="font-caption text-caption text-on-surface-variant">89 ferramentas</span>
+</div>
+</button>
+<!-- Pill 3: Mídia -->
+<button class="group flex items-center gap-4 px-6 py-4 rounded-xl bg-surface-container border border-outline-variant/30 hover:border-secondary-container hover:bg-surface-container-high focus:border-[3px] focus:border-secondary-container focus:scale-105 focus:neon-focus-glow transition-all duration-200 outline-none cursor-pointer" tabindex="0">
+<div class="w-12 h-12 rounded-lg bg-primary-container/40 flex items-center justify-center text-secondary group-focus:bg-secondary-container group-focus:text-on-secondary transition-colors">
+<span class="material-symbols-outlined text-title-lg" data-icon="play_circle">play_circle</span>
+</div>
+<div class="flex flex-col text-left">
+<span class="font-title-md text-title-md font-bold text-on-surface group-focus:text-secondary transition-colors">Mídia</span>
+<span class="font-caption text-caption text-on-surface-variant">210 reprodutores</span>
+</div>
+</button>
+<!-- Pill 4: Educação -->
+<button class="group flex items-center gap-4 px-6 py-4 rounded-xl bg-surface-container border border-outline-variant/30 hover:border-secondary-container hover:bg-surface-container-high focus:border-[3px] focus:border-secondary-container focus:scale-105 focus:neon-focus-glow transition-all duration-200 outline-none cursor-pointer" tabindex="0">
+<div class="w-12 h-12 rounded-lg bg-primary-container/40 flex items-center justify-center text-secondary group-focus:bg-secondary-container group-focus:text-on-secondary transition-colors">
+<span class="material-symbols-outlined text-title-lg" data-icon="school">school</span>
+</div>
+<div class="flex flex-col text-left">
+<span class="font-title-md text-title-md font-bold text-on-surface group-focus:text-secondary transition-colors">Educação</span>
+<span class="font-caption text-caption text-on-surface-variant">54 cursos & apps</span>
+</div>
+</button>
+</div>
+</section>
+<!-- ==========================================
+         SECTION 3 - 'Todos os Aplicativos'
+         Row of Standard TV App Cards (~190x230dp)
+         App Icon (100x100), Title, Rating Badge
+         ========================================== -->
+<section aria-labelledby="section-todos" class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="w-2 h-6 bg-secondary rounded-full shadow-[0_0_10px_rgba(0,229,255,0.8)]"></span>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight" id="section-todos">Todos os Aplicativos</h2>
+</div>
+<button class="font-label-md text-label-md text-secondary hover:text-secondary-fixed transition-colors flex items-center gap-1 focus:outline-none focus:underline" tabindex="0">
+          Ver Coleção Completa <span class="material-symbols-outlined text-label-md" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Grid/Row of Standard App Cards (5 items) -->
+<div class="grid grid-cols-5 gap-card-gap py-2 px-1">
+<!-- App 1: Kodi Media Center (4.8) -->
+<div class="group flex flex-col items-center text-center p-5 rounded-xl bg-surface-container border border-outline-variant/20 hover:border-secondary-container hover:bg-surface-container-high focus:border-[3px] focus:border-secondary-container focus:scale-105 focus:neon-focus-glow transition-all duration-200 outline-none cursor-pointer" tabindex="0">
+<div class="w-24 h-24 rounded-2xl overflow-hidden bg-surface-container-lowest shadow-lg mb-4 p-2 flex items-center justify-center border border-outline-variant/30 group-focus:border-secondary transition-colors">
+<img class="w-full h-full object-cover rounded-xl" data-alt="Minimalist modern app icon for Kodi Media Center on Android TV, featuring cyan blue geometric diamond logo with dark slate backdrop, vector aesthetic, high contrast." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlnt-b8FDlLXTBxOLIF1MUchAE1eW4Rd4UlKxDasTghObBlIihSK9NZBpGz7GRWd4A_50jZVEFtWxLY6FnT7OIlybwHf6WkGK5NMSx3CtcFDnjnZ4VIVCaRE4EJAHVSC1FkSryRhZvonzVyDt-aNVvStl7YbQtVa8B9ApJ5d6e-NP9dXubY6e6FbxeqabvawE88W4B3JjQerSNqa4ohWjmB5oGgUcT_YPkXPa5UabQU0qK9Y5d8NbF"/>
+</div>
+<h4 class="font-title-md text-title-md font-bold text-on-surface truncate w-full group-focus:text-secondary transition-colors">
+            Kodi Media Center
+          </h4>
+<span class="font-caption text-caption text-on-surface-variant mt-0.5">Multimídia</span>
+<div class="mt-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high border border-outline-variant/30">
+<span class="material-symbols-outlined text-caption text-amber-400" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">4.8</span>
+</div>
+</div>
+<!-- App 2: RetroArch (4.9) -->
+<div class="group flex flex-col items-center text-center p-5 rounded-xl bg-surface-container border border-outline-variant/20 hover:border-secondary-container hover:bg-surface-container-high focus:border-[3px] focus:border-secondary-container focus:scale-105 focus:neon-focus-glow transition-all duration-200 outline-none cursor-pointer" tabindex="0">
+<div class="w-24 h-24 rounded-2xl overflow-hidden bg-surface-container-lowest shadow-lg mb-4 p-2 flex items-center justify-center border border-outline-variant/30 group-focus:border-secondary transition-colors">
+<img class="w-full h-full object-cover rounded-xl" data-alt="Square modern TV app icon for RetroArch featuring an iconic neon purple Space Invaders controller emblem set against a dark obsidian matte surface, clean digital style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA1e9u00A3VyZGUFeYDCuN0Wfc4s8IZi5TCwJWP--KLIOslX_cQO5_xvPKUkjUe0sn4JJNynHhLyT0_pLi-DQ5HD4SijR6QVRX0EvNeSUTlejNWJuaEp959YY7AdJsYdnsFVL5_fabMjdoNDFmzs1s6sHvYbZvGzGiWsyQYt1CDqp0y7zumFfj9Xx8LpJ91FU4PcTv4PC6KsaOKT86L1_arvN9GzZAFlEG-UluebRKwVI7o70Z_GZt"/>
+</div>
+<h4 class="font-title-md text-title-md font-bold text-on-surface truncate w-full group-focus:text-secondary transition-colors">
+            RetroArch
+          </h4>
+<span class="font-caption text-caption text-on-surface-variant mt-0.5">Emulação</span>
+<div class="mt-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high border border-outline-variant/30">
+<span class="material-symbols-outlined text-caption text-amber-400" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">4.9</span>
+</div>
+</div>
+<!-- App 3: VLC for Android TV (4.7) -->
+<div class="group flex flex-col items-center text-center p-5 rounded-xl bg-surface-container border border-outline-variant/20 hover:border-secondary-container hover:bg-surface-container-high focus:border-[3px] focus:border-secondary-container focus:scale-105 focus:neon-focus-glow transition-all duration-200 outline-none cursor-pointer" tabindex="0">
+<div class="w-24 h-24 rounded-2xl overflow-hidden bg-surface-container-lowest shadow-lg mb-4 p-2 flex items-center justify-center border border-outline-variant/30 group-focus:border-secondary transition-colors">
+<img class="w-full h-full object-cover rounded-xl" data-alt="High contrast modern square app icon for VLC media player on Android TV showing the iconic traffic cone in vibrant electric orange and white with glowing neon edges on black." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpJknKAbDvj_9cEQwe7JbHHA93Ilk8y_1YcCzNwZGlURH6Q8ZSu9oIN1KWKY-G3WTXAxLsCIL49VzxZFzWOdaxQ0EklSHy3tAbnUhTa1Xs23uSpGbPgvDaFz8F7BzGr3ze8-K45-cWqUIELVomBuA0kr0vKnkDDxZ2Z5D68TM8fbP_jFjkQ8uPeulmWLrRpe46d-R9JgvXDq7ZsZJNujEU0EqxxL5i2cHFr-kdZJDCW3scj8rLjjKB"/>
+</div>
+<h4 class="font-title-md text-title-md font-bold text-on-surface truncate w-full group-focus:text-secondary transition-colors">
+            VLC for Android TV
+          </h4>
+<span class="font-caption text-caption text-on-surface-variant mt-0.5">Vídeo & Áudio</span>
+<div class="mt-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high border border-outline-variant/30">
+<span class="material-symbols-outlined text-caption text-amber-400" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">4.7</span>
+</div>
+</div>
+<!-- App 4: File Explorer Pro (4.5) -->
+<div class="group flex flex-col items-center text-center p-5 rounded-xl bg-surface-container border border-outline-variant/20 hover:border-secondary-container hover:bg-surface-container-high focus:border-[3px] focus:border-secondary-container focus:scale-105 focus:neon-focus-glow transition-all duration-200 outline-none cursor-pointer" tabindex="0">
+<div class="w-24 h-24 rounded-2xl overflow-hidden bg-surface-container-lowest shadow-lg mb-4 p-2 flex items-center justify-center border border-outline-variant/30 group-focus:border-secondary transition-colors">
+<img class="w-full h-full object-cover rounded-xl" data-alt="Futuristic cyber file manager app icon for smart TV, showing glowing turquoise cyan folder layers and network cloud nodes, high tech dark aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMo8OUN2gKZROwzd5TNY34xZKAu9V2QWZkEpTXJnOlYDrpt98G7YZrMi38adnLDVabmKjikHZ7bYu26CSSXIAdFSfeZtGvXz2Jdlf2-HGaFhGsi_HgHPYdqBkIf8JMqyUVpum99rzbz4ZOk446DEhrO4il52IOYVZ552ATT1xtcYqTfzzCF1dDK9yWJZqdvAWNshqZZOSC-uLDXwWMYASI_ulCb95KIO3a1HP1CJQHw7pL1BfgAzIL"/>
+</div>
+<h4 class="font-title-md text-title-md font-bold text-on-surface truncate w-full group-focus:text-secondary transition-colors">
+            File Explorer Pro
+          </h4>
+<span class="font-caption text-caption text-on-surface-variant mt-0.5">Gerenciador de Arquivos</span>
+<div class="mt-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high border border-outline-variant/30">
+<span class="material-symbols-outlined text-caption text-amber-400" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">4.5</span>
+</div>
+</div>
+<!-- App 5: Space Invaders TV (4.6) -->
+<div class="group flex flex-col items-center text-center p-5 rounded-xl bg-surface-container border border-outline-variant/20 hover:border-secondary-container hover:bg-surface-container-high focus:border-[3px] focus:border-secondary-container focus:scale-105 focus:neon-focus-glow transition-all duration-200 outline-none cursor-pointer" tabindex="0">
+<div class="w-24 h-24 rounded-2xl overflow-hidden bg-surface-container-lowest shadow-lg mb-4 p-2 flex items-center justify-center border border-outline-variant/30 group-focus:border-secondary transition-colors">
+<img class="w-full h-full object-cover rounded-xl" data-alt="Retro neon arcade alien icon for Space Invaders TV game, electric green and vivid magenta pixel graphics on a deep space starfield backdrop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjQgYjngB-tQ1mrliBhoA_7VEIdmd9jk9kKH1lmt4wQnhVNKOmoWoerY6YZ8B6FtWcJBrR8bOonyfKrk6uFE4Hyl-kK60UV4D8tV9zIqPsTfhAQcVmy3MsBcAngHFMvuEUyb6ZlcJMammS6IchWDZeu3oNjytWRw_-qZUsYKDfzPylPZi2uw307ypW0eXmU3FXAtoFiZr67frI6ArA6TBKdet288HCmG6UMgKyZWEBW02GZelRFnnO"/>
+</div>
+<h4 class="font-title-md text-title-md font-bold text-on-surface truncate w-full group-focus:text-secondary transition-colors">
+            Space Invaders TV
+          </h4>
+<span class="font-caption text-caption text-on-surface-variant mt-0.5">Arcade Clássico</span>
+<div class="mt-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high border border-outline-variant/30">
+<span class="material-symbols-outlined text-caption text-amber-400" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">4.6</span>
+</div>
+</div>
+</div>
+</section>
+<!-- TV Remote Control D-Pad Guidance Footer Bar -->
+<div class="pt-6 pb-2 border-t border-outline-variant/20 flex items-center justify-between text-on-surface-variant font-caption text-caption">
+<div class="flex items-center gap-6">
+<span class="flex items-center gap-1.5">
+<kbd class="px-2 py-0.5 bg-surface-container-high border border-outline-variant/40 rounded text-on-surface font-label-md">▲ ▼ ◄ ►</kbd>
+<span>Navegar</span>
+</span>
+<span class="flex items-center gap-1.5">
+<kbd class="px-2 py-0.5 bg-secondary-container text-on-secondary-container font-bold rounded font-label-md">OK</kbd>
+<span>Abrir</span>
+</span>
+<span class="flex items-center gap-1.5">
+<kbd class="px-2 py-0.5 bg-surface-container-high border border-outline-variant/40 rounded text-on-surface font-label-md">VOLTAR</kbd>
+<span>Retornar</span>
+</span>
+</div>
+<div class="flex items-center gap-2 text-secondary">
+<span class="material-symbols-outlined text-caption" data-icon="wifi">wifi</span>
+<span>Conectado (5GHz Ultra) • 120Hz 4K UHD</span>
+</div>
+</div>
+</main>
+<!-- Inline TV Remote Navigation Micro-Interaction Script -->
+<script>
+    // Live update of digital TV clock
+    function updateClock() {
+      const clockEl = document.getElementById('leanback-clock');
+      if (clockEl) {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        clockEl.textContent = `${hours}:${minutes}`;
+      }
+    }
+    setInterval(updateClock, 30000);
+
+    // D-Pad remote keyboard navigation listeners (Arrow keys simulation)
+    document.addEventListener('keydown', (e) => {
+      const focusable = Array.from(document.querySelectorAll('[tabindex="0"]'));
+      const currentIndex = focusable.indexOf(document.activeElement);
+
+      if (['ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft'].includes(e.key)) {
+        if (currentIndex === -1 && focusable.length > 0) {
+          focusable[0].focus();
+        }
+      }
+    });
+  </script>
+</body></html>
