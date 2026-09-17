@@ -41,8 +41,8 @@ class MainActivity : Activity() {
         configureWebView()
 
         val prefs = getSharedPreferences("intrastore_prefs", Context.MODE_PRIVATE)
-        // IP local da maquina (192.168.0.4) ou emulador (10.0.2.2) ou fallback para assets
-        val defaultUrl = "http://192.168.0.4:3000/tv"
+        // IP local da maquina (192.168.0.5) ou emulador (10.0.2.2) ou fallback para assets
+        val defaultUrl = "http://192.168.0.5:3000/tv"
         val storeUrl = prefs.getString("server_url", defaultUrl) ?: defaultUrl
 
         webView.loadUrl(storeUrl)

@@ -83,9 +83,9 @@ app.get(['/apk', '/d', '/download'], (req, res) => {
     if (versionInfo && versionInfo.apkUrl) {
       return res.redirect(302, versionInfo.apkUrl);
     }
-    res.redirect(302, 'https://pub-1ed4a80b7670434e93f65e2e7091f1b2.r2.dev/apks/IntraStore_TV_v1.1.0.apk');
+    res.redirect(302, 'https://raw.githubusercontent.com/AdriellysonCT/-IntraStore-TV/main/release/IntraStore_TV_v1.1.0.apk');
   } catch (err) {
-    res.redirect(302, 'https://pub-1ed4a80b7670434e93f65e2e7091f1b2.r2.dev/apks/IntraStore_TV_v1.1.0.apk');
+    res.redirect(302, 'https://raw.githubusercontent.com/AdriellysonCT/-IntraStore-TV/main/release/IntraStore_TV_v1.1.0.apk');
   }
 });
 
@@ -123,7 +123,7 @@ function readAppVersion() {
   return {
     latestVersionCode: 2,
     latestVersionName: "1.1.0",
-    apkUrl: "https://pub-1ed4a80b7670434e93f65e2e7091f1b2.r2.dev/apks/IntraStore_TV_v1.1.0.apk",
+    apkUrl: "https://raw.githubusercontent.com/AdriellysonCT/-IntraStore-TV/main/release/IntraStore_TV_v1.1.0.apk",
     changelog: "Versão otimizada para Android TV.",
     forceUpdate: false
   };

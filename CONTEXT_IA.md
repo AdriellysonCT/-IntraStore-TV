@@ -427,3 +427,21 @@ box-shadow: 0 0 25px rgba(0, 229, 255, 0.65), 0 0 45px rgba(108, 59, 244, 0.35);
      - Commit inicial realizado com sucesso: `feat: IntraStore TV - Plataforma Completa v1.1.0 para Android TV` (87 arquivos versionados).
 - **Status Atual:** Projeto local 100% comitado e pronto para o primeiro push no GitHub.
 
+### [Sessão 17 - 2026-09-17]
+- **Objetivo:** Diagnóstico e resolução de 2 problemas reportados pelo usuário: (1) Erro 404 ("Object not found" do Cloudflare R2) ao tentar baixar o APK da TV; (2) Aplicativo na Android TV exibindo mensagem de servidor offline.
+- **Causas Raízes Identificadas:**
+  1. **Erro 404 do Cloudflare R2:** O link curto anterior (`tinyurl.com/intrastoretv`) apontava para `https://pub-1ed4a80b7670434e93f65e2e7091f1b2.r2.dev/apks/IntraStore_TV_v1.1.0.apk`. O token de escrita do Cloudflare R2 foi revogado/expirou (`Access Denied`), de modo que o arquivo `v1.1.0` não existia no bucket público, gerando a página 404 com os robôs e baldes da Cloudflare.
+  2. **App Offline na TV:** O APK instalado na Android TV estava configurado por padrão para acessar o IP local `http://192.168.0.4:3000/tv`. O roteador Wi-Fi alterou o IP da máquina do usuário para `192.168.0.5`. Sem encontrar o IP antigo, a TV caía no fallback embutido offline.
+- **Ações Executadas:**
+  1. **Novo Link Direto 100% Funcional no GitHub:**
+     - O APK oficial `IntraStore_TV_v1.1.0.apk` (5.61 MB) já está hospedado e público no GitHub do usuário (`https://raw.githubusercontent.com/AdriellysonCT/-IntraStore-TV/main/release/IntraStore_TV_v1.1.0.apk`).
+     - Criado novo link encurtado oficial com redirecionamento 301 direto: **`tinyurl.com/intrastore-v11`**.
+     - Testado via curl: responde com HTTP 301 imediato seguido de **HTTP 200 OK** direto, sem páginas intermediárias, perfeito para o app Downloader da TV.
+  2. **Atualização do Backend e Painel Admin:**
+     - Atualizados `server/data/app_version.json` e `server/server.js` nas rotas `/apk`, `/d` e `/download` para redirecionar para a URL válida do GitHub raw.
+     - Atualizados `admin/index.html` e `admin/admin.js` com o novo código e link `tinyurl.com/intrastore-v11`.
+  3. **Atualização de IP do Projeto Android:**
+     - Atualizado o fallback de URL em `android_project/.../MainActivity.kt` e `android_bridge/MainActivity.kt` para o IP atual `192.168.0.5:3000/tv`.
+     - Validada a funcionalidade da tecla MENU do controle remoto da TV para alterar o IP sem precisar reinstalar o aplicativo.
+- **Status Atual:** Link de download direto 100% operacional (`tinyurl.com/intrastore-v11`), servidor local respondendo perfeitamente em `http://192.168.0.5:3000/tv` e instruções prontas para conexão imediata na TV.
+
