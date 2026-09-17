@@ -462,3 +462,14 @@ box-shadow: 0 0 25px rgba(0, 229, 255, 0.65), 0 0 45px rgba(108, 59, 244, 0.35);
      - O link curto **`tinyurl.com/intrastore-v11`** passa a entregar imediatamente a nova versão compilada com a nuvem do Render.
 - **Status Atual:** APK v1.1.0 100% embutido na nuvem do Render, pronto para instalar em qualquer TV e abrir instantaneamente sem qualquer configuração manual.
 
+### [Sessão 19 - 2026-09-17]
+- **Objetivo:** Correção e alinhamento dos links de download do APK no cabeçalho do Painel Web Administrativo (`admin/index.html` e `admin/admin.js`).
+- **Ações Executadas:**
+  1. **Link Direto TV (Downloader):**
+     - Atualizado o código exibido e o botão de cópia de 1 clique para copiar `tinyurl.com/intrastore-v11` pronto para colar no app Downloader da TV.
+  2. **Botão Baixar APK v1.1.0:**
+     - Atualizado o link do botão para a rota canônica `/apk`, que dispara o download direto do binário sem depender de URLs externas.
+  3. **Deploy no GitHub & Render:**
+     - Commit e push para o branch `main`, sincronizando a atualização do painel no Render (`https://intrastore-tv.onrender.com/admin`).
+- **Status Atual:** Cabeçalho do painel administrativo 100% atualizado com os links oficiais funcionais.
+

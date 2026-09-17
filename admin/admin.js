@@ -317,15 +317,15 @@ function setupEventListeners() {
   const btnCopyShortLink = document.getElementById('btnCopyShortLink');
   if (btnCopyShortLink) {
     btnCopyShortLink.addEventListener('click', () => {
-      const url = 'https://tinyurl.com/intrastore-v11';
+      const code = 'tinyurl.com/intrastore-v11';
       if (navigator.clipboard) {
-        navigator.clipboard.writeText(url).then(() => {
-          showToast('Link copiado: tinyurl.com/intrastore-v11 (pronto para o app Downloader da TV)', 'info', 4500);
+        navigator.clipboard.writeText(code).then(() => {
+          showToast('Código copiado: tinyurl.com/intrastore-v11 (pronto para o app Downloader da TV)', 'info', 4500);
         }).catch(() => {
-          prompt('Copie o link direto para a TV:', url);
+          prompt('Copie o link direto para a TV:', code);
         });
       } else {
-        prompt('Copie o link direto para a TV:', url);
+        prompt('Copie o link direto para a TV:', code);
       }
     });
   }
