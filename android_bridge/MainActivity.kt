@@ -41,9 +41,13 @@ class MainActivity : Activity() {
         configureWebView()
 
         val prefs = getSharedPreferences("intrastore_prefs", Context.MODE_PRIVATE)
-        // IP local da maquina (192.168.0.5) ou emulador (10.0.2.2) ou fallback para assets
-        val defaultUrl = "http://192.168.0.5:3000/tv"
-        val storeUrl = prefs.getString("server_url", defaultUrl) ?: defaultUrl
+        // URL de produção oficial no Render com fallback inteligente
+        val defaultUrl = "https://intrastore-tv.onrender.com/tv"
+        val savedUrl = prefs.getString("server_url", null)
+        val storeUrl = if (savedUrl != null && !savedUrl.contains("192.168.")) savedUrl else defaultUrl
+        if (savedUrl != storeUrl) {
+            prefs.edit().putString("server_url", storeUrl).apply()
+        }
 
         webView.loadUrl(storeUrl)
     }

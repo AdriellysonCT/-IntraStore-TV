@@ -445,3 +445,20 @@ box-shadow: 0 0 25px rgba(0, 229, 255, 0.65), 0 0 45px rgba(108, 59, 244, 0.35);
      - Validada a funcionalidade da tecla MENU do controle remoto da TV para alterar o IP sem precisar reinstalar o aplicativo.
 - **Status Atual:** Link de download direto 100% operacional (`tinyurl.com/intrastore-v11`), servidor local respondendo perfeitamente em `http://192.168.0.5:3000/tv` e instruções prontas para conexão imediata na TV.
 
+### [Sessão 18 - 2026-09-17]
+- **Objetivo:** Embutir a URL definitiva do Render (`https://intrastore-tv.onrender.com/tv`) diretamente no código-fonte nativo do APK Android TV e recompilar o binário oficial, eliminando para sempre qualquer necessidade de digitar ou configurar URLs na televisão.
+- **Ações Executadas:**
+  1. **Configuração da URL de Produção do Render (`MainActivity.kt`):**
+     - Alterado o `defaultUrl` para `https://intrastore-tv.onrender.com/tv`.
+     - Implementada rotina inteligente de auto-migração nas SharedPreferences: qualquer valor antigo contendo IP local (`192.168.`) é automaticamente descartado e atualizado para a URL do Render no primeiro lançamento.
+  2. **Resiliência de API no Front-end (`tv_app/app.js` e `assets/tv/app.js`):**
+     - Adicionada a constante global `API_BASE` direcionada ao Render, garantindo que todas as requisições de catálogo (`/api/apps`), checagem de atualizações (`/api/apps/check-updates`) e download operem via HTTPS na nuvem.
+  3. **Compilação Release do APK via Gradle:**
+     - Executado Gradle 8.11.1 (`assembleRelease`) com JDK 17 e Android SDK 34 (`BUILD SUCCESSFUL in 26s`).
+     - Gerado novo binário nativo assinado `app-release.apk` (5.88 MB).
+     - Cópia para `release/IntraStore_TV_v1.1.0.apk` e `server/uploads/apks/IntraStore_TV_v1.1.0.apk`.
+  4. **Publicação no GitHub:**
+     - Commit e push automático para o branch `main` do repositório `https://github.com/AdriellysonCT/-IntraStore-TV`.
+     - O link curto **`tinyurl.com/intrastore-v11`** passa a entregar imediatamente a nova versão compilada com a nuvem do Render.
+- **Status Atual:** APK v1.1.0 100% embutido na nuvem do Render, pronto para instalar em qualquer TV e abrir instantaneamente sem qualquer configuração manual.
+

@@ -1,4 +1,5 @@
 // IntraStore TV - Core Application Controller
+const API_BASE = (window.location.protocol.startsWith('http') && window.location.origin !== 'null') ? '' : 'https://intrastore-tv.onrender.com';
 let storeApps = [];
 let installedAppsMap = {}; // packageName -> { versionCode, versionName, installedAt }
 let activeApp = null;
@@ -202,7 +203,7 @@ async function loadCatalog() {
   const startTime = Date.now();
 
   try {
-    const res = await fetch('/api/apps');
+    const res = await fetch(API_BASE + '/api/apps');
     storeApps = await res.json();
 
     if (splashBar) splashBar.style.width = '75%';
@@ -497,7 +498,7 @@ window.handleAppAction = async function() {
 
   try {
     // 1. Notifica o backend e contabiliza download
-    const res = await fetch('/api/apps/' + activeApp.id + '/download', { method: 'POST' });
+    const res = await fetch(API_BASE + '/api/apps/' + activeApp.id + '/download', { method: 'POST' });
     const data = await res.json();
 
     if (!data.apkUrl) {
@@ -552,7 +553,7 @@ async function checkForPendingUpdates() {
   if (installedList.length === 0) return;
 
   try {
-    const res = await fetch('/api/apps/check-updates', {
+    const res = await fetch(API_BASE + '/api/apps/check-updates', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ installed: installedList })
@@ -753,7 +754,7 @@ function getCurrentStoreVersionName() {
 
 async function checkAppStoreUpdate(isManual = false) {
   try {
-    const res = await fetch('/api/app-update');
+    const res = await fetch(API_BASE + '/api/app-update');
     if (!res.ok) return;
     const data = await res.json();
     appStoreUpdateInfo = data;
