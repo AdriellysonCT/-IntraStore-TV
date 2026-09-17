@@ -413,3 +413,17 @@ box-shadow: 0 0 25px rgba(0, 229, 255, 0.65), 0 0 45px rgba(108, 59, 244, 0.35);
      - Botão "Baixar APK v1.1.0" atualizado para disparar o download direto imediato.
 - **Status Atual:** Links curtos oficiais gerados, testados com 100% de download direto e disponíveis para toda a comunidade.
 
+### [Sessão 16 - 2026-09-16]
+- **Objetivo:** Preparação completa do repositório Git e estrutura de arquivos para publicação no GitHub (`https://github.com/AdriellysonCT/-IntraStore-TV`) e deploy contínuo no Render (Web Service).
+- **Ações Executadas:**
+  1. **Criação do `.gitignore`:**
+     - Ignorando com precisão diretórios de build pesado do Android Studio (`.gradle/`, `.kotlin/`, `**/build/`, `local.properties`), dependências Node (`node_modules/`), arquivos temporários de SO e logs.
+  2. **Configuração para Render & PaaS (`package.json` na raiz e `README.md`):**
+     - Criado `package.json` na raiz com scripts de orquestração para inicialização do backend no Render (`npm start`).
+     - Criado `README.md` técnico completo apresentando a arquitetura da IntraStore TV (10-Foot UI, navegação espacial D-Pad, Cloudflare R2 e painel admin).
+  3. **Inicialização e Commit no Git Local:**
+     - Repositório local inicializado na branch principal `main`.
+     - Remote configurado apontando para `origin https://github.com/AdriellysonCT/-IntraStore-TV.git`.
+     - Commit inicial realizado com sucesso: `feat: IntraStore TV - Plataforma Completa v1.1.0 para Android TV` (87 arquivos versionados).
+- **Status Atual:** Projeto local 100% comitado e pronto para o primeiro push no GitHub.
+
