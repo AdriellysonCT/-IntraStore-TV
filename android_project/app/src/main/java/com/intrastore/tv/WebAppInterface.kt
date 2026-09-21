@@ -108,7 +108,20 @@ class WebAppInterface(private val context: Context, private val webView: WebView
                 val destination = File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName)
                 if (destination.exists()) destination.delete()
 
-                var currentUrl = downloadUrl
+                var currentUrl = downloadUrl.trim()
+                if (!currentUrl.startsWith("http://", ignoreCase = true) && !currentUrl.startsWith("https://", ignoreCase = true)) {
+                    val prefs = context.getSharedPreferences("intrastore_prefs", Context.MODE_PRIVATE)
+                    val serverUrl = prefs.getString("server_url", "https://intrastore-tv.onrender.com/tv") ?: "https://intrastore-tv.onrender.com/tv"
+                    val baseUrl = try {
+                        val parsed = URL(serverUrl)
+                        "${parsed.protocol}://${parsed.authority}"
+                    } catch (e: Exception) {
+                        "https://intrastore-tv.onrender.com"
+                    }
+                    val path = if (currentUrl.startsWith("/")) currentUrl else "/$currentUrl"
+                    currentUrl = baseUrl + path
+                }
+
                 var connection: HttpURLConnection? = null
                 var redirects = 0
                 val maxRedirects = 5

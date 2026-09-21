@@ -497,3 +497,34 @@ box-shadow: 0 0 25px rgba(0, 229, 255, 0.65), 0 0 45px rgba(108, 59, 244, 0.35);
      - Atualizado o binário oficial em `release/IntraStore_TV_v1.1.0.apk` e `server/uploads/apks/IntraStore_TV_v1.1.0.apk`.
 - **Status Atual:** Interface 100% responsiva para qualquer tamanho de TV, bug visual eliminado, navegação D-Pad suave e fluida em todas as prateleiras e novo APK v1.1.0 pronto para distribuição.
 
+### [Sessão 21 - 2026-09-21]
+- **Objetivo:** 
+  1. Corrigir o erro fatal de download na Android TV (`Erro no download: no protocol: /uploads/apks/...`) ao tentar instalar aplicativos cadastrados pelo smartphone no Render.
+  2. Transformar o Painel Administrativo (`/admin`) em uma interface 100% responsiva para celulares/smartphones (mobile touch experience).
+  3. Adicionar recurso completo no Painel Administrativo para **editar** todas as informações dos aplicativos já cadastrados (nome, desenvolvedor, categoria, classificação, versão, destaque Hero na TV, descrição, changelog e troca de ícone e banner via arquivo local ou busca online na web).
+- **Causas Raízes Identificadas:**
+  1. **Erro `no protocol`:** Ao cadastrar um APK pelo celular no Render sem conexão ativa com o Cloudflare R2, o arquivo foi salvo no armazenamento local do servidor e o campo `apkUrl` armazenou um caminho relativo (`/uploads/apks/apk-...apk`). Ao acionar a instalação na TV, o método `window.AndroidBridge.installApk()` recebia a URL relativa e o construtor nativo Java `new URL(apkUrl)` lançava `MalformedURLException: no protocol`.
+  2. **Painel Admin Rígido para Mobile:** A tabela desktop de aplicativos exigia largura horizontal extensa, botões pequenos não otimizados para toque (touch targets inferiores a 44px), cabeçalho estático e ausência de menu retrátil em telas verticais.
+  3. **Falta de Edição de Metadados:** O painel contava apenas com cadastro de novos apps e lançamento de atualizações com novo binário APK, impossibilitando correções simples de nomes, descrições ou substituição de capas/ícones.
+- **Ações Executadas:**
+  1. **Correção do Erro `no protocol` em 3 Camadas:**
+     - **Backend (`server/server.js`):** Criada a função `formatAppUrls(req, app)` que converte qualquer URL relativa (`/uploads/...`) em URL absoluta completa com protocolo HTTPS (`https://intrastore-tv.onrender.com/...`), cobrindo `/api/apps`, `/api/apps/:id`, `/api/apps/featured`, `/api/apps/check-updates` e `/api/apps/:id/download`.
+     - **Frontend da TV (`tv_app/app.js`):** Blindagem em `handleAppAction()` que valida se a URL inicia com protocolo antes de disparar o AndroidBridge.
+     - **Módulo Nativo Android (`WebAppInterface.kt`):** Adicionada verificação preventiva em `installApk()`: se a URL não possuir protocolo `http://` ou `https://`, o aplicativo prefixa automaticamente a URL do servidor configurada nas preferências.
+  2. **Painel Administrativo 100% Responsivo para Smartphones (`admin/`):**
+     - **Cabeçalho Mobile:** Botão hambúrguer retrátil (`#btnToggleMobileMenu`) com drawer deslizante (`#mobileNavDrawer`), atalhos de download do APK e cópia do código TV em 1 toque.
+     - **Grade de KPIs Adaptativa:** Transformada de 4 colunas rígidas em grade fluida 2x2 no mobile (`grid-cols-2 lg:grid-cols-4`).
+     - **Cards Mobile Touch:** Criado o container `#mobileCardsContainer` e a função `renderMobileCards(apps)`, exibindo cards com ícone 48x48, badges, métricas compactas e botões de ação com alvos de toque otimizados (mínimo 44px).
+     - **Prevenção de Zoom no iOS/Android:** Campos de formulário com tamanho de fonte `text-base sm:text-sm` (16px no mobile) impedindo zoom indesejado ao focar nos inputs.
+  3. **Sistema Completo de Edição de Aplicativos:**
+     - **Backend (`PUT /api/apps/:id`):** Atualizado para receber dados parciais ou completos de metadados, download de imagens da web (`iconExternalUrl`, `bannerExternalUrl`), upload para Cloudflare R2 ou armazenamento local.
+     - **Modal de Edição (`#modalEditApp`):** Interface completa em `admin/index.html` permitindo editar Nome, Desenvolvedor, Categoria, Classificação Indicativa, Versão, Avaliação, Destaque Hero TV, Descrição, Changelog e troca de imagens.
+     - **Busca de Imagens Integrada:** A busca web automática (`modalImageSearch`) agora atende tanto o cadastro de novo app quanto a edição (`currentImageSearchForm: 'new' | 'edit'`), com preview imediato e badges visuais.
+     - **Feedback Visual:** Barra de progresso dinâmica em tempo real durante a gravação das alterações.
+  4. **Sincronização e Compilação do APK Android TV:**
+     - Sincronizados todos os assets de `tv_app/` para `android_project/app/src/main/assets/tv/`.
+     - Executado Gradle 8.11.1 (`assembleRelease`) com compilação bem-sucedida (`BUILD SUCCESSFUL in 32s`).
+     - Atualizados os binários em `release/IntraStore_TV_v1.1.0.apk` e `server/uploads/apks/IntraStore_TV_v1.1.0.apk`.
+- **Status Atual:** Erro de download resolvido com protocolo absoluto blindado, Painel Admin responsivo para celulares com cards touch modernos, funcionalidade completa de edição de aplicativos operacional e APK v1.1.0 atualizado.
+
+

@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 let currentImageSearchTarget = 'icon'; // 'icon' ou 'banner'
+let currentImageSearchForm = 'new'; // 'new' ou 'edit'
 
 // Função para Resetar completamente o Formulário de Novo App (evita que dados antigos fiquem salvos)
 function resetNewAppForm() {
@@ -71,15 +72,22 @@ function resetNewAppForm() {
 }
 
 // Abrir Seletor de Imagens Online usando o Nome do App
-function openImageSearchModal(targetType) {
+function openImageSearchModal(targetType, formType = 'new') {
   currentImageSearchTarget = targetType;
+  currentImageSearchForm = formType;
   const modal = document.getElementById('modalImageSearch');
   const title = document.getElementById('imageSearchModalTitle');
   const subtitle = document.getElementById('imageSearchModalSubtitle');
   const queryInput = document.getElementById('inputImageSearchQuery');
-  const nameInput = document.querySelector('input[name="name"]');
-
-  const currentAppName = nameInput ? nameInput.value.trim() : '';
+  
+  let currentAppName = '';
+  if (formType === 'edit') {
+    const editNameInput = document.getElementById('editAppName');
+    currentAppName = editNameInput ? editNameInput.value.trim() : '';
+  } else {
+    const nameInput = document.querySelector('#formNewApp input[name="name"]');
+    currentAppName = nameInput ? nameInput.value.trim() : '';
+  }
 
   if (targetType === 'icon') {
     title.textContent = 'Buscar Ícone do App na Web';
@@ -151,28 +159,60 @@ async function executeImageSearch() {
   }
 }
 
-// Aplicar a imagem selecionada ao formulário
+// Aplicar a imagem selecionada ao formulário (Novo App ou Edição)
 window.selectOnlineImage = function(encUrl, encThumb, encTitle) {
   const url = decodeURIComponent(encUrl);
   const thumb = decodeURIComponent(encThumb);
   const title = decodeURIComponent(encTitle);
 
-  if (currentImageSearchTarget === 'icon') {
-    document.getElementById('previewIcon').src = thumb || url;
-    document.getElementById('inputIconExternalUrl').value = url;
-    document.getElementById('inputIconFile').value = '';
-    document.getElementById('labelIconStatus').textContent = 'Web: ' + (title.length > 25 ? title.slice(0, 25) + '...' : title);
-    const badge = document.getElementById('badgeIconSource');
-    badge.textContent = 'Web Online';
-    badge.className = 'text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/20 text-brand-cyan border border-cyan-500/40';
+  if (currentImageSearchForm === 'edit') {
+    if (currentImageSearchTarget === 'icon') {
+      const previewEdit = document.getElementById('previewEditIcon');
+      const inputEditExt = document.getElementById('inputEditIconExternalUrl');
+      const inputEditFile = document.getElementById('inputEditIconFile');
+      const labelEdit = document.getElementById('labelEditIconStatus');
+      const badgeEdit = document.getElementById('badgeEditIconSource');
+      if (previewEdit) previewEdit.src = thumb || url;
+      if (inputEditExt) inputEditExt.value = url;
+      if (inputEditFile) inputEditFile.value = '';
+      if (labelEdit) labelEdit.textContent = 'Web: ' + (title.length > 25 ? title.slice(0, 25) + '...' : title);
+      if (badgeEdit) {
+        badgeEdit.textContent = 'Web Online';
+        badgeEdit.className = 'text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/20 text-brand-cyan border border-cyan-500/40';
+      }
+    } else {
+      const previewEdit = document.getElementById('previewEditBanner');
+      const inputEditExt = document.getElementById('inputEditBannerExternalUrl');
+      const inputEditFile = document.getElementById('inputEditBannerFile');
+      const labelEdit = document.getElementById('labelEditBannerStatus');
+      const badgeEdit = document.getElementById('badgeEditBannerSource');
+      if (previewEdit) previewEdit.src = thumb || url;
+      if (inputEditExt) inputEditExt.value = url;
+      if (inputEditFile) inputEditFile.value = '';
+      if (labelEdit) labelEdit.textContent = 'Web: ' + (title.length > 25 ? title.slice(0, 25) + '...' : title);
+      if (badgeEdit) {
+        badgeEdit.textContent = 'Web Online';
+        badgeEdit.className = 'text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40';
+      }
+    }
   } else {
-    document.getElementById('previewBanner').src = thumb || url;
-    document.getElementById('inputBannerExternalUrl').value = url;
-    document.getElementById('inputBannerFile').value = '';
-    document.getElementById('labelBannerStatus').textContent = 'Web: ' + (title.length > 25 ? title.slice(0, 25) + '...' : title);
-    const badge = document.getElementById('badgeBannerSource');
-    badge.textContent = 'Web Online';
-    badge.className = 'text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40';
+    if (currentImageSearchTarget === 'icon') {
+      document.getElementById('previewIcon').src = thumb || url;
+      document.getElementById('inputIconExternalUrl').value = url;
+      document.getElementById('inputIconFile').value = '';
+      document.getElementById('labelIconStatus').textContent = 'Web: ' + (title.length > 25 ? title.slice(0, 25) + '...' : title);
+      const badge = document.getElementById('badgeIconSource');
+      badge.textContent = 'Web Online';
+      badge.className = 'text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/20 text-brand-cyan border border-cyan-500/40';
+    } else {
+      document.getElementById('previewBanner').src = thumb || url;
+      document.getElementById('inputBannerExternalUrl').value = url;
+      document.getElementById('inputBannerFile').value = '';
+      document.getElementById('labelBannerStatus').textContent = 'Web: ' + (title.length > 25 ? title.slice(0, 25) + '...' : title);
+      const badge = document.getElementById('badgeBannerSource');
+      badge.textContent = 'Web Online';
+      badge.className = 'text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40';
+    }
   }
 
   closeModal(document.getElementById('modalImageSearch'));
@@ -312,6 +352,54 @@ function showConfirm(title, message, confirmText = 'Confirmar', isDanger = true)
 function setupEventListeners() {
   const modalNewApp = document.getElementById('modalNewApp');
   const modalUpdateApp = document.getElementById('modalUpdateApp');
+  const modalEditApp = document.getElementById('modalEditApp');
+
+  // Controle do Menu Drawer Retrátil Mobile (< 1024px)
+  const btnToggleMobileMenu = document.getElementById('btnToggleMobileMenu');
+  const mobileNavDrawer = document.getElementById('mobileNavDrawer');
+  const iconMobileMenu = document.getElementById('iconMobileMenu');
+  if (btnToggleMobileMenu && mobileNavDrawer) {
+    btnToggleMobileMenu.addEventListener('click', () => {
+      const isHidden = mobileNavDrawer.classList.contains('hidden');
+      if (isHidden) {
+        mobileNavDrawer.classList.remove('hidden');
+        if (iconMobileMenu) iconMobileMenu.textContent = 'close';
+      } else {
+        mobileNavDrawer.classList.add('hidden');
+        if (iconMobileMenu) iconMobileMenu.textContent = 'menu';
+      }
+    });
+  }
+
+  // Abertura do Modal de Novo App pelo Mobile
+  const btnOpenNewAppModalMobile = document.getElementById('btnOpenNewAppModalMobile');
+  if (btnOpenNewAppModalMobile) {
+    btnOpenNewAppModalMobile.addEventListener('click', () => {
+      if (mobileNavDrawer) {
+        mobileNavDrawer.classList.add('hidden');
+        if (iconMobileMenu) iconMobileMenu.textContent = 'menu';
+      }
+      resetNewAppForm();
+      openModal(modalNewApp);
+    });
+  }
+
+  // Copiar link curto direto do APK no Mobile
+  const btnCopyShortLinkMobile = document.getElementById('btnCopyShortLinkMobile');
+  if (btnCopyShortLinkMobile) {
+    btnCopyShortLinkMobile.addEventListener('click', () => {
+      const code = 'tinyurl.com/intrastore-v11';
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(code).then(() => {
+          showToast('Código copiado: tinyurl.com/intrastore-v11 (pronto para o Downloader da TV)', 'info', 4500);
+        }).catch(() => {
+          prompt('Copie o link direto para a TV:', code);
+        });
+      } else {
+        prompt('Copie o link direto para a TV:', code);
+      }
+    });
+  }
 
   // Copiar link curto direto do APK
   const btnCopyShortLink = document.getElementById('btnCopyShortLink');
@@ -339,11 +427,12 @@ function setupEventListeners() {
     btn.addEventListener('click', () => {
       closeModal(modalNewApp);
       closeModal(modalUpdateApp);
+      closeModal(modalEditApp);
     });
   });
 
   // Fechar ao clicar no fundo escuro do modal (backdrop)
-  [modalNewApp, modalUpdateApp, document.getElementById('modalConfirmDialog'), document.getElementById('modalImageSearch')].forEach(m => {
+  [modalNewApp, modalUpdateApp, modalEditApp, document.getElementById('modalConfirmDialog'), document.getElementById('modalImageSearch')].forEach(m => {
     if (m) {
       m.addEventListener('click', (e) => {
         if (e.target === m) closeModal(m);
@@ -356,6 +445,7 @@ function setupEventListeners() {
     if (e.key === 'Escape') {
       closeModal(modalNewApp);
       closeModal(modalUpdateApp);
+      closeModal(modalEditApp);
       closeModal(document.getElementById('modalConfirmDialog'));
       closeModal(document.getElementById('modalImageSearch'));
     }
@@ -480,6 +570,15 @@ function setupEventListeners() {
       btn.innerHTML = '<span class="material-symbols-outlined text-lg">publish</span> Publicar Atualização';
     }
   });
+
+  // Envio do Formulário de Edição Completa de Informações do App
+  const formEditApp = document.getElementById('formEditApp');
+  if (formEditApp) {
+    formEditApp.addEventListener('submit', (e) => {
+      e.preventDefault();
+      handleEditAppSubmit();
+    });
+  }
 }
 
 // Drag & Drop e Previews de Imagem
@@ -520,14 +619,14 @@ function setupDropzoneAndPreviews() {
     dropzone.classList.add('border-emerald-500', 'bg-emerald-500/10');
   }
 
-  // Controles do Ícone
+  // Controles do Ícone (Novo App)
   const inputIcon = document.getElementById('inputIconFile');
   const previewIcon = document.getElementById('previewIcon');
   const labelIcon = document.getElementById('labelIconStatus');
   const badgeIcon = document.getElementById('badgeIconSource');
 
   document.getElementById('btnChooseLocalIcon').addEventListener('click', () => inputIcon.click());
-  document.getElementById('btnSearchOnlineIcon').addEventListener('click', () => openImageSearchModal('icon'));
+  document.getElementById('btnSearchOnlineIcon').addEventListener('click', () => openImageSearchModal('icon', 'new'));
 
   inputIcon.addEventListener('change', () => {
     if (inputIcon.files.length > 0) {
@@ -540,14 +639,14 @@ function setupDropzoneAndPreviews() {
     }
   });
 
-  // Controles do Banner
+  // Controles do Banner (Novo App)
   const inputBanner = document.getElementById('inputBannerFile');
   const previewBanner = document.getElementById('previewBanner');
   const labelBanner = document.getElementById('labelBannerStatus');
   const badgeBanner = document.getElementById('badgeBannerSource');
 
   document.getElementById('btnChooseLocalBanner').addEventListener('click', () => inputBanner.click());
-  document.getElementById('btnSearchOnlineBanner').addEventListener('click', () => openImageSearchModal('banner'));
+  document.getElementById('btnSearchOnlineBanner').addEventListener('click', () => openImageSearchModal('banner', 'new'));
 
   inputBanner.addEventListener('change', () => {
     if (inputBanner.files.length > 0) {
@@ -560,19 +659,81 @@ function setupDropzoneAndPreviews() {
     }
   });
 
+  // Controles do Ícone (Modal de Edição)
+  const inputEditIcon = document.getElementById('inputEditIconFile');
+  const previewEditIcon = document.getElementById('previewEditIcon');
+  const labelEditIcon = document.getElementById('labelEditIconStatus');
+  const badgeEditIcon = document.getElementById('badgeEditIconSource');
+  const btnChooseEditLocalIcon = document.getElementById('btnChooseEditLocalIcon');
+  const btnSearchEditOnlineIcon = document.getElementById('btnSearchEditOnlineIcon');
+
+  if (btnChooseEditLocalIcon && inputEditIcon) {
+    btnChooseEditLocalIcon.addEventListener('click', () => inputEditIcon.click());
+  }
+  if (btnSearchEditOnlineIcon) {
+    btnSearchEditOnlineIcon.addEventListener('click', () => openImageSearchModal('icon', 'edit'));
+  }
+  if (inputEditIcon) {
+    inputEditIcon.addEventListener('change', () => {
+      if (inputEditIcon.files.length > 0) {
+        const f = inputEditIcon.files[0];
+        if (previewEditIcon) previewEditIcon.src = URL.createObjectURL(f);
+        if (labelEditIcon) labelEditIcon.textContent = f.name + ' (' + (f.size / 1024).toFixed(0) + ' KB)';
+        if (badgeEditIcon) {
+          badgeEditIcon.textContent = 'Arquivo PC';
+          badgeEditIcon.className = 'text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40';
+        }
+        const extInput = document.getElementById('inputEditIconExternalUrl');
+        if (extInput) extInput.value = '';
+      }
+    });
+  }
+
+  // Controles do Banner (Modal de Edição)
+  const inputEditBanner = document.getElementById('inputEditBannerFile');
+  const previewEditBanner = document.getElementById('previewEditBanner');
+  const labelEditBanner = document.getElementById('labelEditBannerStatus');
+  const badgeEditBanner = document.getElementById('badgeEditBannerSource');
+  const btnChooseEditLocalBanner = document.getElementById('btnChooseEditLocalBanner');
+  const btnSearchEditOnlineBanner = document.getElementById('btnSearchEditOnlineBanner');
+
+  if (btnChooseEditLocalBanner && inputEditBanner) {
+    btnChooseEditLocalBanner.addEventListener('click', () => inputEditBanner.click());
+  }
+  if (btnSearchEditOnlineBanner) {
+    btnSearchEditOnlineBanner.addEventListener('click', () => openImageSearchModal('banner', 'edit'));
+  }
+  if (inputEditBanner) {
+    inputEditBanner.addEventListener('change', () => {
+      if (inputEditBanner.files.length > 0) {
+        const f = inputEditBanner.files[0];
+        if (previewEditBanner) previewEditBanner.src = URL.createObjectURL(f);
+        if (labelEditBanner) labelEditBanner.textContent = f.name + ' (' + (f.size / 1024).toFixed(0) + ' KB)';
+        if (badgeEditBanner) {
+          badgeEditBanner.textContent = 'Arquivo PC';
+          badgeEditBanner.className = 'text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40';
+        }
+        const extInput = document.getElementById('inputEditBannerExternalUrl');
+        if (extInput) extInput.value = '';
+      }
+    });
+  }
+
   // Screenshots
   const inputScreenshots = document.getElementById('inputScreenshotsFile');
   const labelScreenshots = document.getElementById('labelScreenshotsStatus');
-  inputScreenshots.addEventListener('change', () => {
-    const c = inputScreenshots.files.length;
-    if (c > 0) {
-      labelScreenshots.textContent = c + ' captura(s) selecionada(s)';
-      labelScreenshots.className = 'text-[11px] text-brand-cyan font-semibold';
-    } else {
-      labelScreenshots.textContent = 'Nenhuma captura selecionada';
-      labelScreenshots.className = 'text-[11px] text-gray-500';
-    }
-  });
+  if (inputScreenshots && labelScreenshots) {
+    inputScreenshots.addEventListener('change', () => {
+      const c = inputScreenshots.files.length;
+      if (c > 0) {
+        labelScreenshots.textContent = c + ' captura(s) selecionada(s)';
+        labelScreenshots.className = 'text-[11px] text-brand-cyan font-semibold';
+      } else {
+        labelScreenshots.textContent = 'Nenhuma captura selecionada';
+        labelScreenshots.className = 'text-[11px] text-gray-500';
+      }
+    });
+  }
 
   // Controles do Modal de Busca de Imagens
   const modalImg = document.getElementById('modalImageSearch');
@@ -705,11 +866,97 @@ function filterAndRender() {
 
   document.getElementById('appsCountBadge').textContent = filtered.length;
 
+  // Renderizar visualização mobile (sempre atualizada para telas touch/celular)
+  renderMobileCards(filtered);
+
   if (currentViewMode === 'table') {
     renderTable(filtered);
   } else {
     renderGrid(filtered);
   }
+}
+
+function renderMobileCards(apps) {
+  const container = document.getElementById('mobileCardsContainer');
+  if (!container) return;
+
+  if (apps.length === 0) {
+    container.innerHTML = `
+      <div class="py-12 text-center text-gray-400">
+        <div class="w-14 h-14 rounded-2xl bg-brand-surface border border-brand-border mx-auto flex items-center justify-center text-brand-cyan mb-3">
+          <span class="material-symbols-outlined text-2xl">inventory_2</span>
+        </div>
+        <div class="text-sm font-bold text-white">Nenhum aplicativo encontrado</div>
+        <p class="text-xs text-gray-400 mt-1 mb-4">Tente outro filtro ou envie o primeiro APK.</p>
+        <button onclick="document.getElementById('btnOpenNewAppModalMobile').click()" class="px-4 py-2 rounded-xl bg-brand-purple text-white text-xs font-bold inline-flex items-center gap-1.5 shadow-md">
+          <span class="material-symbols-outlined text-sm">add</span>
+          <span>Novo App</span>
+        </button>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = apps.map(app => {
+    const iconSrc = app.iconUrl || '/uploads/icons/default-icon.svg';
+    const isR2 = app.apkUrl && app.apkUrl.includes('r2.dev');
+    const isFeaturedTag = app.isFeatured 
+      ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30 font-bold flex items-center gap-0.5"><span class="material-symbols-outlined text-[11px]">star</span> Hero</span>'
+      : '';
+
+    return `
+      <div class="p-3.5 rounded-2xl bg-brand-surface/60 border border-brand-border flex flex-col gap-3">
+        <!-- Topo do Card Mobile: Ícone, Nome e Tags -->
+        <div class="flex items-start gap-3">
+          <img src="${iconSrc}" class="w-12 h-12 rounded-xl object-cover border border-brand-border bg-black/40 flex-shrink-0" onerror="this.src='/uploads/icons/default-icon.svg'">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <h4 class="font-bold text-white text-sm truncate leading-tight">${escapeHtml(app.name)}</h4>
+              ${isR2 ? '<span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/15 text-emerald-400 font-mono">R2</span>' : ''}
+              ${isFeaturedTag}
+            </div>
+            <div class="text-[11px] text-gray-400 truncate mt-0.5 font-mono">${escapeHtml(app.packageName)}</div>
+            <div class="flex items-center gap-2 mt-1">
+              <span class="text-[10px] px-2 py-0.5 rounded-md bg-brand-card text-gray-300 border border-brand-border">${escapeHtml(app.category)}</span>
+              <span class="text-[10px] text-gray-400 truncate">${escapeHtml(app.developer || 'Comunidade')}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Métricas em Grade Compacta -->
+        <div class="grid grid-cols-3 gap-2 py-2 px-3 rounded-xl bg-black/30 border border-brand-border/60 text-center text-xs">
+          <div>
+            <div class="text-[10px] text-gray-500 uppercase font-semibold">Versão</div>
+            <div class="font-bold text-white text-[11px] truncate">v${escapeHtml(app.versionName)}</div>
+          </div>
+          <div>
+            <div class="text-[10px] text-gray-500 uppercase font-semibold">Tamanho</div>
+            <div class="font-semibold text-gray-300 text-[11px]">${app.sizeMb} MB</div>
+          </div>
+          <div>
+            <div class="text-[10px] text-gray-500 uppercase font-semibold">Downloads</div>
+            <div class="font-bold text-brand-cyan text-[11px]">${app.downloads || 0}</div>
+          </div>
+        </div>
+
+        <!-- Botões de Ação Mobile (Touch 40-44px) -->
+        <div class="grid grid-cols-3 gap-2 pt-1">
+          <button onclick="openEditAppModal('${app.id}')" class="py-2.5 px-2 rounded-xl bg-brand-purple/15 hover:bg-brand-purple text-brand-purple hover:text-white border border-brand-purple/30 text-xs font-bold flex items-center justify-center gap-1 transition-all" title="Editar Informações">
+            <span class="material-symbols-outlined text-base">edit</span>
+            <span>Editar</span>
+          </button>
+          <button onclick="openUpdateModal('${app.id}')" class="py-2.5 px-2 rounded-xl bg-brand-cyan/15 hover:bg-brand-cyan text-brand-cyan hover:text-black border border-brand-cyan/30 text-xs font-bold flex items-center justify-center gap-1 transition-all" title="Nova Versão">
+            <span class="material-symbols-outlined text-base">upgrade</span>
+            <span>Versão</span>
+          </button>
+          <button onclick="deleteApp('${app.id}', '${escapeHtml(app.name)}')" class="py-2.5 px-2 rounded-xl bg-red-500/15 hover:bg-red-500 text-red-400 hover:text-white border border-red-500/30 text-xs font-bold flex items-center justify-center gap-1 transition-all" title="Excluir">
+            <span class="material-symbols-outlined text-base">delete</span>
+            <span>Excluir</span>
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
 function renderTable(apps) {
@@ -768,6 +1015,9 @@ function renderTable(apps) {
         <td class="py-4 px-4 font-bold text-white text-sm">${app.downloads || 0}</td>
         <td class="py-4 px-5 text-right">
           <div class="flex items-center justify-end gap-2">
+            <button onclick="openEditAppModal('${app.id}')" class="p-1.5 rounded-xl bg-brand-purple/15 hover:bg-brand-purple text-brand-purple hover:text-white border border-brand-purple/30 transition-all" title="Editar Informações">
+              <span class="material-symbols-outlined text-sm">edit</span>
+            </button>
             <button onclick="openUpdateModal('${app.id}')" class="px-3 py-1.5 rounded-xl bg-brand-cyan/10 hover:bg-brand-cyan text-brand-cyan hover:text-black text-xs font-bold border border-brand-cyan/30 transition-all flex items-center gap-1">
               <span class="material-symbols-outlined text-sm">upgrade</span>
               <span>Atualizar</span>
@@ -810,6 +1060,9 @@ function renderGrid(apps) {
             <span class="text-brand-cyan font-bold">${app.downloads || 0} downloads</span>
           </div>
           <div class="flex items-center gap-2 pt-1">
+            <button onclick="openEditAppModal('${app.id}')" class="p-1.5 rounded-xl bg-brand-purple/15 hover:bg-brand-purple text-brand-purple hover:text-white border border-brand-purple/30 transition-all" title="Editar Informações">
+              <span class="material-symbols-outlined text-sm">edit</span>
+            </button>
             <button onclick="openUpdateModal('${app.id}')" class="flex-1 py-1.5 rounded-xl bg-brand-cyan/15 hover:bg-brand-cyan text-brand-cyan hover:text-black text-xs font-bold border border-brand-cyan/30 transition-all">
               Atualizar
             </button>
@@ -821,6 +1074,119 @@ function renderGrid(apps) {
       </div>
     `;
   }).join('');
+}
+
+// Abrir Modal de Edição Completa do Aplicativo
+window.openEditAppModal = function(appId) {
+  const app = currentApps.find(a => a.id === appId);
+  if (!app) return;
+
+  document.getElementById('editAppId').value = app.id;
+  document.getElementById('editAppName').value = app.name || '';
+  document.getElementById('editAppPackage').value = app.packageName || '';
+  document.getElementById('editAppDeveloper').value = app.developer || '';
+  document.getElementById('editAppCategory').value = app.category || 'Ferramentas & Utilitários';
+  document.getElementById('editAppAgeRating').value = app.ageRating || 'Livre';
+  document.getElementById('editAppVersionName').value = app.versionName || '1.0.0';
+  document.getElementById('editAppVersionCode').value = app.versionCode || 1;
+  document.getElementById('editAppRating').value = app.rating !== undefined ? app.rating : 4.8;
+  document.getElementById('editAppIsFeatured').checked = !!app.isFeatured;
+  document.getElementById('editAppDescription').value = app.description || '';
+  document.getElementById('editAppChangelog').value = app.changelog || '';
+
+  // Limpar inputs de arquivo e URLs temporárias
+  const inputEditIcon = document.getElementById('inputEditIconFile');
+  const inputEditBanner = document.getElementById('inputEditBannerFile');
+  const inputEditIconExt = document.getElementById('inputEditIconExternalUrl');
+  const inputEditBannerExt = document.getElementById('inputEditBannerExternalUrl');
+  if (inputEditIcon) inputEditIcon.value = '';
+  if (inputEditBanner) inputEditBanner.value = '';
+  if (inputEditIconExt) inputEditIconExt.value = '';
+  if (inputEditBannerExt) inputEditBannerExt.value = '';
+
+  // Previews de Mídia
+  const iconSrc = app.iconUrl || '/uploads/icons/default-icon.svg';
+  const bannerSrc = app.bannerUrl || app.iconUrl || '/uploads/icons/default-icon.svg';
+  const previewEditIcon = document.getElementById('previewEditIcon');
+  const previewEditBanner = document.getElementById('previewEditBanner');
+  if (previewEditIcon) previewEditIcon.src = iconSrc;
+  if (previewEditBanner) previewEditBanner.src = bannerSrc;
+
+  const labelEditIcon = document.getElementById('labelEditIconStatus');
+  const labelEditBanner = document.getElementById('labelEditBannerStatus');
+  if (labelEditIcon) labelEditIcon.textContent = 'Ícone atual mantido';
+  if (labelEditBanner) labelEditBanner.textContent = app.bannerUrl ? 'Banner atual mantido' : 'Nenhum banner 16:9 cadastrado';
+
+  const badgeEditIcon = document.getElementById('badgeEditIconSource');
+  const badgeEditBanner = document.getElementById('badgeEditBannerSource');
+  if (badgeEditIcon) {
+    badgeEditIcon.textContent = 'Atual';
+    badgeEditIcon.className = 'text-[10px] px-2 py-0.5 rounded-full bg-zinc-800 text-gray-400 border border-zinc-700';
+  }
+  if (badgeEditBanner) {
+    badgeEditBanner.textContent = 'Atual';
+    badgeEditBanner.className = 'text-[10px] px-2 py-0.5 rounded-full bg-zinc-800 text-gray-400 border border-zinc-700';
+  }
+
+  const progressContainer = document.getElementById('editUploadProgressContainer');
+  if (progressContainer) progressContainer.classList.add('hidden');
+
+  const modal = document.getElementById('modalEditApp');
+  openModal(modal);
+};
+
+// Submeter Edição do Aplicativo (PUT /api/apps/:id)
+async function handleEditAppSubmit() {
+  const form = document.getElementById('formEditApp');
+  const appId = document.getElementById('editAppId').value;
+  const nameVal = document.getElementById('editAppName').value.trim();
+
+  if (!nameVal) {
+    showToast('Por favor, informe o nome do aplicativo.', 'warning');
+    document.getElementById('editAppName').focus();
+    return;
+  }
+
+  const btnSubmit = document.getElementById('btnSubmitEditApp');
+  const progressContainer = document.getElementById('editUploadProgressContainer');
+  const progressFill = document.getElementById('editUploadProgressFill');
+  const progressPercent = document.getElementById('editUploadProgressPercent');
+
+  btnSubmit.disabled = true;
+  btnSubmit.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">progress_activity</span> Gravando...';
+  if (progressContainer) progressContainer.classList.remove('hidden');
+  if (progressFill) progressFill.style.width = '35%';
+  if (progressPercent) progressPercent.textContent = '35%';
+
+  try {
+    const formData = new FormData(form);
+    formData.set('isFeatured', document.getElementById('editAppIsFeatured').checked ? 'true' : 'false');
+
+    if (progressFill) progressFill.style.width = '70%';
+    if (progressPercent) progressPercent.textContent = '70%';
+
+    const res = await fetch('/api/apps/' + appId, {
+      method: 'PUT',
+      body: formData
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Erro ao atualizar dados do aplicativo.');
+
+    if (progressFill) progressFill.style.width = '100%';
+    if (progressPercent) progressPercent.textContent = '100%';
+
+    closeModal(document.getElementById('modalEditApp'));
+    loadStats();
+    loadApps();
+    showToast('Aplicativo "' + nameVal + '" atualizado com sucesso!', 'success');
+  } catch (err) {
+    showToast('Erro ao atualizar: ' + err.message, 'error');
+  } finally {
+    btnSubmit.disabled = false;
+    btnSubmit.innerHTML = '<span class="material-symbols-outlined text-lg">check</span> Salvar Alterações';
+    if (progressContainer) progressContainer.classList.add('hidden');
+  }
 }
 
 window.openUpdateModal = function(appId) {

@@ -38,23 +38,23 @@
 </head>
 <body class="text-gray-100 min-h-screen font-sans flex flex-col">
 
-  <!-- Top Navigation Header -->
-  <header class="glass-panel border-b border-brand-border sticky top-0 z-30 px-8 py-4 flex items-center justify-between">
-    <div class="flex items-center gap-4">
-      <div class="w-12 h-12 rounded-2xl overflow-hidden border border-brand-cyan/40 shadow-lg glow-purple flex-shrink-0 bg-black p-0.5">
-        <img src="/admin/app-logo.png" class="w-full h-full object-cover rounded-[14px]" alt="IntraStore TV Logo">
+  <!-- Top Navigation Header Responsivo -->
+  <header class="glass-panel border-b border-brand-border sticky top-0 z-30 px-4 sm:px-8 py-3 sm:py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3 sm:gap-4">
+      <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl overflow-hidden border border-brand-cyan/40 shadow-lg glow-purple flex-shrink-0 bg-black p-0.5">
+        <img src="/admin/app-logo.png" class="w-full h-full object-cover rounded-[12px] sm:rounded-[14px]" alt="IntraStore TV Logo">
       </div>
       <div>
         <div class="flex items-center gap-2">
-          <h1 class="text-xl font-display font-bold tracking-tight text-white">IntraStore TV</h1>
-          <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-brand-purple/20 text-brand-cyan border border-brand-purple/40 font-semibold tracking-wider">ADMIN HUB</span>
+          <h1 class="text-lg sm:text-xl font-display font-bold tracking-tight text-white">IntraStore TV</h1>
+          <span class="text-[10px] sm:text-[11px] px-2 sm:px-2.5 py-0.5 rounded-full bg-brand-purple/20 text-brand-cyan border border-brand-purple/40 font-semibold tracking-wider">ADMIN</span>
         </div>
-        <p class="text-xs text-gray-400">Distribuição & Gestão de Aplicativos para Android TV</p>
+        <p class="text-[11px] sm:text-xs text-gray-400 hidden sm:block">Distribuição & Gestão de Aplicativos para Android TV</p>
       </div>
     </div>
 
-    <!-- Right Quick Actions -->
-    <div class="flex items-center gap-4">
+    <!-- Right Quick Actions: Desktop (>= 1024px) -->
+    <div class="hidden lg:flex items-center gap-3">
       <!-- Status Cloudflare R2 -->
       <div id="r2StatusBadge" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -62,8 +62,8 @@
       </div>
 
       <!-- Link Encurtado Direto para Android TV (Downloader) -->
-      <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-brand-surface border border-brand-cyan/30 text-xs">
-        <span class="text-gray-400">Link Direto TV:</span>
+      <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-brand-surface border border-brand-cyan/30 text-xs">
+        <span class="text-gray-400">Link TV:</span>
         <code class="text-brand-cyan font-mono font-bold select-all">tinyurl.com/intrastore-v11</code>
         <button id="btnCopyShortLink" class="p-1 text-gray-400 hover:text-brand-cyan hover:bg-brand-cyan/10 rounded transition-colors" title="Copiar link para o app Downloader da TV">
           <span class="material-symbols-outlined text-sm">content_copy</span>
@@ -71,89 +71,135 @@
       </div>
 
       <!-- Botão Baixar APK da TV -->
-      <a href="/apk" target="_blank" class="flex items-center gap-2 text-sm text-brand-cyan hover:text-black hover:bg-brand-cyan px-4 py-2 rounded-xl bg-brand-cyan/10 border border-brand-cyan/30 transition-all font-semibold shadow-lg" title="Baixar APK v1.1.0 oficial">
+      <a href="/apk" target="_blank" class="flex items-center gap-2 text-sm text-brand-cyan hover:text-black hover:bg-brand-cyan px-3.5 py-2 rounded-xl bg-brand-cyan/10 border border-brand-cyan/30 transition-all font-semibold shadow-lg" title="Baixar APK v1.1.0 oficial">
         <span class="material-symbols-outlined text-lg">download</span>
         <span>Baixar APK v1.1.0</span>
       </a>
 
-      <a href="/tv" target="_blank" class="flex items-center gap-2 text-sm text-gray-300 hover:text-white px-4 py-2 rounded-xl bg-brand-surface border border-brand-border hover:border-brand-cyan transition-all">
+      <a href="/tv" target="_blank" class="flex items-center gap-2 text-sm text-gray-300 hover:text-white px-3.5 py-2 rounded-xl bg-brand-surface border border-brand-border hover:border-brand-cyan transition-all">
         <span class="material-symbols-outlined text-lg text-brand-cyan">open_in_new</span>
         <span>Abrir Loja TV</span>
       </a>
 
-      <button id="btnOpenNewAppModal" class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-purple to-purple-700 hover:from-purple-600 hover:to-brand-purple text-white font-semibold text-sm transition-all shadow-lg glow-purple">
+      <button id="btnOpenNewAppModal" class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-brand-purple to-purple-700 hover:from-purple-600 hover:to-brand-purple text-white font-semibold text-sm transition-all shadow-lg glow-purple">
         <span class="material-symbols-outlined text-lg">add_circle</span>
         <span>Novo Aplicativo</span>
       </button>
     </div>
+
+    <!-- Mobile Action Buttons (< 1024px) -->
+    <div class="flex lg:hidden items-center gap-2">
+      <button id="btnOpenNewAppModalMobile" class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-brand-purple hover:bg-purple-600 text-white font-bold text-xs shadow-md glow-purple">
+        <span class="material-symbols-outlined text-base">add</span>
+        <span>Novo App</span>
+      </button>
+      <button id="btnToggleMobileMenu" class="p-2 rounded-xl bg-brand-surface border border-brand-border text-gray-300 hover:text-white transition-all">
+        <span id="iconMobileMenu" class="material-symbols-outlined text-xl">menu</span>
+      </button>
+    </div>
   </header>
 
-  <!-- Main Content Container -->
-  <main class="flex-1 max-w-7xl w-full mx-auto p-6 md:p-8 space-y-6">
+  <!-- Mobile Dropdown Drawer (< 1024px) -->
+  <div id="mobileNavDrawer" class="hidden lg:hidden glass-panel border-b border-brand-border px-4 py-4 space-y-3 bg-brand-dark/95 backdrop-blur-xl">
+    <!-- Link Direto TV -->
+    <div class="flex items-center justify-between p-3 rounded-xl bg-brand-surface border border-brand-cyan/30 text-xs">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-brand-cyan text-base">tv</span>
+        <span class="text-gray-300 font-medium">Link TV:</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <code class="text-brand-cyan font-mono font-bold text-[11px]">tinyurl.com/intrastore-v11</code>
+        <button id="btnCopyShortLinkMobile" class="p-1.5 text-gray-300 hover:text-white bg-brand-cyan/20 rounded-lg" title="Copiar link">
+          <span class="material-symbols-outlined text-sm">content_copy</span>
+        </button>
+      </div>
+    </div>
 
-    <!-- KPI Statistics Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- Ações Rápidas Mobile -->
+    <div class="grid grid-cols-2 gap-2.5">
+      <a href="/apk" target="_blank" class="flex items-center justify-center gap-2 text-xs text-brand-cyan px-3 py-2.5 rounded-xl bg-brand-cyan/10 border border-brand-cyan/30 font-semibold">
+        <span class="material-symbols-outlined text-base">download</span>
+        <span>Baixar APK</span>
+      </a>
+      <a href="/tv" target="_blank" class="flex items-center justify-center gap-2 text-xs text-gray-300 px-3 py-2.5 rounded-xl bg-brand-surface border border-brand-border font-semibold">
+        <span class="material-symbols-outlined text-base text-brand-cyan">open_in_new</span>
+        <span>Abrir Loja TV</span>
+      </a>
+    </div>
+
+    <!-- Status Cloudflare R2 Mobile -->
+    <div id="r2StatusBadgeMobile" class="flex items-center justify-center gap-2 p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span>Cloudflare R2 Ativo & Operacional</span>
+    </div>
+  </div>
+
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-3.5 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
+
+    <!-- KPI Statistics Grid (2x2 no mobile, 4 colunas no desktop) -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
       <!-- Card 1: Apps -->
-      <div class="glass-panel p-5 rounded-2xl flex items-center justify-between">
+      <div class="glass-panel p-3.5 sm:p-5 rounded-2xl flex items-center justify-between">
         <div>
-          <div class="text-xs uppercase font-semibold text-gray-400 tracking-wider">Catálogo Ativo</div>
-          <div id="statTotalApps" class="text-3xl font-display font-bold text-white mt-1">0</div>
-          <div class="text-[11px] text-gray-500 mt-0.5">Aplicativos cadastrados</div>
+          <div class="text-[10px] sm:text-xs uppercase font-semibold text-gray-400 tracking-wider">Catálogo Ativo</div>
+          <div id="statTotalApps" class="text-2xl sm:text-3xl font-display font-bold text-white mt-1">0</div>
+          <div class="text-[10px] sm:text-[11px] text-gray-500 mt-0.5">Aplicativos</div>
         </div>
-        <div class="w-12 h-12 rounded-2xl bg-brand-purple/10 border border-brand-purple/30 flex items-center justify-center text-brand-purple">
-          <span class="material-symbols-outlined text-2xl">apps</span>
+        <div class="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-brand-purple/10 border border-brand-purple/30 flex items-center justify-center text-brand-purple">
+          <span class="material-symbols-outlined text-xl sm:text-2xl">apps</span>
         </div>
       </div>
 
       <!-- Card 2: Downloads -->
-      <div class="glass-panel p-5 rounded-2xl flex items-center justify-between">
+      <div class="glass-panel p-3.5 sm:p-5 rounded-2xl flex items-center justify-between">
         <div>
-          <div class="text-xs uppercase font-semibold text-gray-400 tracking-wider">Downloads Totais</div>
-          <div id="statTotalDownloads" class="text-3xl font-display font-bold text-white mt-1">0</div>
-          <div class="text-[11px] text-brand-cyan mt-0.5">Via Cloudflare CDN</div>
+          <div class="text-[10px] sm:text-xs uppercase font-semibold text-gray-400 tracking-wider">Downloads Totais</div>
+          <div id="statTotalDownloads" class="text-2xl sm:text-3xl font-display font-bold text-white mt-1">0</div>
+          <div class="text-[10px] sm:text-[11px] text-brand-cyan mt-0.5">Comunidade</div>
         </div>
-        <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-brand-cyan">
-          <span class="material-symbols-outlined text-2xl">download</span>
+        <div class="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-brand-cyan">
+          <span class="material-symbols-outlined text-xl sm:text-2xl">download</span>
         </div>
       </div>
 
       <!-- Card 3: Hero TV -->
-      <div class="glass-panel p-5 rounded-2xl flex items-center justify-between">
+      <div class="glass-panel p-3.5 sm:p-5 rounded-2xl flex items-center justify-between">
         <div>
-          <div class="text-xs uppercase font-semibold text-gray-400 tracking-wider">Destaques Hero</div>
-          <div id="statFeaturedCount" class="text-3xl font-display font-bold text-white mt-1">0</div>
-          <div class="text-[11px] text-amber-400 mt-0.5">Banner principal da TV</div>
+          <div class="text-[10px] sm:text-xs uppercase font-semibold text-gray-400 tracking-wider">Destaques Hero</div>
+          <div id="statFeaturedCount" class="text-2xl sm:text-3xl font-display font-bold text-white mt-1">0</div>
+          <div class="text-[10px] sm:text-[11px] text-amber-400 mt-0.5">Topo da TV</div>
         </div>
-        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
-          <span class="material-symbols-outlined text-2xl">star</span>
+        <div class="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+          <span class="material-symbols-outlined text-xl sm:text-2xl">star</span>
         </div>
       </div>
 
       <!-- Card 4: Armazenamento R2 -->
-      <div class="glass-panel p-5 rounded-2xl flex items-center justify-between">
+      <div class="glass-panel p-3.5 sm:p-5 rounded-2xl flex items-center justify-between">
         <div>
-          <div class="text-xs uppercase font-semibold text-gray-400 tracking-wider">Cloudflare R2</div>
-          <div class="text-lg font-display font-bold text-emerald-400 mt-1">10GB Grátis</div>
-          <div class="text-[11px] text-gray-400 mt-0.5">Zero custo de saída</div>
+          <div class="text-[10px] sm:text-xs uppercase font-semibold text-gray-400 tracking-wider">Cloudflare R2</div>
+          <div class="text-base sm:text-lg font-display font-bold text-emerald-400 mt-1">10GB Grátis</div>
+          <div class="text-[10px] sm:text-[11px] text-gray-400 mt-0.5">Zero custo</div>
         </div>
-        <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-          <span class="material-symbols-outlined text-2xl">cloud_sync</span>
+        <div class="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+          <span class="material-symbols-outlined text-xl sm:text-2xl">cloud_sync</span>
         </div>
       </div>
     </div>
 
-    <!-- Search & Filter Bar -->
-    <div class="glass-panel p-4 rounded-2xl flex flex-col md:flex-row gap-4 items-center justify-between">
+    <!-- Search & Filter Bar Responsiva -->
+    <div class="glass-panel p-3.5 sm:p-4 rounded-2xl flex flex-col md:flex-row gap-3 sm:gap-4 items-center justify-between">
       <!-- Search Input -->
-      <div class="flex-1 w-full md:w-auto relative">
+      <div class="flex-1 w-full relative">
         <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400">search</span>
-        <input type="text" id="searchInput" placeholder="Buscar por nome, package name ou desenvolvedor..." 
-          class="w-full bg-brand-surface border border-brand-border rounded-xl pl-11 pr-4 py-2.5 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-brand-cyan transition-colors">
+        <input type="text" id="searchInput" placeholder="Buscar por nome, package name..." 
+          class="w-full bg-brand-surface border border-brand-border rounded-xl pl-11 pr-4 py-2.5 text-base sm:text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-brand-cyan transition-colors">
       </div>
 
       <!-- Filter and View Toggles -->
-      <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
-        <select id="categoryFilter" class="bg-brand-surface border border-brand-border rounded-xl px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-brand-cyan">
+      <div class="flex items-center gap-2 sm:gap-3 w-full md:w-auto justify-between md:justify-end">
+        <select id="categoryFilter" class="flex-1 sm:flex-initial bg-brand-surface border border-brand-border rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-gray-200 focus:outline-none focus:border-brand-cyan">
           <option value="Todos">Todas as Categorias</option>
           <option value="Streaming & Vídeo">Streaming & Vídeo</option>
           <option value="Jogos">Jogos</option>
@@ -164,10 +210,10 @@
 
         <!-- Toggle Tabela / Cards -->
         <div class="flex bg-brand-surface border border-brand-border rounded-xl p-1">
-          <button id="btnViewTable" class="p-1.5 rounded-lg bg-brand-purple text-white transition-all" title="Visualização em Tabela">
-            <span class="material-symbols-outlined text-base">table_rows</span>
+          <button id="btnViewTable" class="p-1.5 rounded-lg bg-brand-purple text-white transition-all" title="Visualização em Tabela / Cards">
+            <span class="material-symbols-outlined text-base">view_list</span>
           </button>
-          <button id="btnViewGrid" class="p-1.5 rounded-lg text-gray-400 hover:text-white transition-all" title="Visualização em Cards de TV">
+          <button id="btnViewGrid" class="p-1.5 rounded-lg text-gray-400 hover:text-white transition-all" title="Visualização em Grade de TV">
             <span class="material-symbols-outlined text-base">grid_view</span>
           </button>
         </div>
@@ -181,36 +227,44 @@
     <!-- Apps Table / Cards View Container -->
     <div class="glass-panel rounded-2xl overflow-hidden">
       
-      <div class="p-5 border-b border-brand-border flex items-center justify-between">
+      <div class="p-4 sm:p-5 border-b border-brand-border flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <h2 class="text-lg font-display font-bold text-white">Aplicativos da Comunidade</h2>
+          <h2 class="text-base sm:text-lg font-display font-bold text-white">Aplicativos da Comunidade</h2>
           <span id="appsCountBadge" class="text-xs px-2.5 py-0.5 rounded-full bg-brand-surface text-brand-cyan border border-brand-border font-semibold">0</span>
         </div>
-        <span class="text-xs text-gray-400 hidden sm:inline">Armazenamento em nuvem sincronizado em tempo real</span>
+        <span class="text-xs text-gray-400 hidden sm:inline">Sincronizado em tempo real</span>
       </div>
 
-      <!-- Tabela -->
-      <div id="tableViewWrapper" class="overflow-x-auto">
-        <table class="w-full text-left border-collapse text-sm">
-          <thead>
-            <tr class="bg-brand-surface/70 text-xs font-semibold text-gray-400 uppercase tracking-wider border-b border-brand-border">
-              <th class="py-4 px-5">Aplicativo</th>
-              <th class="py-4 px-4">Package Name</th>
-              <th class="py-4 px-4">Categoria</th>
-              <th class="py-4 px-4">Versão</th>
-              <th class="py-4 px-4">Destaque TV</th>
-              <th class="py-4 px-4">Downloads</th>
-              <th class="py-4 px-5 text-right">Ações</th>
-            </tr>
-          </thead>
-          <tbody id="appsTableBody" class="divide-y divide-brand-border">
-            <!-- Injetado dinamicamente -->
-          </tbody>
-        </table>
+      <!-- Tabela Desktop & Cards Mobile -->
+      <div id="tableViewWrapper">
+        <!-- Visualização Mobile em Cards Touch -->
+        <div id="mobileCardsContainer" class="block md:hidden divide-y divide-brand-border/40 p-3 space-y-3">
+          <!-- Injetado dinamicamente no mobile -->
+        </div>
+
+        <!-- Tabela Desktop -->
+        <div class="hidden md:block overflow-x-auto">
+          <table class="w-full text-left border-collapse text-sm">
+            <thead>
+              <tr class="bg-brand-surface/70 text-xs font-semibold text-gray-400 uppercase tracking-wider border-b border-brand-border">
+                <th class="py-4 px-5">Aplicativo</th>
+                <th class="py-4 px-4">Package Name</th>
+                <th class="py-4 px-4">Categoria</th>
+                <th class="py-4 px-4">Versão</th>
+                <th class="py-4 px-4">Destaque TV</th>
+                <th class="py-4 px-4">Downloads</th>
+                <th class="py-4 px-5 text-right">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="appsTableBody" class="divide-y divide-brand-border">
+              <!-- Injetado dinamicamente -->
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!-- Grid de Cards de TV (Opcional) -->
-      <div id="gridViewWrapper" class="hidden p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+      <div id="gridViewWrapper" class="hidden p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
         <!-- Injetado dinamicamente -->
       </div>
 
@@ -471,6 +525,229 @@
           <button type="submit" id="btnSubmitNewApp" class="px-6 py-2.5 rounded-xl bg-brand-purple hover:bg-purple-600 text-white font-semibold text-sm flex items-center gap-2 shadow-lg glow-purple transition-all">
             <span class="material-symbols-outlined text-lg">cloud_upload</span>
             <span>Publicar no Cloudflare R2</span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: EDITAR APLICATIVO (DADOS, ÍCONE, CAPA, HERO, DESCRIÇÃO)   -->
+  <!-- ============================================================== -->
+  <div id="modalEditApp" class="modal-backdrop fixed inset-0 z-50 bg-black/85 backdrop-blur-xl hidden items-center justify-center p-2 sm:p-4 overflow-y-auto">
+    <div class="modal-content-card glass-panel rounded-2xl sm:rounded-3xl max-w-3xl w-full max-h-[95vh] sm:max-h-[92vh] flex flex-col shadow-2xl overflow-hidden my-auto border border-white/10">
+      
+      <div class="p-4 sm:p-6 border-b border-brand-border flex items-center justify-between bg-brand-surface/60">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-brand-cyan/20 border border-brand-cyan/40 flex items-center justify-center text-brand-cyan shadow-lg glow-cyan">
+            <span class="material-symbols-outlined text-xl">edit_square</span>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-display font-bold text-white">Editar Informações do Aplicativo</h3>
+            <p class="text-xs text-gray-400">Altere nome, capa, ícone, destaques e especificações</p>
+          </div>
+        </div>
+        <button type="button" class="modal-close text-gray-400 hover:text-white p-2 rounded-xl hover:bg-white/5 transition-all">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form id="formEditApp" novalidate class="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-5 overflow-y-auto flex-1">
+        <input type="hidden" id="editAppId" name="appId">
+
+        <!-- Linha 1: Nome e Package Name -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-gray-300">Nome do Aplicativo na TV *</label>
+            <input type="text" id="editAppName" name="name" required placeholder="ex: SmartTube Next TV"
+              class="w-full bg-brand-surface border border-brand-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-gray-100 placeholder-gray-600 focus:outline-none focus:border-brand-cyan">
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-gray-300">Package Name (ID Único)</label>
+            <input type="text" id="editAppPackage" name="packageName" readonly
+              class="w-full bg-brand-surface/50 border border-brand-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-gray-400 font-mono cursor-not-allowed">
+          </div>
+        </div>
+
+        <!-- Linha 2: Desenvolvedor, Categoria e Classificação -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-gray-300">Desenvolvedor / Equipe</label>
+            <input type="text" id="editAppDeveloper" name="developer" placeholder="ex: Comunidade Open Source"
+              class="w-full bg-brand-surface border border-brand-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-gray-100 focus:outline-none focus:border-brand-cyan">
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-gray-300">Categoria</label>
+            <select id="editAppCategory" name="category" class="w-full bg-brand-surface border border-brand-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-gray-100 focus:outline-none focus:border-brand-cyan">
+              <option value="Streaming & Vídeo">Streaming & Vídeo</option>
+              <option value="Jogos">Jogos</option>
+              <option value="Ferramentas & Utilitários">Ferramentas & Utilitários</option>
+              <option value="Música & Áudio">Música & Áudio</option>
+              <option value="Produtividade">Produtividade</option>
+            </select>
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-gray-300">Classificação</label>
+            <select id="editAppAgeRating" name="ageRating" class="w-full bg-brand-surface border border-brand-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-gray-100 focus:outline-none focus:border-brand-cyan">
+              <option value="Livre">Livre</option>
+              <option value="10+">10+</option>
+              <option value="12+">12+</option>
+              <option value="14+">14+</option>
+              <option value="16+">16+</option>
+              <option value="18+">18+</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Linha 3: Versão & Avaliação -->
+        <div class="grid grid-cols-3 gap-3 sm:gap-4">
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-gray-300">Versão (versionName)</label>
+            <input type="text" id="editAppVersionName" name="versionName"
+              class="w-full bg-brand-surface border border-brand-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-gray-100 focus:outline-none focus:border-brand-cyan">
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-gray-300">Código (versionCode)</label>
+            <input type="number" id="editAppVersionCode" name="versionCode" min="1"
+              class="w-full bg-brand-surface border border-brand-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-gray-100 focus:outline-none focus:border-brand-cyan">
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-gray-300">Avaliação (★)</label>
+            <input type="number" id="editAppRating" name="rating" step="0.1" min="1" max="5"
+              class="w-full bg-brand-surface border border-brand-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-gray-100 focus:outline-none focus:border-brand-cyan">
+          </div>
+        </div>
+
+        <!-- Linha 4: Imagens (Ícone e Banner com Preview e Busca Web) -->
+        <div class="space-y-3 pt-3 border-t border-brand-border">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-gray-200 flex items-center gap-2">
+              <span class="material-symbols-outlined text-brand-cyan text-base">image</span>
+              <span>Identidade Visual & Mídia do App</span>
+            </h4>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+            <!-- EDIT ÍCONE -->
+            <div class="p-3.5 sm:p-4 rounded-2xl bg-brand-surface/70 border border-brand-border flex flex-col justify-between gap-3">
+              <div class="flex items-start justify-between">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>Ícone Quadrado</span>
+                  <span class="text-[10px] px-1.5 py-0.5 rounded bg-brand-purple/20 text-brand-cyan font-mono">1:1</span>
+                </div>
+                <span id="badgeEditIconSource" class="text-[10px] px-2 py-0.5 rounded-full bg-zinc-800 text-gray-400 border border-zinc-700">Atual</span>
+              </div>
+
+              <div class="flex items-center gap-3.5 py-1">
+                <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden border border-brand-border bg-black/60 flex-shrink-0 flex items-center justify-center shadow-lg">
+                  <img id="previewEditIcon" src="/uploads/icons/default-icon.svg" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1 flex flex-col gap-2">
+                  <input type="file" id="inputEditIconFile" name="icon" accept="image/*" class="hidden">
+                  <input type="hidden" id="inputEditIconExternalUrl" name="iconExternalUrl">
+                  <div class="flex items-center gap-2">
+                    <button type="button" id="btnChooseEditLocalIcon" class="flex-1 py-2 px-2.5 rounded-xl bg-brand-surface hover:bg-zinc-800 text-gray-300 hover:text-white border border-brand-border text-xs font-semibold flex items-center justify-center gap-1 transition-all">
+                      <span class="material-symbols-outlined text-sm">folder_open</span>
+                      <span>Arquivo</span>
+                    </button>
+                    <button type="button" id="btnSearchEditOnlineIcon" class="flex-1 py-2 px-2.5 rounded-xl bg-brand-cyan/15 hover:bg-brand-cyan text-brand-cyan hover:text-black border border-brand-cyan/40 text-xs font-bold flex items-center justify-center gap-1 transition-all">
+                      <span class="material-symbols-outlined text-sm">search</span>
+                      <span>Buscar Web</span>
+                    </button>
+                  </div>
+                  <div id="labelEditIconStatus" class="text-[11px] text-gray-400 truncate">Ícone atual mantido</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- EDIT BANNER -->
+            <div class="p-3.5 sm:p-4 rounded-2xl bg-brand-surface/70 border border-brand-border flex flex-col justify-between gap-3">
+              <div class="flex items-start justify-between">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>Capa / Banner Hero TV</span>
+                  <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 font-mono">16:9</span>
+                </div>
+                <span id="badgeEditBannerSource" class="text-[10px] px-2 py-0.5 rounded-full bg-zinc-800 text-gray-400 border border-zinc-700">Atual</span>
+              </div>
+
+              <div class="flex items-center gap-3.5 py-1">
+                <div class="w-20 h-12 sm:w-24 sm:h-14 rounded-xl overflow-hidden border border-brand-border bg-black/60 flex-shrink-0 flex items-center justify-center shadow-lg">
+                  <img id="previewEditBanner" src="/uploads/icons/default-icon.svg" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1 flex flex-col gap-2">
+                  <input type="file" id="inputEditBannerFile" name="banner" accept="image/*" class="hidden">
+                  <input type="hidden" id="inputEditBannerExternalUrl" name="bannerExternalUrl">
+                  <div class="flex items-center gap-2">
+                    <button type="button" id="btnChooseEditLocalBanner" class="flex-1 py-2 px-2.5 rounded-xl bg-brand-surface hover:bg-zinc-800 text-gray-300 hover:text-white border border-brand-border text-xs font-semibold flex items-center justify-center gap-1 transition-all">
+                      <span class="material-symbols-outlined text-sm">folder_open</span>
+                      <span>Arquivo</span>
+                    </button>
+                    <button type="button" id="btnSearchEditOnlineBanner" class="flex-1 py-2 px-2.5 rounded-xl bg-brand-cyan/15 hover:bg-brand-cyan text-brand-cyan hover:text-black border border-brand-cyan/40 text-xs font-bold flex items-center justify-center gap-1 transition-all">
+                      <span class="material-symbols-outlined text-sm">search</span>
+                      <span>Buscar Web</span>
+                    </button>
+                  </div>
+                  <div id="labelEditBannerStatus" class="text-[11px] text-gray-400 truncate">Banner atual mantido</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toggle Destaque TV -->
+        <div class="p-3.5 sm:p-4 rounded-2xl bg-brand-surface/50 border border-brand-border flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-amber-400">star</span>
+            <div>
+              <div class="text-sm font-semibold text-white">Fixar no Carrossel Hero da Android TV</div>
+              <div class="text-xs text-gray-400">O aplicativo aparecerá em destaque no topo da tela</div>
+            </div>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="editAppIsFeatured" name="isFeatured" class="sr-only peer">
+            <div class="w-11 h-6 bg-zinc-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-purple"></div>
+          </label>
+        </div>
+
+        <!-- Descrição e Changelog -->
+        <div class="space-y-1">
+          <label class="text-xs font-semibold text-gray-300">Descrição do Aplicativo</label>
+          <textarea id="editAppDescription" name="description" rows="3" placeholder="Explique os recursos do aplicativo..."
+            class="w-full bg-brand-surface border border-brand-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-gray-100 placeholder-gray-600 focus:outline-none focus:border-brand-cyan"></textarea>
+        </div>
+
+        <div class="space-y-1">
+          <label class="text-xs font-semibold text-gray-300">Novidades da Versão (Changelog)</label>
+          <input type="text" id="editAppChangelog" name="changelog"
+            class="w-full bg-brand-surface border border-brand-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-gray-100 focus:outline-none focus:border-brand-cyan">
+        </div>
+
+        <!-- Barra de Progresso de Salvamento -->
+        <div id="editUploadProgressContainer" class="hidden p-4 rounded-2xl bg-brand-surface border border-brand-cyan/40 space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-brand-cyan font-semibold flex items-center gap-2">
+              <span class="material-symbols-outlined text-sm animate-spin">progress_activity</span>
+              Salvando alterações no catálogo...
+            </span>
+            <span id="editUploadProgressPercent" class="text-white font-mono font-bold">0%</span>
+          </div>
+          <div class="w-full h-2 bg-zinc-900 rounded-full overflow-hidden border border-brand-border">
+            <div id="editUploadProgressFill" class="h-full bg-gradient-to-r from-brand-purple to-brand-cyan w-0 transition-all duration-150"></div>
+          </div>
+        </div>
+
+        <!-- Botões de Ação do Modal -->
+        <div class="pt-3 flex flex-col-reverse sm:flex-row items-center justify-end gap-2.5 sm:gap-3 border-t border-brand-border">
+          <button type="button" class="modal-close w-full sm:w-auto px-5 py-2.5 rounded-xl bg-brand-surface hover:bg-zinc-800 text-gray-300 text-sm font-semibold transition-all">Cancelar</button>
+          <button type="submit" id="btnSubmitEditApp" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-brand-cyan hover:bg-cyan-400 text-black font-bold text-sm flex items-center justify-center gap-2 shadow-lg glow-cyan transition-all">
+            <span class="material-symbols-outlined text-lg">check</span>
+            <span>Salvar Alterações</span>
           </button>
         </div>
 

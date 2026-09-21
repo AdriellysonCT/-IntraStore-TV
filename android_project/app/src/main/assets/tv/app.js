@@ -505,10 +505,19 @@ window.handleAppAction = async function() {
       throw new Error('URL do arquivo APK não encontrada no servidor.');
     }
 
+    // Garantir protocolo absoluto para evitar o erro 'no protocol' no Android nativo
+    let fullApkUrl = data.apkUrl.trim();
+    if (!fullApkUrl.startsWith('http://') && !fullApkUrl.startsWith('https://')) {
+      const baseOrigin = (window.location.protocol.startsWith('http') && window.location.origin !== 'null')
+        ? window.location.origin
+        : 'https://intrastore-tv.onrender.com';
+      fullApkUrl = baseOrigin.replace(/\/+$/, '') + '/' + fullApkUrl.replace(/^\/+/, '');
+    }
+
     // 2. Se estiver rodando dentro do APK nativo na Android TV
     if (window.AndroidBridge && window.AndroidBridge.installApk) {
       statusText.textContent = 'Baixando APK em segundo plano...';
-      window.AndroidBridge.installApk(data.apkUrl, activeApp.packageName);
+      window.AndroidBridge.installApk(fullApkUrl, activeApp.packageName);
       // O progresso e a finalização são controlados por onNativeDownloadProgress e onNativeDownloadComplete
     } else {
       // Fallback para quando o usuário estiver testando no navegador no PC
@@ -520,7 +529,7 @@ window.handleAppAction = async function() {
 
       statusText.textContent = 'Download finalizado no navegador.';
       const link = document.createElement('a');
-      link.href = data.apkUrl;
+      link.href = fullApkUrl;
       link.download = data.fileName || (activeApp.name + '.apk');
       document.body.appendChild(link);
       link.click();

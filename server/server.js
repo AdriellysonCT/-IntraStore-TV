@@ -158,6 +158,27 @@ app.get('/api/categories', (req, res) => {
   res.json(catList);
 });
 
+// Função auxiliar para garantir URLs absolutas com protocolo em todas as respostas
+function formatAppUrls(req, app) {
+  if (!app) return app;
+  const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'https';
+  const host = req.get('host') || 'intrastore-tv.onrender.com';
+  const toAbs = (url) => {
+    if (!url || typeof url !== 'string') return url;
+    if (url.startsWith('http://') || url.startsWith('https://')) return url;
+    const clean = url.startsWith('/') ? url : '/' + url;
+    return `${protocol}://${host}${clean}`;
+  };
+
+  return {
+    ...app,
+    apkUrl: toAbs(app.apkUrl),
+    iconUrl: toAbs(app.iconUrl),
+    bannerUrl: toAbs(app.bannerUrl),
+    screenshots: Array.isArray(app.screenshots) ? app.screenshots.map(toAbs) : []
+  };
+}
+
 // 3. Listar Apps (com filtros opcionais: ?category=...&featured=true&search=...)
 app.get('/api/apps', (req, res) => {
   const store = readStore();
@@ -181,14 +202,14 @@ app.get('/api/apps', (req, res) => {
     );
   }
 
-  res.json(apps);
+  res.json(apps.map(a => formatAppUrls(req, a)));
 });
 
 // 4. Listar Apenas Destaques (para o Hero da TV)
 app.get('/api/apps/featured', (req, res) => {
   const store = readStore();
   const featured = store.apps.filter(a => a.isFeatured);
-  res.json(featured);
+  res.json(featured.map(a => formatAppUrls(req, a)));
 });
 
 // 5. Obter Detalhes de um App por ID
@@ -198,7 +219,7 @@ app.get('/api/apps/:id', (req, res) => {
   if (!appItem) {
     return res.status(404).json({ error: 'Aplicativo não encontrado.' });
   }
-  res.json(appItem);
+  res.json(formatAppUrls(req, appItem));
 });
 
 // 6. Verificar Atualizações para os Apps Instalados no Aparelho TV
@@ -210,6 +231,7 @@ app.post('/api/apps/check-updates', (req, res) => {
   installedList.forEach(item => {
     const storeApp = store.apps.find(a => a.packageName === item.packageName);
     if (storeApp && Number(storeApp.versionCode) > Number(item.versionCode)) {
+      const formatted = formatAppUrls(req, storeApp);
       updates.push({
         id: storeApp.id,
         name: storeApp.name,
@@ -218,9 +240,9 @@ app.post('/api/apps/check-updates', (req, res) => {
         newVersionCode: storeApp.versionCode,
         newVersionName: storeApp.versionName,
         changelog: storeApp.changelog || 'Melhorias de desempenho e correções.',
-        apkUrl: storeApp.apkUrl,
+        apkUrl: formatted.apkUrl,
         sizeMb: storeApp.sizeMb,
-        iconUrl: storeApp.iconUrl
+        iconUrl: formatted.iconUrl
       });
     }
   });
@@ -239,10 +261,12 @@ app.post('/api/apps/:id/download', (req, res) => {
   store.apps[index].downloads = (store.apps[index].downloads || 0) + 1;
   writeStore(store);
 
+  const formatted = formatAppUrls(req, store.apps[index]);
+
   res.json({
     success: true,
     downloads: store.apps[index].downloads,
-    apkUrl: store.apps[index].apkUrl,
+    apkUrl: formatted.apkUrl,
     fileName: store.apps[index].apkFileName
   });
 });
@@ -386,9 +410,12 @@ app.put('/api/apps/:id', cpUpload, async (req, res) => {
     if (body.category) currentApp.category = body.category;
     if (body.versionName) currentApp.versionName = body.versionName.trim();
     if (body.versionCode) currentApp.versionCode = parseInt(body.versionCode, 10);
-    if (body.description) currentApp.description = body.description;
+    if (body.description !== undefined) currentApp.description = body.description;
     if (body.changelog) currentApp.changelog = body.changelog;
     if (body.ageRating) currentApp.ageRating = body.ageRating;
+    if (body.rating !== undefined && body.rating !== '') {
+      currentApp.rating = parseFloat(body.rating) || currentApp.rating;
+    }
     if (body.isFeatured !== undefined) {
       currentApp.isFeatured = body.isFeatured === 'true' || body.isFeatured === true;
     }
@@ -398,7 +425,7 @@ app.put('/api/apps/:id', cpUpload, async (req, res) => {
         : body.permissions.split(',').map(p => p.trim());
     }
 
-    // Atualização de arquivos enviados com suporte a R2
+    // Atualização de arquivos enviados com suporte a R2 e URLs online
     if (apkFile) {
       let apkUrl = '/uploads/apks/' + apkFile.filename;
       const r2Url = await uploadToR2(apkFile.path, 'apks/' + apkFile.filename, 'application/vnd.android.package-archive');
@@ -412,13 +439,39 @@ app.put('/api/apps/:id', cpUpload, async (req, res) => {
       const r2Url = await uploadToR2(iconFile.path, 'icons/' + iconFile.filename, iconFile.mimetype);
       if (r2Url) iconUrl = r2Url;
       currentApp.iconUrl = iconUrl;
+    } else if (body.iconExternalUrl) {
+      try {
+        const extFilename = 'icon-' + Date.now() + '.png';
+        const localDest = path.join(UPLOADS_DIR, 'icons', extFilename);
+        await downloadExternalImage(body.iconExternalUrl, localDest);
+        let iconUrl = '/uploads/icons/' + extFilename;
+        const r2Url = await uploadToR2(localDest, 'icons/' + extFilename, 'image/png');
+        if (r2Url) iconUrl = r2Url;
+        currentApp.iconUrl = iconUrl;
+      } catch (err) {
+        console.error('Erro baixando iconExternalUrl no update:', err);
+      }
     }
+
     if (bannerFile) {
       let bannerUrl = '/uploads/banners/' + bannerFile.filename;
       const r2Url = await uploadToR2(bannerFile.path, 'banners/' + bannerFile.filename, bannerFile.mimetype);
       if (r2Url) bannerUrl = r2Url;
       currentApp.bannerUrl = bannerUrl;
+    } else if (body.bannerExternalUrl) {
+      try {
+        const extFilename = 'banner-' + Date.now() + '.png';
+        const localDest = path.join(UPLOADS_DIR, 'banners', extFilename);
+        await downloadExternalImage(body.bannerExternalUrl, localDest);
+        let bannerUrl = '/uploads/banners/' + extFilename;
+        const r2Url = await uploadToR2(localDest, 'banners/' + extFilename, 'image/png');
+        if (r2Url) bannerUrl = r2Url;
+        currentApp.bannerUrl = bannerUrl;
+      } catch (err) {
+        console.error('Erro baixando bannerExternalUrl no update:', err);
+      }
     }
+
     if (screenshotFiles.length > 0) {
       const screenshots = [];
       for (const sFile of screenshotFiles) {
@@ -435,7 +488,7 @@ app.put('/api/apps/:id', cpUpload, async (req, res) => {
     store.apps[index] = currentApp;
     writeStore(store);
 
-    res.json({ success: true, app: currentApp });
+    res.json({ success: true, app: formatAppUrls(req, currentApp) });
   } catch (err) {
     console.error('Erro ao atualizar app:', err);
     res.status(500).json({ error: 'Erro interno ao atualizar: ' + err.message });
