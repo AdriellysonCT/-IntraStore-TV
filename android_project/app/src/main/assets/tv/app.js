@@ -120,10 +120,23 @@ window.showTvConfirm = function(title, message, confirmText = 'Confirmar', cance
 
 document.addEventListener('DOMContentLoaded', () => {
   initClock();
+  updateSystemVersionDisplay();
   loadInstalledApps();
   loadCatalog();
   setupBackHandler();
+
+  // Verificação preventiva de atualização da própria loja IntraStore TV
+  setTimeout(() => {
+    checkAppStoreUpdate(false);
+  }, 3200);
 });
+
+function updateSystemVersionDisplay() {
+  const verEl = document.getElementById('sysStoreVersion');
+  if (verEl) {
+    verEl.textContent = 'v' + getCurrentStoreVersionName() + ' (build ' + getCurrentStoreVersionCode() + ')';
+  }
+}
 
 // Relógio Digital no Topo
 function initClock() {
@@ -231,6 +244,11 @@ async function loadCatalog() {
           if (firstCard) {
             window.remoteNav.setFocus(firstCard);
           }
+
+          // Disparar checagem automática de atualização da própria loja IntraStore TV
+          setTimeout(() => {
+            checkAppStoreUpdate(false);
+          }, 1600);
         }, 700);
       }
     }, remainingTime);
@@ -241,7 +259,12 @@ async function loadCatalog() {
     setTimeout(() => {
       if (splash) {
         splash.classList.add('splash-exit');
-        setTimeout(() => splash.remove(), 700);
+        setTimeout(() => {
+          splash.remove();
+          setTimeout(() => {
+            checkAppStoreUpdate(false);
+          }, 2000);
+        }, 700);
       }
     }, 1500);
 
@@ -739,26 +762,28 @@ window.handleExitApp = async function() {
 
 
 // ==============================================================
-// SISTEMA DE AUTO UPDATE DA INTRASTORE TV (CLOUDFLARE R2)
+// SISTEMA DE AUTO UPDATE DA INTRASTORE TV (CLOUDFLARE R2 / SERVIDOR)
 // ==============================================================
 let appStoreUpdateInfo = null;
 
 function getCurrentStoreVersionCode() {
   if (window.AndroidBridge && typeof window.AndroidBridge.getAppVersionCode === 'function') {
     try {
-      return Number(window.AndroidBridge.getAppVersionCode());
+      const code = Number(window.AndroidBridge.getAppVersionCode());
+      if (!isNaN(code) && code > 0) return code;
     } catch (e) {}
   }
-  return 1;
+  return 2;
 }
 
 function getCurrentStoreVersionName() {
   if (window.AndroidBridge && typeof window.AndroidBridge.getAppVersionName === 'function') {
     try {
-      return String(window.AndroidBridge.getAppVersionName());
+      const name = String(window.AndroidBridge.getAppVersionName());
+      if (name && name !== 'undefined') return name;
     } catch (e) {}
   }
-  return "1.0.0";
+  return "1.1.0";
 }
 
 async function checkAppStoreUpdate(isManual = false) {
@@ -769,8 +794,9 @@ async function checkAppStoreUpdate(isManual = false) {
     appStoreUpdateInfo = data;
 
     const currentCode = getCurrentStoreVersionCode();
+    const hasNewVersion = Number(data.latestVersionCode) > currentCode;
 
-    if (Number(data.latestVersionCode) > currentCode) {
+    if (hasNewVersion) {
       openStoreUpdateModal(data);
     } else if (isManual) {
       showTvToast('Sua IntraStore TV já está na versão mais recente (v' + getCurrentStoreVersionName() + ')', 'Loja Atualizada', 'success');
@@ -820,7 +846,7 @@ window.closeStoreUpdateModal = function() {
 };
 
 window.startAppStoreUpdate = function() {
-  if (!appStoreUpdateInfo || !appStoreUpdateInfo.apkUrl) return;
+  if (!appStoreUpdateInfo) return;
 
   const actions = document.getElementById('storeUpdateModalActions');
   const progressContainer = document.getElementById('storeUpdateProgressContainer');
@@ -831,15 +857,18 @@ window.startAppStoreUpdate = function() {
   if (actions) actions.classList.add('hidden');
   if (progressContainer) progressContainer.classList.remove('hidden');
 
-  let apkUrl = appStoreUpdateInfo.apkUrl || appStoreUpdateInfo.apkFallbackUrl;
-  if (apkUrl && !apkUrl.startsWith('http')) {
-    apkUrl = window.location.origin + (apkUrl.startsWith('/') ? '' : '/') + apkUrl;
+  let apkUrl = (appStoreUpdateInfo.apkUrl || appStoreUpdateInfo.apkFallbackUrl || '').trim();
+  if (!apkUrl.startsWith('http://') && !apkUrl.startsWith('https://')) {
+    const baseOrigin = (window.location.protocol.startsWith('http') && window.location.origin !== 'null')
+      ? window.location.origin
+      : 'https://intrastore-tv.onrender.com';
+    apkUrl = baseOrigin.replace(/\/+$/, '') + '/' + apkUrl.replace(/^\/+/, '');
   }
 
   window.onNativeDownloadProgress = function(percent) {
     if (fill) fill.style.width = percent + '%';
     if (percentText) percentText.textContent = percent + '%';
-    if (statusText) statusText.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">progress_activity</span> Baixando do Cloudflare R2 (' + percent + '%)...';
+    if (statusText) statusText.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">progress_activity</span> Baixando atualização (' + percent + '%)...';
     if (percent >= 100) {
       if (statusText) statusText.textContent = 'Iniciando instalador da atualização...';
     }

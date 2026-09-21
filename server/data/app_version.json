@@ -1,11 +1,11 @@
 {
-  "latestVersionCode": 2,
-  "latestVersionName": "1.1.0",
-  "apkUrl": "https://raw.githubusercontent.com/AdriellysonCT/-IntraStore-TV/main/release/IntraStore_TV_v1.1.0.apk",
-  "apkFallbackUrl": "/uploads/apks/IntraStore_TV_v1.1.0.apk",
+  "latestVersionCode": 3,
+  "latestVersionName": "1.2.0",
+  "apkUrl": "https://raw.githubusercontent.com/AdriellysonCT/-IntraStore-TV/main/release/IntraStore_TV_v1.2.0.apk",
+  "apkFallbackUrl": "/uploads/apks/IntraStore_TV_v1.2.0.apk",
   "minRequiredVersionCode": 1,
-  "releaseDate": "2026-09-09T02:05:23.098Z",
-  "title": "Super Atualização de Desempenho e Navegação",
-  "changelog": "• Desempenho ultra fluído a 60 FPS (zero travamentos)\n• Correção definitiva das rotas e direções do controle remoto\n• Sistema de Auto Update integrado ao Cloudflare R2\n• Fontes e layout calibrados para telas de TV",
+  "releaseDate": "2026-09-21T00:35:00.000Z",
+  "title": "Nova Versão IntraStore TV v1.2.0",
+  "changelog": "• Notificação e instalação automática de atualizações da loja na TV\n• Painel de Administração 100% responsivo para celular\n• Edição completa de informações, ícones e banners de apps\n• Correção definitiva no instalador de pacotes APK",
   "forceUpdate": false
 }

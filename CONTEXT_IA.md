@@ -527,4 +527,30 @@ box-shadow: 0 0 25px rgba(0, 229, 255, 0.65), 0 0 45px rgba(108, 59, 244, 0.35);
      - Atualizados os binários em `release/IntraStore_TV_v1.1.0.apk` e `server/uploads/apks/IntraStore_TV_v1.1.0.apk`.
 - **Status Atual:** Erro de download resolvido com protocolo absoluto blindado, Painel Admin responsivo para celulares com cards touch modernos, funcionalidade completa de edição de aplicativos operacional e APK v1.1.0 atualizado.
 
+### [Sessão 22 - 2026-09-21]
+- **Objetivo:** Correção do fluxo de Auto Update da própria loja na Android TV: garantir que o aplicativo nativo instalado na TV detecte, chame e exiba automaticamente o modal cinematográfico de atualização (`#tvUpdateModalOverlay`) na tela da TV ao ser aberto, eliminando o comportamento onde a atualização só aparecia via navegador Web e adicionando controle total de versão no Painel Administrativo.
+- **Causas Raízes Identificadas:**
+  1. **Ausência de Chamada Automática no Início:** A função `checkAppStoreUpdate()` em `tv_app/app.js` não era invocada em `DOMContentLoaded` nem após a conclusão do `loadCatalog()` (saída da splash screen). Ela só era disparada se o usuário navegasse manualmente até a aba de Configurações e clicasse em "Verificar Agora".
+  2. **Disparidade de VersionCode Web vs APK:** Na Web, `window.AndroidBridge` não existia e a função `getCurrentStoreVersionCode()` retornava fixamente `1`. Como o servidor tinha `latestVersionCode: 2`, `2 > 1` avaliava como verdadeiro e a Web sempre dizia que havia atualização. No aplicativo nativo instalado na TV, o `getAppVersionCode()` retornava `2` (igual ao servidor), logo `2 > 2` avaliava como falso e nenhuma atualização era acionada.
+  3. **URLs Não Sanitizadas em `/api/app-update`:** A rota `GET /api/app-update` retornava `apkFallbackUrl` relativo sem sanitização absoluta para protocolo HTTPS, o que poderia invocar exceções na ponte nativa.
+  4. **Falta de Interface de Gestão da Versão da Loja no Admin:** O Painel Administrativo só gerenciava versões de aplicativos de terceiros, sem interface visual para o administrador alterar o número de versão, changelog ou fazer upload de novos binários da própria loja IntraStore TV.
+- **Ações Executadas:**
+  1. **Automação do Ciclo de Vida do Auto Update (`tv_app/app.js`):**
+     - Adicionada verificação automática com `setTimeout(checkAppStoreUpdate, 1600)` imediatamente após o encerramento da splash screen e posicionamento do foco D-Pad no primeiro card.
+     - Adicionado fallback adicional de verificação em `DOMContentLoaded` aos 3.2 segundos.
+     - Implementada a função `updateSystemVersionDisplay()` para atualizar dinamicamente o campo `v1.2.0 (build X)` na tela de Configurações da TV.
+  2. **Sanitização de URLs e Suporte Multipart no Backend (`server/server.js`):**
+     - Rota `GET /api/app-update` atualizada com resolução para URLs absolutas completas HTTPS (`https://intrastore-tv.onrender.com/...`).
+     - Rota `POST /api/app-update` atualizada com suporte a `upload.single('apk')`, permitindo envio de arquivos `.apk` da loja via multipart ou definição de URL direta com atualização em tempo real de `server/data/app_version.json`.
+  3. **Módulo de Gestão da Loja TV no Painel Admin (`admin/index.html` e `admin/admin.js`):**
+     - Adicionado botão e badge de status da versão da loja no cabeçalho desktop (`#btnOpenStoreVersionModal`) e no drawer mobile (`#btnOpenStoreVersionModalMobile`).
+     - Criado o modal `#modalStoreVersion` permitindo ao administrador definir `latestVersionCode`, `latestVersionName`, `title`, `changelog` e upload de APK ou link direto com barra de progresso.
+  4. **Lançamento Oficial da Versão v1.2.0 (versionCode 3):**
+     - Atualizado `server/data/app_version.json` para `latestVersionCode: 3` e `latestVersionName: "1.2.0"`.
+     - Atualizado `android_project/app/build.gradle` com `versionCode 3` e `versionName "1.2.0"`.
+     - Compilação realizada com Gradle 8.11.1 (`assembleRelease` com sucesso em 17s).
+     - Gerados e distribuídos os binários em `release/IntraStore_TV_v1.2.0.apk`, `release/IntraStore_TV_v1.1.0.apk` e `server/uploads/apks/`.
+- **Status Atual:** Aplicativo nativo instalado na TV agora verifica e chama automaticamente o modal de atualização ao abrir; quem tiver a versão v1.1.0 instalada receberá a notificação da v1.2.0 imediatamente com instalação em 1 clique; painel admin equipado com gestor de versões da loja.
+
+
 

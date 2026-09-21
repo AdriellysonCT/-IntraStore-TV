@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadStats();
   loadApps();
   checkR2Status();
+  loadStoreVersion();
   setupEventListeners();
   setupDropzoneAndPreviews();
 });
@@ -353,6 +354,24 @@ function setupEventListeners() {
   const modalNewApp = document.getElementById('modalNewApp');
   const modalUpdateApp = document.getElementById('modalUpdateApp');
   const modalEditApp = document.getElementById('modalEditApp');
+  const modalStoreVersion = document.getElementById('modalStoreVersion');
+
+  // Abertura do Modal de Gerenciamento da Versão da Loja TV (Desktop e Mobile)
+  const btnOpenStoreVersionModal = document.getElementById('btnOpenStoreVersionModal');
+  if (btnOpenStoreVersionModal) {
+    btnOpenStoreVersionModal.addEventListener('click', openStoreVersionModal);
+  }
+
+  const btnOpenStoreVersionModalMobile = document.getElementById('btnOpenStoreVersionModalMobile');
+  if (btnOpenStoreVersionModalMobile) {
+    btnOpenStoreVersionModalMobile.addEventListener('click', () => {
+      const mobileNavDrawer = document.getElementById('mobileNavDrawer');
+      const iconMobileMenu = document.getElementById('iconMobileMenu');
+      if (mobileNavDrawer) mobileNavDrawer.classList.add('hidden');
+      if (iconMobileMenu) iconMobileMenu.textContent = 'menu';
+      openStoreVersionModal();
+    });
+  }
 
   // Controle do Menu Drawer Retrátil Mobile (< 1024px)
   const btnToggleMobileMenu = document.getElementById('btnToggleMobileMenu');
@@ -428,11 +447,12 @@ function setupEventListeners() {
       closeModal(modalNewApp);
       closeModal(modalUpdateApp);
       closeModal(modalEditApp);
+      closeModal(modalStoreVersion);
     });
   });
 
   // Fechar ao clicar no fundo escuro do modal (backdrop)
-  [modalNewApp, modalUpdateApp, modalEditApp, document.getElementById('modalConfirmDialog'), document.getElementById('modalImageSearch')].forEach(m => {
+  [modalNewApp, modalUpdateApp, modalEditApp, modalStoreVersion, document.getElementById('modalConfirmDialog'), document.getElementById('modalImageSearch')].forEach(m => {
     if (m) {
       m.addEventListener('click', (e) => {
         if (e.target === m) closeModal(m);
@@ -446,6 +466,7 @@ function setupEventListeners() {
       closeModal(modalNewApp);
       closeModal(modalUpdateApp);
       closeModal(modalEditApp);
+      closeModal(modalStoreVersion);
       closeModal(document.getElementById('modalConfirmDialog'));
       closeModal(document.getElementById('modalImageSearch'));
     }
@@ -577,6 +598,15 @@ function setupEventListeners() {
     formEditApp.addEventListener('submit', (e) => {
       e.preventDefault();
       handleEditAppSubmit();
+    });
+  }
+
+  // Envio do Formulário de Versão Oficial da Loja TV
+  const formStoreVersion = document.getElementById('formStoreVersion');
+  if (formStoreVersion) {
+    formStoreVersion.addEventListener('submit', (e) => {
+      e.preventDefault();
+      handleStoreVersionSubmit();
     });
   }
 }
@@ -1233,4 +1263,96 @@ window.deleteApp = async function(appId, appName) {
 function escapeHtml(str) {
   if (!str) return '';
   return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// ==============================================================
+// GESTÃO DA VERSÃO OFICIAL DA INTRASTORE TV (ADMIN)
+// ==============================================================
+let currentStoreVersionData = null;
+
+async function loadStoreVersion() {
+  try {
+    const res = await fetch('/api/app-update');
+    if (!res.ok) return;
+    const data = await res.json();
+    currentStoreVersionData = data;
+
+    const vText = 'v' + (data.latestVersionName || '1.2.0');
+    const badge = document.getElementById('badgeStoreVersion');
+    const badgeMobile = document.getElementById('badgeStoreVersionMobile');
+    const serverText = document.getElementById('currentServerStoreVersionText');
+
+    if (badge) badge.textContent = 'Loja: ' + vText;
+    if (badgeMobile) badgeMobile.textContent = vText;
+    if (serverText) serverText.textContent = vText + ' (Build ' + (data.latestVersionCode || 3) + ')';
+  } catch (err) {
+    console.warn('Erro ao carregar versão da loja:', err);
+  }
+}
+
+window.openStoreVersionModal = function() {
+  const modal = document.getElementById('modalStoreVersion');
+  if (!modal) return;
+
+  const data = currentStoreVersionData || {
+    latestVersionCode: 3,
+    latestVersionName: '1.2.0',
+    title: 'Nova Versão da IntraStore TV v1.2.0',
+    changelog: 'Melhorias de desempenho e novas rotas.',
+    apkUrl: ''
+  };
+
+  document.getElementById('inputStoreVersionName').value = data.latestVersionName || '1.2.0';
+  document.getElementById('inputStoreVersionCode').value = (Number(data.latestVersionCode) || 2) + 1;
+  document.getElementById('inputStoreVersionTitle').value = 'Nova Versão da IntraStore TV v' + (data.latestVersionName || '1.2.0');
+  document.getElementById('inputStoreVersionChangelog').value = data.changelog || 'Melhorias de navegação e desempenho a 60 FPS na TV.';
+  document.getElementById('inputStoreApkUrl').value = data.apkUrl || '';
+  document.getElementById('inputStoreApkFile').value = '';
+
+  const progressContainer = document.getElementById('storeVersionProgressContainer');
+  if (progressContainer) progressContainer.classList.add('hidden');
+
+  openModal(modal);
+};
+
+async function handleStoreVersionSubmit() {
+  const form = document.getElementById('formStoreVersion');
+  const btn = document.getElementById('btnSubmitStoreVersion');
+  const progressContainer = document.getElementById('storeVersionProgressContainer');
+  const progressFill = document.getElementById('storeVersionProgressFill');
+  const progressPercent = document.getElementById('storeVersionProgressPercent');
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">progress_activity</span> Gravando...';
+  if (progressContainer) progressContainer.classList.remove('hidden');
+  if (progressFill) progressFill.style.width = '40%';
+  if (progressPercent) progressPercent.textContent = '40%';
+
+  try {
+    const formData = new FormData(form);
+
+    if (progressFill) progressFill.style.width = '75%';
+    if (progressPercent) progressPercent.textContent = '75%';
+
+    const res = await fetch('/api/app-update', {
+      method: 'POST',
+      body: formData
+    });
+
+    const result = await res.json();
+    if (!res.ok) throw new Error(result.error || 'Erro ao publicar versão da loja.');
+
+    if (progressFill) progressFill.style.width = '100%';
+    if (progressPercent) progressPercent.textContent = '100%';
+
+    closeModal(document.getElementById('modalStoreVersion'));
+    await loadStoreVersion();
+    showToast('Nova versão oficial da IntraStore TV publicada! Todas as TVs serão notificadas ao abrir o app.', 'success', 5000);
+  } catch (err) {
+    showToast('Erro ao atualizar versão da loja: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<span class="material-symbols-outlined text-lg">publish</span> Publicar Versão da Loja';
+    if (progressContainer) progressContainer.classList.add('hidden');
+  }
 }

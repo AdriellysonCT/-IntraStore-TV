@@ -634,21 +634,55 @@ app.get('/api/search-images', async (req, res) => {
 // 1. Consultar a versão mais recente do aplicativo da TV
 app.get('/api/app-update', (req, res) => {
   const versionInfo = readAppVersion();
-  res.json(versionInfo);
+  const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'https';
+  const host = req.headers['x-forwarded-host'] || req.headers.host || 'intrastore-tv.onrender.com';
+  
+  const toAbs = (url) => {
+    if (!url) return '';
+    if (url.startsWith('http://') || url.startsWith('https://')) return url;
+    return `${protocol}://${host}${url.startsWith('/') ? '' : '/'}${url}`;
+  };
+
+  res.json({
+    ...versionInfo,
+    apkUrl: toAbs(versionInfo.apkUrl),
+    apkFallbackUrl: toAbs(versionInfo.apkFallbackUrl)
+  });
 });
 
-// 2. Atualizar a versão oficial da TV (Admin)
-app.post('/api/app-update', (req, res) => {
+// 2. Atualizar a versão oficial da TV (Admin com suporte a upload de novo APK da loja)
+app.post('/api/app-update', upload.single('apk'), async (req, res) => {
   try {
     const current = readAppVersion();
+    const body = req.body || {};
+    const apkFile = req.file;
+
+    let apkUrl = body.apkUrl || current.apkUrl;
+    let apkFallbackUrl = current.apkFallbackUrl;
+
+    if (apkFile) {
+      apkFallbackUrl = '/uploads/apks/' + apkFile.filename;
+      apkUrl = apkFallbackUrl;
+      const r2Url = await uploadToR2(apkFile.path, 'apks/' + apkFile.filename, 'application/vnd.android.package-archive');
+      if (r2Url) apkUrl = r2Url;
+    }
+
     const updated = {
       ...current,
-      ...req.body,
+      latestVersionCode: body.latestVersionCode ? parseInt(body.latestVersionCode, 10) : (current.latestVersionCode + 1),
+      latestVersionName: body.latestVersionName ? body.latestVersionName.trim() : current.latestVersionName,
+      title: body.title ? body.title.trim() : (current.title || 'Nova Versão da IntraStore TV'),
+      changelog: body.changelog !== undefined ? body.changelog : current.changelog,
+      forceUpdate: body.forceUpdate === 'true' || body.forceUpdate === true,
+      apkUrl: apkUrl,
+      apkFallbackUrl: apkFallbackUrl,
       releaseDate: new Date().toISOString()
     };
+
     fs.writeFileSync(APP_VERSION_FILE, JSON.stringify(updated, null, 2), 'utf8');
     res.json({ success: true, version: updated });
   } catch (err) {
+    console.error('Erro ao atualizar versão da loja:', err);
     res.status(500).json({ error: 'Erro ao atualizar versão da loja: ' + err.message });
   }
 });
